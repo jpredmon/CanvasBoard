@@ -1,5 +1,7 @@
+import CanvasBoardPage from './pages/CanvasBoardPage'
+
 function App() {
-  return <div className="min-h-screen bg-zinc-900" />
+  return <CanvasBoardPage />
 }
 
 export default App
