@@ -57,7 +57,7 @@ export function GridCanvas() {
         containerPadding={GRID_CONTAINER_PADDING}
         draggableHandle=".drag-handle"
         compactType={null}
-        preventCollision={false}
+        preventCollision={true}
         onDragStop={handleDragStop}
         onResizeStop={handleResizeStop}
         isDraggable={editMode}
