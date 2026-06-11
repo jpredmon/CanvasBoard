@@ -22,6 +22,8 @@ export function GridCanvas() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(1200);
+  const [gridKey, setGridKey] = useState(0);
+  const isDraggingRef = useRef(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -33,6 +35,22 @@ export function GridCanvas() {
     return () => observer.disconnect();
   }, []);
 
+  // React 18 defers state updates via MessageChannel (macrotask), so mouseup can fire
+  // before activeDrag/dragging are committed, causing onDragStop to hit a stale-closure
+  // early-return and leave the placeholder stuck. We detect this by tracking drag lifecycle
+  // in a ref: if isDraggingRef is still true when window mouseup fires (after react-draggable's
+  // document mouseup listener has already run), the placeholder is stuck — remount to clear it.
+  useEffect(() => {
+    function onWindowMouseUp() {
+      if (isDraggingRef.current) {
+        isDraggingRef.current = false;
+        setGridKey((k) => k + 1);
+      }
+    }
+    window.addEventListener('mouseup', onWindowMouseUp);
+    return () => window.removeEventListener('mouseup', onWindowMouseUp);
+  }, []);
+
   function toCardLayout(items: Layout): CardLayout[] {
     return items.map(({ i, x, y, w, h, minW, minH }) => ({
       i, x, y, w, h,
@@ -41,7 +59,12 @@ export function GridCanvas() {
     }));
   }
 
+  function handleDragStart() {
+    isDraggingRef.current = true;
+  }
+
   function handleDragStop(items: Layout) {
+    isDraggingRef.current = false;
     dispatch(layoutActions.updateLayout(toCardLayout(items)));
   }
 
@@ -52,6 +75,7 @@ export function GridCanvas() {
   return (
     <div ref={containerRef} className="flex-1 overflow-auto">
       <ReactGridLayout
+        key={gridKey}
         layout={layout}
         width={width}
         gridConfig={{
@@ -68,6 +92,7 @@ export function GridCanvas() {
           enabled: editMode,
         }}
         compactor={freeFormCompactor}
+        onDragStart={handleDragStart}
         onDragStop={handleDragStop}
         onResizeStop={handleResizeStop}
       >
