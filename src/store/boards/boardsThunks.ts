@@ -7,7 +7,13 @@ import { layoutActions } from '../layout/layoutSlice';
 
 export const createAndSwitchBoard =
   (name: string): AppThunk =>
-  (dispatch, _getState, _repository) => {
+  (dispatch, getState, repository) => {
+    const { boards, cards, layout } = getState();
+    const currentBoardId = boards.activeBoardId;
+    if (currentBoardId) {
+      repository.saveCards(currentBoardId, cards);
+      repository.saveLayout(currentBoardId, layout);
+    }
     const id = nanoid();
     const board: Board = { id, name: name.trim(), createdAt: Date.now() };
     dispatch(boardsActions.addBoard(board));
