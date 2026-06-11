@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 interface Props {
   open: boolean;
@@ -11,11 +11,22 @@ const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabi
 
 export function Modal({ open, onClose, title, children }: Props) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
   const titleId = 'modal-title';
+
+  useEffect(() => {
+    if (!open) return;
+    const id = requestAnimationFrame(() => setVisible(true));
+    return () => {
+      cancelAnimationFrame(id);
+      setVisible(false);
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open || !panelRef.current) return;
 
+    const trigger = document.activeElement as HTMLElement | null;
     const focusable = Array.from(panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
     focusable[0]?.focus();
 
@@ -39,14 +50,19 @@ export function Modal({ open, onClose, title, children }: Props) {
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      trigger?.focus();
+    };
   }, [open, onClose]);
 
   if (!open) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity duration-150 ${
+        visible ? 'opacity-100' : 'opacity-0'
+      }`}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -56,7 +72,9 @@ export function Modal({ open, onClose, title, children }: Props) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="w-full max-w-md rounded-lg bg-zinc-800 p-6 shadow-xl"
+        className={`w-full max-w-md rounded-lg border border-zinc-700/50 bg-zinc-800 p-6 shadow-xl transition-all duration-150 ${
+          visible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+        }`}
       >
         <h2 id={titleId} className="mb-4 text-base font-semibold text-zinc-100">
           {title}
