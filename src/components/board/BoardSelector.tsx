@@ -25,7 +25,7 @@ export function BoardSelector() {
       <button
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold text-zinc-100 hover:bg-zinc-800 focus:outline-none"
-        aria-haspopup="listbox"
+        aria-haspopup="menu"
         aria-expanded={open}
       >
         <span className="max-w-[180px] truncate">{activeBoard.name}</span>
@@ -39,6 +39,7 @@ export function BoardSelector() {
           strokeLinecap="round"
           strokeLinejoin="round"
           className="mt-0.5 text-zinc-400"
+          aria-hidden="true"
         >
           <path d="M2 4l4 4 4-4" />
         </svg>
