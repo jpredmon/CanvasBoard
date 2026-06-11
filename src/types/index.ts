@@ -41,6 +41,18 @@ export interface UIState {
   editMode: boolean;
 }
 
+export interface Board {
+  id: string;
+  name: string;
+  createdAt: number;
+}
+
+export interface BoardsState {
+  ids: string[];
+  activeBoardId: string | null;
+  entities: Record<string, Board>;
+}
+
 export type YouTubeParseResult =
   | { valid: true; videoId: string; aspectRatio: AspectRatio }
   | { valid: false; error: string };

@@ -13,4 +13,5 @@ export const CARD_DEFAULTS = {
 export const STORAGE_KEYS = {
   cards: 'canvasboard:cards',
   layout: 'canvasboard:layout',
+  boards: 'canvasboard:boards',
 } as const;
