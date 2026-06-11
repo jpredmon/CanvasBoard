@@ -18,7 +18,7 @@ export function Input({ label, id, error, className = '', ...props }: Props) {
         id={id}
         aria-describedby={errorId}
         aria-invalid={!!error}
-        className={`rounded-md border bg-zinc-900 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:ring-2 focus:ring-indigo-500 ${error ? 'border-red-500' : 'border-zinc-600'} ${className}`}
+        className={`rounded-md border bg-zinc-900 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:ring-2 focus:ring-violet-500 ${error ? 'border-red-500' : 'border-zinc-600'} ${className}`}
         {...props}
       />
       {error && (
