@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import ReactGridLayout, { type Layout } from 'react-grid-layout';
+import ReactGridLayout, { type Layout, type LayoutItem } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
@@ -30,7 +30,7 @@ export function GridCanvas() {
     return () => observer.disconnect();
   }, []);
 
-  function toCardLayout(items: Layout[]): CardLayout[] {
+  function toCardLayout(items: LayoutItem[]): CardLayout[] {
     return items.map(({ i, x, y, w, h, minW, minH }) => ({
       i, x, y, w, h,
       minW: minW ?? 2,
@@ -38,31 +38,34 @@ export function GridCanvas() {
     }));
   }
 
-  function handleDragStop(items: Layout[]) {
-    dispatch(layoutActions.updateLayout(toCardLayout(items)));
+  function handleDragStop(layout: Layout) {
+    dispatch(layoutActions.updateLayout(toCardLayout([...layout])));
   }
 
-  function handleResizeStop(items: Layout[]) {
-    dispatch(layoutActions.updateLayout(toCardLayout(items)));
+  function handleResizeStop(layout: Layout) {
+    dispatch(layoutActions.updateLayout(toCardLayout([...layout])));
   }
 
   return (
     <div ref={containerRef} className="flex-1 overflow-auto">
       <ReactGridLayout
-        layout={layout}
-        cols={GRID_COLS}
-        rowHeight={GRID_ROW_HEIGHT}
+        layout={layout as Layout}
         width={width}
-        margin={GRID_MARGIN}
-        containerPadding={GRID_CONTAINER_PADDING}
-        draggableHandle=".drag-handle"
-        compactType={null}
-        preventCollision={true}
+        gridConfig={{
+          cols: GRID_COLS,
+          rowHeight: GRID_ROW_HEIGHT,
+          margin: GRID_MARGIN,
+          containerPadding: GRID_CONTAINER_PADDING,
+        }}
+        dragConfig={{
+          enabled: editMode,
+          handle: '.drag-handle',
+        }}
+        resizeConfig={{
+          enabled: editMode,
+        }}
         onDragStop={handleDragStop}
         onResizeStop={handleResizeStop}
-        isDraggable={editMode}
-        isResizable={editMode}
-        useCSSTransforms={true}
       >
         {cards.map((card) => (
           <div key={card.id}>

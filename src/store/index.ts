@@ -6,8 +6,14 @@ import { uiReducer } from './ui/uiSlice';
 import { createPersistenceMiddleware } from './middleware/persistenceMiddleware';
 import type { BoardRepository } from '../repositories/BoardRepository';
 
+export type RootState = {
+  cards: ReturnType<typeof cardsReducer>;
+  layout: ReturnType<typeof layoutReducer>;
+  ui: ReturnType<typeof uiReducer>;
+};
+
 export function createStore(repository: BoardRepository) {
-  return configureStore({
+  const store = configureStore({
     reducer: {
       cards: cardsReducer,
       layout: layoutReducer,
@@ -17,9 +23,9 @@ export function createStore(repository: BoardRepository) {
     middleware: (getDefault) =>
       getDefault().concat(createPersistenceMiddleware(repository)),
   });
+  return store;
 }
 
-export type RootState = ReturnType<ReturnType<typeof createStore>['getState']>;
 export type AppDispatch = ReturnType<typeof createStore>['dispatch'];
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
