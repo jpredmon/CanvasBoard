@@ -1,46 +1,79 @@
 import { STORAGE_KEYS } from '../constants';
 import type { BoardRepository } from './BoardRepository';
-import type { CardsState, LayoutState } from '../types';
+import type { CardsState, LayoutState, BoardsState } from '../types';
 
 export class LocalStorageRepository implements BoardRepository {
-  saveCards(state: CardsState): void {
+  private boardCardsKey(boardId: string) {
+    return `canvasboard:board:${boardId}:cards`;
+  }
+
+  private boardLayoutKey(boardId: string) {
+    return `canvasboard:board:${boardId}:layout`;
+  }
+
+  saveCards(boardId: string, state: CardsState): void {
     try {
-      localStorage.setItem(STORAGE_KEYS.cards, JSON.stringify(state));
+      localStorage.setItem(this.boardCardsKey(boardId), JSON.stringify(state));
     } catch {
       console.warn('Failed to persist cards.');
     }
   }
 
-  loadCards(): CardsState | null {
+  loadCards(boardId: string): CardsState | null {
     try {
-      const raw = localStorage.getItem(STORAGE_KEYS.cards);
+      const raw = localStorage.getItem(this.boardCardsKey(boardId));
       return raw ? (JSON.parse(raw) as CardsState) : null;
     } catch {
       return null;
     }
   }
 
-  saveLayout(state: LayoutState): void {
+  saveLayout(boardId: string, state: LayoutState): void {
     try {
-      localStorage.setItem(STORAGE_KEYS.layout, JSON.stringify(state));
+      localStorage.setItem(this.boardLayoutKey(boardId), JSON.stringify(state));
     } catch {
       console.warn('Failed to persist layout.');
     }
   }
 
-  loadLayout(): LayoutState | null {
+  loadLayout(boardId: string): LayoutState | null {
     try {
-      const raw = localStorage.getItem(STORAGE_KEYS.layout);
+      const raw = localStorage.getItem(this.boardLayoutKey(boardId));
       return raw ? (JSON.parse(raw) as LayoutState) : null;
     } catch {
       return null;
     }
   }
 
+  saveBoards(state: BoardsState): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.boards, JSON.stringify(state));
+    } catch {
+      console.warn('Failed to persist boards.');
+    }
+  }
+
+  loadBoards(): BoardsState | null {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.boards);
+      return raw ? (JSON.parse(raw) as BoardsState) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  deleteBoardData(boardId: string): void {
+    localStorage.removeItem(this.boardCardsKey(boardId));
+    localStorage.removeItem(this.boardLayoutKey(boardId));
+  }
+
   loadStateSync() {
+    const boards = this.loadBoards() ?? undefined;
+    const activeBoardId = boards?.activeBoardId ?? null;
     return {
-      cards: this.loadCards() ?? undefined,
-      layout: this.loadLayout() ?? undefined,
+      boards,
+      cards: activeBoardId ? (this.loadCards(activeBoardId) ?? undefined) : undefined,
+      layout: activeBoardId ? (this.loadLayout(activeBoardId) ?? undefined) : undefined,
     };
   }
 }
