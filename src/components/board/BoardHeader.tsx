@@ -11,8 +11,19 @@ export function BoardHeader() {
   const cardCount = useAppSelector(selectCardCount);
 
   return (
-    <header className="flex items-center justify-between border-b border-zinc-700 px-6 py-3">
-      <h1 className="text-lg font-semibold text-zinc-100">CanvasBoard</h1>
+    <header className="relative flex items-center justify-between overflow-hidden border-b border-zinc-800 px-6 py-3">
+      <div
+        className="pointer-events-none absolute right-0 top-0 h-full w-64"
+        style={{
+          background:
+            'radial-gradient(ellipse at top right, rgba(139,92,246,0.12) 0%, transparent 70%)',
+        }}
+        aria-hidden="true"
+      />
+      <h1 className="text-lg font-extrabold uppercase tracking-widest">
+        <span className="text-zinc-100">CANVAS</span>
+        <span className="text-violet-400">BOARD</span>
+      </h1>
       <div className="flex items-center gap-2">
         <Button
           variant="primary"
@@ -23,7 +34,7 @@ export function BoardHeader() {
           + Add Card
         </Button>
         <Button
-          variant="ghost"
+          variant={editMode ? 'edit-active' : 'ghost'}
           onClick={() => dispatch(uiActions.toggleEditMode())}
           aria-pressed={editMode}
         >
