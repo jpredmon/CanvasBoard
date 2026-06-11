@@ -11,8 +11,17 @@ const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabi
 
 export function Modal({ open, onClose, title, children }: Props) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
   const titleId = 'modal-title';
+
+  useEffect(() => {
+    if (open) {
+      triggerRef.current = document.activeElement as HTMLElement | null;
+    } else {
+      triggerRef.current?.focus();
+    }
+  }, [open]); // onClose intentionally absent — only the open transition matters here
 
   useEffect(() => {
     if (!open) return;
@@ -26,7 +35,6 @@ export function Modal({ open, onClose, title, children }: Props) {
   useEffect(() => {
     if (!open || !panelRef.current) return;
 
-    const trigger = document.activeElement as HTMLElement | null;
     const focusable = Array.from(panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
     focusable[0]?.focus();
 
@@ -52,7 +60,6 @@ export function Modal({ open, onClose, title, children }: Props) {
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      trigger?.focus();
     };
   }, [open, onClose]);
 
