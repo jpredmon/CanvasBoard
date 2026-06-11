@@ -63,8 +63,12 @@ export class LocalStorageRepository implements BoardRepository {
   }
 
   deleteBoardData(boardId: string): void {
-    localStorage.removeItem(this.boardCardsKey(boardId));
-    localStorage.removeItem(this.boardLayoutKey(boardId));
+    try {
+      localStorage.removeItem(this.boardCardsKey(boardId));
+      localStorage.removeItem(this.boardLayoutKey(boardId));
+    } catch {
+      console.warn('Failed to delete board data.');
+    }
   }
 
   loadStateSync() {
