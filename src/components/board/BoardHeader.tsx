@@ -14,7 +14,7 @@ export function BoardHeader() {
   const activeBoardId = useAppSelector(selectActiveBoardId);
 
   return (
-    <header className="relative flex items-center justify-between overflow-hidden border-b border-zinc-800 px-6 py-3">
+    <header className="relative flex items-center justify-between border-b border-zinc-800 px-6 py-3">
       <div
         className="pointer-events-none absolute right-0 top-0 h-full w-64"
         style={{

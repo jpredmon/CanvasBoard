@@ -17,9 +17,9 @@ export const createAndSwitchBoard =
     const id = nanoid();
     const board: Board = { id, name: name.trim(), createdAt: Date.now() };
     dispatch(boardsActions.addBoard(board));
+    dispatch(boardsActions.setActiveBoardId(id));
     dispatch(cardsActions.setCards({ ids: [], entities: {} }));
     dispatch(layoutActions.setLayout([]));
-    dispatch(boardsActions.setActiveBoardId(id));
   };
 
 export const switchBoard =
@@ -36,9 +36,9 @@ export const switchBoard =
     const newCards = repository.loadCards(boardId) ?? { ids: [], entities: {} };
     const newLayout = repository.loadLayout(boardId) ?? { items: [] };
 
+    dispatch(boardsActions.setActiveBoardId(boardId));
     dispatch(cardsActions.setCards(newCards));
     dispatch(layoutActions.setLayout(newLayout.items));
-    dispatch(boardsActions.setActiveBoardId(boardId));
   };
 
 export const deleteBoard =
@@ -56,13 +56,13 @@ export const deleteBoard =
         const nextId = remainingIds[0];
         const newCards = repository.loadCards(nextId) ?? { ids: [], entities: {} };
         const newLayout = repository.loadLayout(nextId) ?? { items: [] };
+        dispatch(boardsActions.setActiveBoardId(nextId));
         dispatch(cardsActions.setCards(newCards));
         dispatch(layoutActions.setLayout(newLayout.items));
-        dispatch(boardsActions.setActiveBoardId(nextId));
       } else {
+        dispatch(boardsActions.setActiveBoardId(null));
         dispatch(cardsActions.setCards({ ids: [], entities: {} }));
         dispatch(layoutActions.setLayout([]));
-        dispatch(boardsActions.setActiveBoardId(null));
       }
     }
   };
