@@ -6,26 +6,32 @@ import { layoutActions } from '../../store/layout/layoutSlice';
 interface Props {
   cardId: string;
   editMode: boolean;
+  onDeleteStart: () => void;
 }
 
-export function CardControls({ cardId, editMode }: Props) {
+export function CardControls({ cardId, editMode, onDeleteStart }: Props) {
   const dispatch = useAppDispatch();
   const [confirming, setConfirming] = useState(false);
 
   function handleDelete() {
-    dispatch(cardsActions.removeCard(cardId));
-    dispatch(layoutActions.removeLayoutItem(cardId));
+    onDeleteStart();
+    setTimeout(() => {
+      dispatch(cardsActions.removeCard(cardId));
+      dispatch(layoutActions.removeLayoutItem(cardId));
+    }, 150);
   }
 
   if (!editMode) return null;
 
   return (
-    <div className="drag-handle flex h-8 cursor-grab items-center justify-between rounded-t-lg bg-zinc-700/80 px-2 active:cursor-grabbing">
-      <span className="select-none text-zinc-400" aria-hidden="true">⠿</span>
+    <div className="drag-handle flex h-8 cursor-grab items-center justify-between rounded-t-lg bg-violet-950/60 px-2 active:cursor-grabbing">
+      <span className="select-none text-violet-400" aria-hidden="true">
+        ⠿
+      </span>
       {confirming ? (
         <div className="flex items-center gap-1">
           <button
-            className="rounded px-2 py-0.5 text-xs text-zinc-300 hover:bg-zinc-600"
+            className="rounded px-2 py-0.5 text-xs text-zinc-300 hover:bg-zinc-700/60"
             onClick={() => setConfirming(false)}
           >
             Cancel
@@ -40,7 +46,7 @@ export function CardControls({ cardId, editMode }: Props) {
         </div>
       ) : (
         <button
-          className="rounded p-0.5 text-zinc-400 hover:bg-zinc-600 hover:text-zinc-100"
+          className="rounded p-0.5 text-zinc-500 hover:bg-zinc-700/60 hover:text-red-400 transition-colors"
           onClick={() => setConfirming(true)}
           aria-label="Delete card"
         >
