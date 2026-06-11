@@ -29,4 +29,10 @@ describe('layoutSlice', () => {
     expect(state.items).toHaveLength(1);
     expect(state.items[0]).toEqual(updated);
   });
+
+  it('setLayout replaces the entire items array', () => {
+    let state = layoutReducer(undefined, layoutActions.addLayoutItem(item));
+    state = layoutReducer(state, layoutActions.setLayout([]));
+    expect(state.items).toHaveLength(0);
+  });
 });
