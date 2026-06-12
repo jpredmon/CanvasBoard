@@ -6,10 +6,12 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { uiActions } from '../../store/ui/uiSlice';
 import { addYouTubeCard } from '../../store/cards/cardsThunks';
+import { selectCardCount } from '../../store/cards/cardsSelectors';
 
 export function AddCardModal() {
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.ui.addCardModalOpen);
+  const cardCount = useAppSelector(selectCardCount);
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
 
@@ -24,6 +26,9 @@ export function AddCardModal() {
     setError('');
     try {
       dispatch(addYouTubeCard(url));
+      if (cardCount === 0) {
+        dispatch(uiActions.setEditMode(true));
+      }
       handleClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
