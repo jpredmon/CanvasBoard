@@ -32,8 +32,9 @@ it('submitting first card enables edit mode', () => {
 });
 
 it('submitting subsequent card does not change edit mode', () => {
-  const store = renderModalWithBoard();
-  // Pre-populate the store with an existing card so cardCount > 0
+  const store = createStore(new LocalStorageRepository());
+  store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'Test Board', createdAt: 1700000000000 }));
+  store.dispatch(boardsActions.setActiveBoardId('b1'));
   store.dispatch(
     cardsActions.addCard({
       id: 'existing-card',
@@ -44,8 +45,13 @@ it('submitting subsequent card does not change edit mode', () => {
       createdAt: 1700000000000,
     })
   );
-  // Ensure editMode starts as false
   store.dispatch(uiActions.setEditMode(false));
+  store.dispatch(uiActions.openAddCardModal());
+  render(
+    <Provider store={store}>
+      <AddCardModal />
+    </Provider>
+  );
 
   fireEvent.change(screen.getByRole('textbox'), { target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } });
   fireEvent.click(screen.getByRole('button', { name: /add/i }));
