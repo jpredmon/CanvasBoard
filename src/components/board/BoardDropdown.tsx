@@ -88,6 +88,7 @@ export function BoardDropdown({ onClose }: Props) {
                   }
                 }}
                 onBlur={commitRename}
+                aria-label="Rename board"
                 className="flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-0.5 text-sm text-zinc-100 focus:outline-none"
               />
             ) : (
@@ -144,6 +145,7 @@ export function BoardDropdown({ onClose }: Props) {
                 }
               }}
               placeholder="Board name..."
+              aria-label="New board name"
               className="flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-1 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
             />
             <button
