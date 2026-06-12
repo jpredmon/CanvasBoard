@@ -73,7 +73,7 @@ export function GridCanvas() {
   }
 
   return (
-    <div ref={containerRef} className="flex-1 overflow-auto">
+    <div ref={containerRef} className="flex-1 overflow-auto" tabIndex={0}>
       <ReactGridLayout
         key={gridKey}
         layout={layout}
