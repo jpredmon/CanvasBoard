@@ -39,7 +39,7 @@ export function NoBoardsState() {
           Welcome
         </span>
         <p className="text-2xl font-extrabold text-zinc-100">Create your first board</p>
-        <p className="max-w-xs text-sm text-zinc-500">
+        <p className="max-w-xs text-sm text-zinc-400">
           Name your board and start curating your video world
         </p>
         <div className="mt-2 flex gap-2">
@@ -51,7 +51,7 @@ export function NoBoardsState() {
             onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
             placeholder="Board name..."
             aria-label="Board name"
-            className="rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-violet-500 focus:outline-none"
+            className="rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-zinc-950"
           />
           <Button onClick={handleCreate} disabled={name.trim() === ''}>
             Create Board

@@ -22,7 +22,7 @@ export function Input({ label, id, error, className = '', ...props }: Props) {
         {...props}
       />
       {error && (
-        <p id={errorId} className="text-xs text-red-400">
+        <p id={errorId} role="alert" className="text-xs text-red-400">
           {error}
         </p>
       )}

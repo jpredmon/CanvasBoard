@@ -17,13 +17,15 @@ export default function CanvasBoardPage() {
     <div className="flex h-screen flex-col bg-zinc-950">
       <BoardHeader />
       <EditModeBanner visible={editMode} />
-      {activeBoardId === null ? (
-        <NoBoardsState />
-      ) : cardCount === 0 ? (
-        <EmptyBoardState />
-      ) : (
-        <GridCanvas />
-      )}
+      <main className="flex flex-1 flex-col overflow-hidden">
+        {activeBoardId === null ? (
+          <NoBoardsState />
+        ) : cardCount === 0 ? (
+          <EmptyBoardState />
+        ) : (
+          <GridCanvas />
+        )}
+      </main>
       <AddCardModal />
     </div>
   );

@@ -99,7 +99,7 @@ export function BoardDropdown({ onClose }: Props) {
                 }}
                 onBlur={commitRename}
                 aria-label="Rename board"
-                className="flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-0.5 text-sm text-zinc-100 focus:outline-none"
+                className="flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-0.5 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
               />
             ) : (
               // Bug 4: role="menuitem" for items inside role="menu"; remove aria-selected (listbox concept)
@@ -158,7 +158,7 @@ export function BoardDropdown({ onClose }: Props) {
               }}
               placeholder="Board name..."
               aria-label="New board name"
-              className="flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-1 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
+              className="flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-1 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
             />
             <button
               onClick={handleCreateNew}
