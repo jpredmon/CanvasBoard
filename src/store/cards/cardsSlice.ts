@@ -1,5 +1,5 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import type { MediaCard } from '../../types';
+import { createEntityAdapter, createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { MediaCard, CardsState } from '../../types';
 
 const adapter = createEntityAdapter<MediaCard>();
 
@@ -9,6 +9,9 @@ const cardsSlice = createSlice({
   reducers: {
     addCard: adapter.addOne,
     removeCard: adapter.removeOne,
+    setCards(_state, action: PayloadAction<CardsState>) {
+      return action.payload;
+    },
   },
 });
 

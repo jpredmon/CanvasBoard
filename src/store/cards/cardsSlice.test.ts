@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { cardsReducer, cardsActions } from './cardsSlice';
-import type { MediaCard } from '../../types';
+import type { MediaCard, CardsState } from '../../types';
 
 const card: MediaCard = {
   id: 'card-1',
@@ -29,5 +29,13 @@ describe('cardsSlice', () => {
     state = cardsReducer(state, cardsActions.removeCard('card-1'));
     expect(state.ids).not.toContain('card-1');
     expect(state.entities['card-1']).toBeUndefined();
+  });
+
+  it('setCards replaces the entire state', () => {
+    let state = cardsReducer(undefined, cardsActions.addCard(card));
+    const empty: CardsState = { ids: [], entities: {} };
+    state = cardsReducer(state, cardsActions.setCards(empty));
+    expect(state.ids).toEqual([]);
+    expect(state.entities).toEqual({});
   });
 });

@@ -16,6 +16,9 @@ const layoutSlice = createSlice({
     updateLayout(state, action: PayloadAction<CardLayout[]>) {
       state.items = action.payload;
     },
+    setLayout(_state, action: PayloadAction<CardLayout[]>) {
+      return { items: action.payload };
+    },
   },
 });
 
