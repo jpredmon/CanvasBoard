@@ -1,15 +1,31 @@
 # CanvasBoard
 
+**[canvasboard.jpredmon.com](https://canvasboard.jpredmon.com)**
+
 A local-first visual media board where users curate embedded YouTube content on a free-placement, grid-snapped canvas. Built with React 18, TypeScript, Redux Toolkit, and React Grid Layout.
 
-## Quick Start
+![CanvasBoard](screenshot.png)
 
-```bash
-npm install
-npm run dev
-```
+## Features
 
-Visit `http://localhost:5173` in your browser.
+- **Multiple boards** — Create and switch between named boards
+- **Add YouTube videos** — Paste any YouTube or YouTube Shorts URL
+- **Free-placement canvas** — Drag cards anywhere, snap to grid
+- **Edit/View modes** — Lock the board for clean presentation
+- **Persistent storage** — Auto-saves to browser localStorage
+- **Responsive grid** — 12-column layout, configurable card sizes
+- **Dark theme** — Minimal UI, media-focused design
+- **Accessibility baseline** — WCAG aria-labels on interactive elements
+
+## Project Status
+
+Live at [canvasboard.jpredmon.com](https://canvasboard.jpredmon.com). Multi-board support shipped. Deployed via Cloudflare Pages with CI/CD on push to `master`.
+
+Upcoming: auth (Firebase), E2E tests (Playwright), additional media types.
+
+## Development Process
+
+This project uses a structured AI-assisted workflow: each feature goes through a brainstorm → design spec → implementation plan → subagent execution → spec compliance review → code quality review cycle, with TDD throughout. Every task is implemented by a fresh subagent working from a complete spec, then reviewed by two independent review passes before merging. The result is a codebase where every change is tested, every decision is documented, and the review loop catches issues before they ship.
 
 ## Tech Stack
 
@@ -22,27 +38,18 @@ Visit `http://localhost:5173` in your browser.
 - **Vitest + React Testing Library** — Testing
 - **ESLint + Prettier** — Code quality
 
-## Features
-
-- **Create boards** — Add a new board with a custom name
-- **Add YouTube videos** — Paste any YouTube or YouTube Shorts URL
-- **Free-placement canvas** — Drag cards anywhere, snap to grid
-- **Edit/View modes** — Lock the board for clean presentation
-- **Persistent storage** — Auto-saves to browser localStorage
-- **Responsive grid** — 12-column layout, configurable card sizes
-- **Dark theme** — Minimal UI, media-focused design
-- **Accessibility baseline** — WCAG aria-labels on interactive elements
-
 ## Architecture
 
 ```
 App
 ├── CanvasBoardPage (top-level page)
 ├── BoardHeader (title + add card button + edit toggle)
+├── BoardDropdown (multi-board switcher)
 ├── AddCardModal (URL input with validation)
 └── GridCanvas (React Grid Layout + MediaCard list)
 
 Redux Store
+├── boards — named board entities
 ├── cards — normalized entity map
 ├── layout — card positions & sizes
 └── ui — modal state, edit mode flag
@@ -52,9 +59,16 @@ Repository Pattern
 └── LocalStorageRepository (localStorage impl)
 ```
 
-See [docs/superpowers/plans/2026-06-10-canvasboard-phase1.md](docs/superpowers/plans/2026-06-10-canvasboard-phase1.md) for the complete architecture document.
+## Quick Start
 
-## Development
+```bash
+npm install
+npm run dev
+```
+
+Visit `http://localhost:5173` in your browser.
+
+## Development Commands
 
 ```bash
 npm run dev          # Start dev server
@@ -74,11 +88,6 @@ npx vitest run src/components/board/        # Run tests in a folder
 npx vitest watch                            # Watch mode
 ```
 
-## Project Status
-
-**Phase:** MVP — Core functionality complete. Work in progress on accessibility baseline.
-
-
 ## Browser Support
 
 - Chrome/Chromium (latest)
@@ -89,16 +98,11 @@ Mobile layout not yet supported.
 
 ## Future Additions
 
-- Multiple boards with switching
 - Additional media types (Instagram, TikTok, images)
 - Board sharing via URL/QR code
 - Keyboard shortcuts for power users
 - Mobile-responsive layout
 - Cloud persistence (Cloudflare D1 / Supabase)
-
-## Contributing
-
-This is a portfolio project. Architecture decisions and accessibility baseline are core values.
 
 ## License
 
