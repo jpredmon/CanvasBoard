@@ -79,7 +79,7 @@ export function BoardDropdown({ onClose }: Props) {
       <ul role="menu" className="py-1">
         {/* Bug 7: use ternary with null instead of `board && (...)` to avoid emitting `false` */}
         {boards.filter((b): b is NonNullable<typeof b> => b != null).map((board) => (
-          <li key={board.id} className="flex items-center gap-1 px-2 py-0.5">
+          <li key={board.id} role="none" className="flex items-center gap-1 px-2 py-0.5">
             {renamingId === board.id ? (
               <input
                 ref={renameInputRef}
@@ -116,6 +116,7 @@ export function BoardDropdown({ onClose }: Props) {
               </button>
             )}
             <button
+              role="menuitem"
               onClick={() => startRename(board.id, board.name)}
               className="rounded p-1 text-zinc-500 hover:text-zinc-300"
               aria-label={`Rename ${board.name}`}
@@ -126,6 +127,7 @@ export function BoardDropdown({ onClose }: Props) {
               </svg>
             </button>
             <button
+              role="menuitem"
               onClick={() => handleDelete(board.id)}
               className="rounded p-1 text-zinc-500 hover:text-red-400"
               aria-label={`Delete ${board.name}`}
