@@ -45,7 +45,6 @@ export function AddCardModal() {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           error={error}
-          autoFocus
         />
         <div className="flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={handleClose}>

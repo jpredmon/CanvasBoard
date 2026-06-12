@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectAllBoards, selectActiveBoardId } from '../../store/boards/boardsSelectors';
@@ -20,6 +20,16 @@ export function BoardDropdown({ onClose }: Props) {
 
   // Bug 1 & 2: ref flag to prevent double-commit / commit-after-cancel
   const renameCancelledRef = useRef(false);
+  const renameInputRef = useRef<HTMLInputElement>(null);
+  const newBoardInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (renamingId) renameInputRef.current?.focus();
+  }, [renamingId]);
+
+  useEffect(() => {
+    if (creatingNew) newBoardInputRef.current?.focus();
+  }, [creatingNew]);
 
   function handleSwitch(boardId: string) {
     if (boardId !== activeBoardId) {
@@ -72,7 +82,7 @@ export function BoardDropdown({ onClose }: Props) {
           <li key={board.id} className="flex items-center gap-1 px-2 py-0.5">
             {renamingId === board.id ? (
               <input
-                autoFocus
+                ref={renameInputRef}
                 value={renameValue}
                 onChange={(e) => setRenameValue(e.target.value)}
                 onKeyDown={(e) => {
@@ -134,7 +144,7 @@ export function BoardDropdown({ onClose }: Props) {
         {creatingNew ? (
           <div className="flex gap-1">
             <input
-              autoFocus
+              ref={newBoardInputRef}
               value={newBoardName}
               onChange={(e) => setNewBoardName(e.target.value)}
               onKeyDown={(e) => {

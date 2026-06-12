@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { createAndSwitchBoard } from '../../store/boards/boardsThunks';
 import { Button } from '../ui/Button';
@@ -6,6 +6,11 @@ import { Button } from '../ui/Button';
 export function NoBoardsState() {
   const dispatch = useAppDispatch();
   const [name, setName] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   function handleCreate() {
     if (name.trim()) {
@@ -39,12 +44,12 @@ export function NoBoardsState() {
         </p>
         <div className="mt-2 flex gap-2">
           <input
+            ref={inputRef}
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
             placeholder="Board name..."
-            autoFocus
             aria-label="Board name"
             className="rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-violet-500 focus:outline-none"
           />
