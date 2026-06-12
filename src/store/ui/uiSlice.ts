@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { UIState } from '../../types';
 
 const initialState: UIState = {
@@ -18,6 +18,9 @@ const uiSlice = createSlice({
     },
     toggleEditMode(state) {
       state.editMode = !state.editMode;
+    },
+    setEditMode(state, action: PayloadAction<boolean>) {
+      state.editMode = action.payload;
     },
   },
 });
