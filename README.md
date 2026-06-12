@@ -79,9 +79,9 @@ npx vitest watch                            # Watch mode
 **Phase:** MVP — Core functionality complete. Work in progress on accessibility baseline.
 
 **Recent commits:**
-- Task 3: aria-label on NoBoardsState input (accessibility)
-- Task 2: setEditMode reducer (edit mode toggle)
-- Task 1: Body flash fix (prevent hydration mismatch)
+- 39a2b6c fix(a11y): add aria-label to NoBoardsState board name input
+- dcb847c feat: add setEditMode reducer to uiSlice
+- 93c0576 fix: prevent white flash before React mounts
 
 See full task list in GitHub Issues.
 
