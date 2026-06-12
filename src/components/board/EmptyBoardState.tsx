@@ -27,7 +27,7 @@ export function EmptyBoardState() {
           Empty Canvas
         </span>
         <p className="text-2xl font-extrabold text-zinc-100">Curate your video world</p>
-        <p className="max-w-xs text-sm text-zinc-500">
+        <p className="max-w-xs text-sm text-zinc-400">
           Drag, resize, and arrange YouTube videos into your personal board
         </p>
         <Button className="mt-2" onClick={() => dispatch(uiActions.openAddCardModal())}>

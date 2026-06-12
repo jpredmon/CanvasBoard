@@ -7,7 +7,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export function Input({ label, id, error, className = '', ...props }: Props) {
-  const errorId = error ? `${id}-error` : undefined;
+  const errorId = `${id}-error`;
 
   return (
     <div className="flex flex-col gap-1">
@@ -21,11 +21,9 @@ export function Input({ label, id, error, className = '', ...props }: Props) {
         className={`rounded-md border bg-zinc-900 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:ring-2 focus:ring-violet-500 ${error ? 'border-red-500' : 'border-zinc-600'} ${className}`}
         {...props}
       />
-      {error && (
-        <p id={errorId} role="alert" className="text-xs text-red-400">
-          {error}
-        </p>
-      )}
+      <p id={errorId} aria-live="polite" className="min-h-[1em] text-xs text-red-400">
+        {error ?? ''}
+      </p>
     </div>
   );
 }
