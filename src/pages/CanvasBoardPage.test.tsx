@@ -1,5 +1,5 @@
 import { it, expect, beforeEach } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import CanvasBoardPage from './CanvasBoardPage';
 import { createStore } from '../store';
@@ -28,4 +28,15 @@ it('sets document title to active board name', () => {
 it('sets document title to CanvasBoard when no board is active', () => {
   renderPage();
   expect(document.title).toBe('CanvasBoard');
+});
+
+it('renders a skip link to main content', () => {
+  renderPage({ boardName: 'Test Board' });
+  const skipLink = screen.getByRole('link', { name: /skip to content/i });
+  expect(skipLink).toHaveAttribute('href', '#main-content');
+});
+
+it('main element has id main-content', () => {
+  renderPage({ boardName: 'Test Board' });
+  expect(document.getElementById('main-content')).toBeInTheDocument();
 });

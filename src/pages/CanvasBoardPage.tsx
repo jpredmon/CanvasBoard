@@ -22,9 +22,15 @@ export default function CanvasBoardPage() {
 
   return (
     <div className="flex h-screen flex-col bg-zinc-950">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-violet-600 focus:px-4 focus:py-2 focus:text-white"
+      >
+        Skip to content
+      </a>
       <BoardHeader />
       <EditModeBanner visible={editMode} />
-      <main className="flex flex-1 flex-col overflow-hidden">
+      <main id="main-content" className="flex flex-1 flex-col overflow-hidden">
         {activeBoardId === null ? (
           <NoBoardsState />
         ) : cardCount === 0 ? (
