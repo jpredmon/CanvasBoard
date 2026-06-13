@@ -21,9 +21,7 @@ A local-first visual media board where users curate embedded YouTube content on 
 
 Live at [canvasboard.jpredmon.com](https://canvasboard.jpredmon.com). Deployed via Cloudflare Pages with CI/CD on push to `master`.
 
-Completed audits: security, accessibility (WCAG 2.1 AA), code quality, and testing (94 RTL unit tests + 5 Playwright E2E tests).
-
-Upcoming: auth (Firebase), additional media types.
+All 5 planned phases complete: security, accessibility (WCAG 2.1 AA), code quality, testing (94 RTL unit tests + 5 Playwright E2E tests), and code style standards (ESLint import ordering, naming conventions, Prettier).
 
 ## Development Process
 
