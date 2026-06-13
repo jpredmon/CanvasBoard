@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, RefObject } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectAllBoards, selectActiveBoardId } from '../../store/boards/boardsSelectors';
@@ -7,9 +7,10 @@ import { switchBoard, createAndSwitchBoard, deleteBoard } from '../../store/boar
 
 interface Props {
   onClose: () => void;
+  triggerRef: RefObject<HTMLButtonElement>;
 }
 
-export function BoardDropdown({ onClose }: Props) {
+export function BoardDropdown({ onClose, triggerRef }: Props) {
   const dispatch = useAppDispatch();
   const boards = useAppSelector(selectAllBoards);
   const activeBoardId = useAppSelector(selectActiveBoardId);
@@ -22,6 +23,15 @@ export function BoardDropdown({ onClose }: Props) {
   const renameCancelledRef = useRef(false);
   const renameInputRef = useRef<HTMLInputElement>(null);
   const newBoardInputRef = useRef<HTMLInputElement>(null);
+  const menuRef = useRef<HTMLUListElement>(null);
+
+  // Focus the first board button on mount
+  useEffect(() => {
+    const menu = menuRef.current;
+    if (!menu) return;
+    const first = menu.querySelector<HTMLElement>('[data-boardnav]');
+    first?.focus();
+  }, []);
 
   useEffect(() => {
     if (renamingId) renameInputRef.current?.focus();
@@ -30,6 +40,29 @@ export function BoardDropdown({ onClose }: Props) {
   useEffect(() => {
     if (creatingNew) newBoardInputRef.current?.focus();
   }, [creatingNew]);
+
+  function handleMenuKeyDown(e: React.KeyboardEvent<HTMLUListElement>) {
+    const menu = menuRef.current;
+    if (!menu) return;
+    // Arrow key nav only cycles the primary board-switch buttons, not rename/delete
+    const items = Array.from(menu.querySelectorAll<HTMLElement>('[data-boardnav]'));
+    const focused = document.activeElement as HTMLElement;
+    const idx = items.indexOf(focused);
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = items[(idx + 1) % items.length];
+      next?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = items[(idx - 1 + items.length) % items.length];
+      prev?.focus();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      onClose();
+      triggerRef.current?.focus();
+    }
+  }
 
   function handleSwitch(boardId: string) {
     if (boardId !== activeBoardId) {
@@ -76,7 +109,7 @@ export function BoardDropdown({ onClose }: Props) {
   return (
     <div className="absolute left-0 top-full z-50 mt-1 min-w-[220px] rounded-lg border border-zinc-700 bg-zinc-900 shadow-xl">
       {/* Bug 4: role="menu" is correct for a dropdown with multiple interactive actions per row */}
-      <ul role="menu" className="py-1">
+      <ul ref={menuRef} role="menu" className="py-1" onKeyDown={handleMenuKeyDown}>
         {/* Bug 7: use ternary with null instead of `board && (...)` to avoid emitting `false` */}
         {boards.map((board) => (
           <li key={board.id} role="none" className="flex items-center gap-1 px-2 py-0.5">
@@ -105,6 +138,7 @@ export function BoardDropdown({ onClose }: Props) {
               // Bug 4: role="menuitem" for items inside role="menu"; remove aria-selected (listbox concept)
               <button
                 role="menuitem"
+                data-boardnav
                 onClick={() => handleSwitch(board.id)}
                 className={`flex-1 truncate rounded px-2 py-1.5 text-left text-sm ${
                   board.id === activeBoardId

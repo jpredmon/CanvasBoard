@@ -7,6 +7,7 @@ export function BoardSelector() {
   const activeBoard = useAppSelector(selectActiveBoard);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -23,6 +24,7 @@ export function BoardSelector() {
   return (
     <div ref={ref} className="relative">
       <button
+        ref={triggerRef}
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold text-zinc-100 hover:bg-zinc-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
         aria-haspopup="menu"
@@ -44,7 +46,7 @@ export function BoardSelector() {
           <path d="M2 4l4 4 4-4" />
         </svg>
       </button>
-      {open && <BoardDropdown onClose={() => setOpen(false)} />}
+      {open && <BoardDropdown onClose={() => setOpen(false)} triggerRef={triggerRef} />}
     </div>
   );
 }
