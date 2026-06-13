@@ -41,7 +41,7 @@ export function CardControls({ cardId, editMode, onDeleteStart }: Props) {
             onClick={handleDelete}
             aria-label="Confirm delete"
           >
-            Delete
+            Confirm delete
           </button>
         </div>
       ) : (
