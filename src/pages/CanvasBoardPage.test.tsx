@@ -17,7 +17,11 @@ function renderPage({ boardName }: { boardName?: string } = {}) {
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: boardName, createdAt: 1700000000000 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
   }
-  return render(<Provider store={store}><CanvasBoardPage /></Provider>);
+  return render(
+    <Provider store={store}>
+      <CanvasBoardPage />
+    </Provider>
+  );
 }
 
 it('sets document title to active board name', () => {
