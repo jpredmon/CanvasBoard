@@ -4,4 +4,4 @@ function App() {
   return <CanvasBoardPage />;
 }
 
-export default App;
+export { App };
