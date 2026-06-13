@@ -11,7 +11,5 @@ export const CARD_DEFAULTS = {
 } as const satisfies Record<string, { w: number; h: number; minW: number; minH: number }>;
 
 export const STORAGE_KEYS = {
-  cards: 'canvasboard:cards',
-  layout: 'canvasboard:layout',
   boards: 'canvasboard:boards',
 } as const;

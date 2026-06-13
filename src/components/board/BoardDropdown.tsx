@@ -78,7 +78,7 @@ export function BoardDropdown({ onClose }: Props) {
       {/* Bug 4: role="menu" is correct for a dropdown with multiple interactive actions per row */}
       <ul role="menu" className="py-1">
         {/* Bug 7: use ternary with null instead of `board && (...)` to avoid emitting `false` */}
-        {boards.filter((b): b is NonNullable<typeof b> => b != null).map((board) => (
+        {boards.map((board) => (
           <li key={board.id} role="none" className="flex items-center gap-1 px-2 py-0.5">
             {renamingId === board.id ? (
               <input
