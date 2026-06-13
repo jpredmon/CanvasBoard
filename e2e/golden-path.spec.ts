@@ -30,5 +30,5 @@ test('create a board, add a card, card appears on canvas', async ({ page }) => {
 
   // Modal closes and card iframe appears
   await expect(page.getByRole('dialog')).not.toBeVisible();
-  await expect(page.locator('iframe')).toBeVisible();
+  await expect(page.getByTitle(/youtube/i)).toBeVisible();
 });
