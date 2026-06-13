@@ -17,6 +17,8 @@ export function YouTubeEmbed({ videoId, aspectRatio }: Props) {
       src={`https://www.youtube.com/embed/${videoId}`}
       title={titleByAspectRatio[aspectRatio]}
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      sandbox="allow-scripts allow-same-origin allow-presentation"
+      referrerPolicy="strict-origin-when-cross-origin"
       allowFullScreen
     />
   );
