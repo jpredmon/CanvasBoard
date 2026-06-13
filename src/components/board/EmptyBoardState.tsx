@@ -26,7 +26,7 @@ export function EmptyBoardState() {
         <span className="text-xs font-bold uppercase tracking-widest text-violet-500">
           Empty Canvas
         </span>
-        <p className="text-2xl font-extrabold text-zinc-100">Curate your video world</p>
+        <h2 className="text-2xl font-extrabold text-zinc-100">Curate your video world</h2>
         <p className="max-w-xs text-sm text-zinc-400">
           Drag, resize, and arrange YouTube videos into your personal board
         </p>

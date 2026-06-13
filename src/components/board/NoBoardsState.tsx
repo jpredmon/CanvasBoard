@@ -38,7 +38,7 @@ export function NoBoardsState() {
         <span className="text-xs font-bold uppercase tracking-widest text-violet-500">
           Welcome
         </span>
-        <p className="text-2xl font-extrabold text-zinc-100">Create your first board</p>
+        <h2 className="text-2xl font-extrabold text-zinc-100">Create your first board</h2>
         <p className="max-w-xs text-sm text-zinc-400">
           Name your board and start curating your video world
         </p>

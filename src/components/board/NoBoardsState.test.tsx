@@ -21,3 +21,8 @@ it('has no accessibility violations', async () => {
   const results = await axe(container);
   expect(results).toHaveNoViolations();
 });
+
+it('renders the primary text as a heading', () => {
+  renderWithStore(<NoBoardsState />);
+  expect(screen.getByRole('heading', { level: 2, name: /create your first board/i })).toBeInTheDocument();
+});
