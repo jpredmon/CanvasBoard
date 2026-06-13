@@ -1,6 +1,6 @@
-import { act,fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { afterEach, beforeEach,expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
 import { createStore } from '../../store';

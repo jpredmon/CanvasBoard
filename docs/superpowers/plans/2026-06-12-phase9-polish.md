@@ -12,23 +12,24 @@
 
 ## File Map
 
-| File | Change |
-|------|--------|
-| `src/index.css` | Add `body { background-color: #09090b; }` |
-| `src/store/ui/uiSlice.ts` | Add `setEditMode(state, action: PayloadAction<boolean>)` reducer |
-| `src/store/ui/uiSlice.test.ts` | New — unit tests for `setEditMode` |
-| `src/components/board/NoBoardsState.tsx` | Add `aria-label="Board name"` to input |
-| `src/components/board/NoBoardsState.test.tsx` | New — verifies aria-label is present |
-| `src/components/board/BoardDropdown.tsx` | Add `aria-label` to rename and new-board inputs |
-| `src/components/board/BoardDropdown.test.tsx` | New — verifies both aria-labels are present |
-| `src/components/modals/AddCardModal.tsx` | Read `cardCount`, dispatch `setEditMode(true)` on first add |
-| `src/components/modals/AddCardModal.test.tsx` | New — verifies edit mode is enabled after first card |
+| File                                          | Change                                                           |
+| --------------------------------------------- | ---------------------------------------------------------------- |
+| `src/index.css`                               | Add `body { background-color: #09090b; }`                        |
+| `src/store/ui/uiSlice.ts`                     | Add `setEditMode(state, action: PayloadAction<boolean>)` reducer |
+| `src/store/ui/uiSlice.test.ts`                | New — unit tests for `setEditMode`                               |
+| `src/components/board/NoBoardsState.tsx`      | Add `aria-label="Board name"` to input                           |
+| `src/components/board/NoBoardsState.test.tsx` | New — verifies aria-label is present                             |
+| `src/components/board/BoardDropdown.tsx`      | Add `aria-label` to rename and new-board inputs                  |
+| `src/components/board/BoardDropdown.test.tsx` | New — verifies both aria-labels are present                      |
+| `src/components/modals/AddCardModal.tsx`      | Read `cardCount`, dispatch `setEditMode(true)` on first add      |
+| `src/components/modals/AddCardModal.test.tsx` | New — verifies edit mode is enabled after first card             |
 
 ---
 
 ## Task 1: Body Flash Fix
 
 **Files:**
+
 - Modify: `src/index.css`
 
 - [ ] **Step 1: Add body background color**
@@ -63,6 +64,7 @@ git commit -m "fix: prevent white flash before React mounts"
 ## Task 2: Add setEditMode Reducer
 
 **Files:**
+
 - Modify: `src/store/ui/uiSlice.ts`
 - Create: `src/store/ui/uiSlice.test.ts`
 
@@ -158,6 +160,7 @@ git commit -m "feat: add setEditMode reducer to uiSlice"
 ## Task 3: aria-label on NoBoardsState Input
 
 **Files:**
+
 - Modify: `src/components/board/NoBoardsState.tsx`
 - Create: `src/components/board/NoBoardsState.test.tsx`
 
@@ -228,10 +231,12 @@ git commit -m "fix(a11y): add aria-label to NoBoardsState board name input"
 ## Task 4: aria-labels on BoardDropdown Inputs
 
 **Files:**
+
 - Modify: `src/components/board/BoardDropdown.tsx`
 - Create: `src/components/board/BoardDropdown.test.tsx`
 
 `BoardDropdown` has two inline inputs that only appear conditionally:
+
 - **Rename input** — shown when a rename button is clicked
 - **New board input** — shown when "+ New Board" is clicked
 
@@ -349,6 +354,7 @@ git commit -m "fix(a11y): add aria-labels to BoardDropdown inline inputs"
 ## Task 5: Auto-Enable Edit Mode on First Card
 
 **Files:**
+
 - Modify: `src/components/modals/AddCardModal.tsx`
 - Create: `src/components/modals/AddCardModal.test.tsx`
 

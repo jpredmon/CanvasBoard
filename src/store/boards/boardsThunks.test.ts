@@ -1,11 +1,11 @@
-import { beforeEach,describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
 import type { YouTubeCard } from '../../types';
 import { cardsActions } from '../cards/cardsSlice';
 import { createStore } from '../index';
 import { boardsActions } from './boardsSlice';
-import { createAndSwitchBoard, deleteBoard,switchBoard } from './boardsThunks';
+import { createAndSwitchBoard, deleteBoard, switchBoard } from './boardsThunks';
 
 const card: YouTubeCard = {
   id: 'c1',

@@ -1,6 +1,6 @@
-import { fireEvent,render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { expect,it } from 'vitest';
+import { expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
@@ -27,7 +27,9 @@ function renderModalWithBoard() {
 
 it('submitting first card enables edit mode', () => {
   const { store } = renderModalWithBoard();
-  fireEvent.change(screen.getByRole('textbox'), { target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } });
+  fireEvent.change(screen.getByRole('textbox'), {
+    target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+  });
   fireEvent.click(screen.getByRole('button', { name: /add/i }));
   const state = store.getState();
   expect(state.ui.editMode).toBe(true);
@@ -35,7 +37,9 @@ it('submitting first card enables edit mode', () => {
 
 it('submitting subsequent card does not change edit mode', () => {
   const store = createStore(new LocalStorageRepository());
-  store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'Test Board', createdAt: 1700000000000 }));
+  store.dispatch(
+    boardsActions.addBoard({ id: 'b1', name: 'Test Board', createdAt: 1700000000000 })
+  );
   store.dispatch(boardsActions.setActiveBoardId('b1'));
   store.dispatch(
     cardsActions.addCard({
@@ -55,7 +59,9 @@ it('submitting subsequent card does not change edit mode', () => {
     </Provider>
   );
 
-  fireEvent.change(screen.getByRole('textbox'), { target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } });
+  fireEvent.change(screen.getByRole('textbox'), {
+    target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+  });
   fireEvent.click(screen.getByRole('button', { name: /add/i }));
   const state = store.getState();
   expect(state.ui.editMode).toBe(false);

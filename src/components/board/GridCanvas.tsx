@@ -4,7 +4,7 @@ import 'react-resizable/css/styles.css';
 import { useEffect, useRef, useState } from 'react';
 import ReactGridLayout, { type Compactor, type Layout, noCompactor } from 'react-grid-layout';
 
-import { GRID_COLS, GRID_CONTAINER_PADDING,GRID_MARGIN, GRID_ROW_HEIGHT } from '../../constants';
+import { GRID_COLS, GRID_CONTAINER_PADDING, GRID_MARGIN, GRID_ROW_HEIGHT } from '../../constants';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectAllCards } from '../../store/cards/cardsSelectors';
@@ -56,7 +56,11 @@ export function GridCanvas() {
 
   function toCardLayout(items: Layout): CardLayout[] {
     return items.map(({ i, x, y, w, h, minW, minH }) => ({
-      i, x, y, w, h,
+      i,
+      x,
+      y,
+      w,
+      h,
       minW: minW ?? 2,
       minH: minH ?? 2,
     }));

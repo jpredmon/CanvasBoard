@@ -23,10 +23,11 @@ const cardLayoutActionTypes = new Set<string>([
   layoutActions.setLayout.type,
 ]);
 
-export const createPersistenceMiddleware = (
-  repository: BoardRepository,
-): Middleware<object, RootState> =>
-  (store) => (next) => (action) => {
+export const createPersistenceMiddleware =
+  (repository: BoardRepository): Middleware<object, RootState> =>
+  (store) =>
+  (next) =>
+  (action) => {
     const result = next(action);
     const state = store.getState();
     const actionType = (action as { type: string }).type;

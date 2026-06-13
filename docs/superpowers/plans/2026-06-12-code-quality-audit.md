@@ -13,13 +13,14 @@
 ### Task 1: Write findings document
 
 **Files:**
+
 - Create: `docs/superpowers/reviews/2026-06-12-code-quality-findings.md`
 
 - [ ] **Step 1: Create the findings document**
 
 Create `docs/superpowers/reviews/2026-06-12-code-quality-findings.md` with this exact content:
 
-```markdown
+````markdown
 # Code Quality Audit Findings — 2026-06-12
 
 **Scope:** All non-test source files in `src/`
@@ -30,8 +31,10 @@ Create `docs/superpowers/reviews/2026-06-12-code-quality-findings.md` with this 
 ## Important — Fix in this audit
 
 ### [I-1] Missing `uiSelectors.ts` — inline selectors in 4 components
+
 **Category:** Redux patterns  
 **Files:**
+
 - `src/components/board/GridCanvas.tsx:21`
 - `src/components/board/BoardHeader.tsx:12`
 - `src/pages/CanvasBoardPage.tsx:13`
@@ -44,6 +47,7 @@ Create `docs/superpowers/reviews/2026-06-12-code-quality-findings.md` with this 
 ---
 
 ### [I-2] Dead exports in `STORAGE_KEYS`
+
 **Category:** Dead code  
 **File:** `src/constants/index.ts:13-17`
 
@@ -54,6 +58,7 @@ Create `docs/superpowers/reviews/2026-06-12-code-quality-findings.md` with this 
 ---
 
 ### [I-3] Redundant null filter in `BoardDropdown`
+
 **Category:** Dead code  
 **File:** `src/components/board/BoardDropdown.tsx:81`
 
@@ -68,6 +73,7 @@ export const selectAllBoards = createSelector(
   (ids, entities) => ids.map((id) => entities[id]).filter((b): b is NonNullable<typeof b> => b != null),
 );
 ```
+````
 
 `selectAllBoards` already filters out null/undefined entries. The second filter in `BoardDropdown` is dead code that TypeScript accepts but never evaluates to anything.
 
@@ -76,13 +82,14 @@ export const selectAllBoards = createSelector(
 ---
 
 ### [I-4] Missing focus ring on `BoardSelector` trigger button
+
 **Category:** Component design / accessibility  
 **File:** `src/components/board/BoardSelector.tsx:27`
 
 The dropdown trigger button has `focus:outline-none` with no replacement focus indicator:
 
 ```tsx
-className="... focus:outline-none"
+className = '... focus:outline-none';
 ```
 
 Every other interactive element in the app uses either `focus-visible:ring-2 focus-visible:ring-violet-500` (via `Button`) or an explicit `focus:ring-2` class. This button is the only one that removes the outline with no replacement, leaving keyboard users with no visible focus indicator on this control.
@@ -94,6 +101,7 @@ Every other interactive element in the app uses either `focus-visible:ring-2 foc
 ## Minor — Document only
 
 ### [M-1] Ad-hoc type cast in `persistenceMiddleware`
+
 **Category:** TypeScript type safety  
 **File:** `src/store/middleware/persistenceMiddleware.ts:31`
 
@@ -106,6 +114,7 @@ RTK exports `UnknownAction` (which has `type: string`) for exactly this pattern.
 ---
 
 ### [M-2] `App.tsx` is a pure passthrough
+
 **Category:** Dead code  
 **File:** `src/App.tsx`
 
@@ -114,11 +123,13 @@ RTK exports `UnknownAction` (which has `type: string`) for exactly this pattern.
 ---
 
 ### [M-3] `ErrorBoundary` has no error logging
+
 **Category:** Error handling  
 **File:** `src/components/ui/ErrorBoundary.tsx`
 
 `getDerivedStateFromError` is implemented (shows fallback UI) but `componentDidCatch` is not, so render errors fail silently with no console output in production. This matters when diagnosing field issues. Not a blocking concern for MVP.
-```
+
+````
 
 - [ ] **Step 2: Verify the file was written**
 
@@ -131,13 +142,14 @@ Expected: at least 80 lines.
 ```bash
 git add docs/superpowers/reviews/2026-06-12-code-quality-findings.md
 git commit -m "docs: add code quality audit findings"
-```
+````
 
 ---
 
 ### Task 2: Add `uiSelectors.ts` and fix inline selectors (finding I-1)
 
 **Files:**
+
 - Create: `src/store/ui/uiSelectors.ts`
 - Modify: `src/components/board/GridCanvas.tsx`
 - Modify: `src/components/board/BoardHeader.tsx`
@@ -178,11 +190,13 @@ import { GRID_COLS, GRID_ROW_HEIGHT, GRID_MARGIN, GRID_CONTAINER_PADDING } from 
 Then replace the inline selector on the `editMode` line:
 
 Old:
+
 ```tsx
 const editMode = useAppSelector((state) => state.ui.editMode);
 ```
 
 New:
+
 ```tsx
 const editMode = useAppSelector(selectEditMode);
 ```
@@ -192,15 +206,19 @@ const editMode = useAppSelector(selectEditMode);
 File: `src/components/board/BoardHeader.tsx`
 
 Add import:
+
 ```ts
 import { selectEditMode } from '../../store/ui/uiSelectors';
 ```
 
 Replace:
+
 ```tsx
 const editMode = useAppSelector((state) => state.ui.editMode);
 ```
+
 With:
+
 ```tsx
 const editMode = useAppSelector(selectEditMode);
 ```
@@ -210,15 +228,19 @@ const editMode = useAppSelector(selectEditMode);
 File: `src/pages/CanvasBoardPage.tsx`
 
 Add import:
+
 ```ts
 import { selectEditMode } from '../store/ui/uiSelectors';
 ```
 
 Replace:
+
 ```tsx
 const editMode = useAppSelector((state) => state.ui.editMode);
 ```
+
 With:
+
 ```tsx
 const editMode = useAppSelector(selectEditMode);
 ```
@@ -228,15 +250,19 @@ const editMode = useAppSelector(selectEditMode);
 File: `src/components/modals/AddCardModal.tsx`
 
 Add import:
+
 ```ts
 import { selectAddCardModalOpen } from '../../store/ui/uiSelectors';
 ```
 
 Replace:
+
 ```tsx
 const open = useAppSelector((state) => state.ui.addCardModalOpen);
 ```
+
 With:
+
 ```tsx
 const open = useAppSelector(selectAddCardModalOpen);
 ```
@@ -265,6 +291,7 @@ git commit -m "refactor(store): add uiSelectors and replace inline selectors in 
 ### Task 3: Remove dead `STORAGE_KEYS`, redundant filter, and missing focus ring (findings I-2, I-3, I-4)
 
 **Files:**
+
 - Modify: `src/constants/index.ts`
 - Modify: `src/components/board/BoardDropdown.tsx`
 - Modify: `src/components/board/BoardSelector.tsx`
@@ -274,6 +301,7 @@ git commit -m "refactor(store): add uiSelectors and replace inline selectors in 
 File: `src/constants/index.ts`
 
 Replace:
+
 ```ts
 export const STORAGE_KEYS = {
   cards: 'canvasboard:cards',
@@ -283,6 +311,7 @@ export const STORAGE_KEYS = {
 ```
 
 With:
+
 ```ts
 export const STORAGE_KEYS = {
   boards: 'canvasboard:boards',
@@ -300,11 +329,13 @@ Expected: no errors. If errors appear, a file was importing the removed keys —
 File: `src/components/board/BoardDropdown.tsx`
 
 Replace:
+
 ```tsx
 {boards.filter((b): b is NonNullable<typeof b> => b != null).map((board) => (
 ```
 
 With:
+
 ```tsx
 {boards.map((board) => (
 ```
@@ -314,13 +345,17 @@ With:
 File: `src/components/board/BoardSelector.tsx`
 
 Replace:
+
 ```tsx
-className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold text-zinc-100 hover:bg-zinc-800 focus:outline-none"
+className =
+  'flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold text-zinc-100 hover:bg-zinc-800 focus:outline-none';
 ```
 
 With:
+
 ```tsx
-className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold text-zinc-100 hover:bg-zinc-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+className =
+  'flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold text-zinc-100 hover:bg-zinc-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500';
 ```
 
 - [ ] **Step 5: Run TypeScript check**
@@ -353,6 +388,7 @@ git push origin master
 ```
 
 Run a final check:
+
 ```bash
 npx tsc -b && npx vitest run
 ```

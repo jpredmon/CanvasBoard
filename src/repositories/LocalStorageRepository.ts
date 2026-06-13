@@ -1,5 +1,5 @@
 import { STORAGE_KEYS } from '../constants';
-import type { BoardsState,CardsState, LayoutState } from '../types';
+import type { BoardsState, CardsState, LayoutState } from '../types';
 import type { BoardRepository } from './BoardRepository';
 
 export class LocalStorageRepository implements BoardRepository {

@@ -18,12 +18,12 @@ Build a local-first MVP that runs entirely on my machine.
 
 Requirements:
 
-* No backend
-* No authentication
-* No database
-* No cloud services
-* No API server
-* Persist data using localStorage
+- No backend
+- No authentication
+- No database
+- No cloud services
+- No API server
+- Persist data using localStorage
 
 The goal is to create a portfolio-quality project that demonstrates strong frontend engineering practices while remaining simple and maintainable.
 
@@ -31,14 +31,14 @@ The goal is to create a portfolio-quality project that demonstrates strong front
 
 ## Technology Preferences
 
-* React
-* TypeScript (strict mode)
-* Vite
-* Tailwind CSS
-* Redux Toolkit (modern Redux)
-* React Grid Layout
-* ESLint
-* Prettier
+- React
+- TypeScript (strict mode)
+- Vite
+- Tailwind CSS
+- Redux Toolkit (modern Redux)
+- React Grid Layout
+- ESLint
+- Prettier
 
 ---
 
@@ -48,11 +48,11 @@ Users can paste a YouTube URL and create an embedded video card.
 
 Each card should:
 
-* Display an embedded YouTube video
-* Be draggable
-* Be resizable
-* Snap to a structured grid layout
-* Persist position and size after page refresh
+- Display an embedded YouTube video
+- Be draggable
+- Be resizable
+- Snap to a structured grid layout
+- Persist position and size after page refresh
 
 ---
 
@@ -62,16 +62,16 @@ Use React Grid Layout.
 
 The system should feel:
 
-* Structured
-* Balanced
-* Intuitive
-* Modern
+- Structured
+- Balanced
+- Intuitive
+- Modern
 
 Users should be able to:
 
-* Drag cards
-* Resize cards
-* Rearrange layouts freely within the grid system
+- Drag cards
+- Resize cards
+- Rearrange layouts freely within the grid system
 
 The system should support both portrait and landscape content in the future.
 
@@ -85,16 +85,16 @@ Favor grid-based placement with snapping behavior.
 
 Use Redux Toolkit (modern Redux patterns).
 
-* Use slices (not legacy Redux patterns)
-* Avoid boilerplate-heavy architecture
-* Keep state normalized and scalable
-* Ensure state design supports future expansion to multiple content types
+- Use slices (not legacy Redux patterns)
+- Avoid boilerplate-heavy architecture
+- Keep state normalized and scalable
+- Ensure state design supports future expansion to multiple content types
 
 State should support:
 
-* Canvas layout state
-* Content items (videos now, more types later)
-* Persistence layer integration (localStorage initially)
+- Canvas layout state
+- Content items (videos now, more types later)
+- Persistence layer integration (localStorage initially)
 
 ---
 
@@ -102,15 +102,15 @@ State should support:
 
 Design the architecture so it can eventually support:
 
-* Instagram embeds
-* TikTok embeds
-* Images
-* Text blocks
-* External links
-* Multiple board types
-* Shareable boards
-* User accounts
-* Cloud persistence
+- Instagram embeds
+- TikTok embeds
+- Images
+- Text blocks
+- External links
+- Multiple board types
+- Shareable boards
+- User accounts
+- Cloud persistence
 
 These features should NOT be implemented now.
 
@@ -132,20 +132,20 @@ The architecture should also support replacing localStorage with a cloud-backed 
 
 Prioritize:
 
-* Modern React best practices
-* Clean architecture
-* Maintainability
-* Scalability
-* Accessibility
-* Strong TypeScript typing
-* Separation of concerns
-* Reusable components
+- Modern React best practices
+- Clean architecture
+- Maintainability
+- Scalability
+- Accessibility
+- Strong TypeScript typing
+- Separation of concerns
+- Reusable components
 
 Avoid:
 
-* Premature optimization
-* Unnecessary abstractions
-* Over-engineering
+- Premature optimization
+- Unnecessary abstractions
+- Over-engineering
 
 Redux should be used in a modern, minimal, Redux Toolkit–first way.
 

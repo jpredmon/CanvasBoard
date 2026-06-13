@@ -1,4 +1,4 @@
-import type { BoardsState,CardsState, LayoutState } from '../types';
+import type { BoardsState, CardsState, LayoutState } from '../types';
 
 export interface BoardRepository {
   saveCards(boardId: string, state: CardsState): void;

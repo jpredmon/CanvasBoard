@@ -11,7 +11,7 @@ function persistBoard(
   repository: BoardRepository,
   boardId: string,
   cards: CardsState,
-  layout: LayoutState,
+  layout: LayoutState
 ): void {
   repository.saveCards(boardId, cards);
   repository.saveLayout(boardId, layout);

@@ -19,7 +19,10 @@ export function EditModeBanner({ visible }: Props) {
       }`}
     >
       <div className="flex items-center gap-2 border-b border-violet-500/20 bg-violet-950/40 px-6 py-1.5">
-        <div className="h-1.5 w-1.5 motion-safe:animate-pulse rounded-full bg-violet-400" aria-hidden="true" />
+        <div
+          className="h-1.5 w-1.5 motion-safe:animate-pulse rounded-full bg-violet-400"
+          aria-hidden="true"
+        />
         <span className="text-xs font-medium tracking-wide text-violet-400">
           Editing — drag cards to rearrange
         </span>

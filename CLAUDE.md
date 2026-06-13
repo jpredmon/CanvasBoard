@@ -21,7 +21,7 @@ Tests are co-located with source files (`*.test.ts` / `*.test.tsx`). Vitest + Re
 **Required pattern for all component tests:**
 
 ```tsx
-import { it, expect } from 'vitest';  // always explicit — never rely on globals
+import { it, expect } from 'vitest'; // always explicit — never rely on globals
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from '../../store';
@@ -39,6 +39,7 @@ function renderWithStore(ui: React.ReactElement) {
 ```
 
 **Gotchas:**
+
 - Vitest config has `globals: true` but **always use explicit imports** (`import { it, expect } from 'vitest'`). Implicit globals will pass but violate project convention.
 - `LocalStorageRepository` reads from `localStorage` at construction time. Use unique IDs in tests (e.g. `'b1'`, `'b2'`) to avoid key collisions across tests.
 - Dispatch store state (boards, cards) **before** calling `render`, not after — dispatching after render causes `act()` warnings.
@@ -46,7 +47,7 @@ function renderWithStore(ui: React.ReactElement) {
 ## Code Style
 
 - Prettier: single quotes, 2-space indent, trailing commas (es5), 100-char print width, semicolons.
-- No comments on obvious code. Only comment when the *why* is non-obvious: a hidden constraint, a workaround, a subtle invariant.
+- No comments on obvious code. Only comment when the _why_ is non-obvious: a hidden constraint, a workaround, a subtle invariant.
 - No multi-line comment blocks or docstrings.
 
 ## Naming & Imports

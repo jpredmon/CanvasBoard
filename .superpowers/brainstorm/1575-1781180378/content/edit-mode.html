@@ -1,0 +1,363 @@
+<h2>How should edit mode feel?</h2>
+<p class="subtitle">
+  The board transitions from locked (view) to editable (edit). What's the right visual signal?
+</p>
+
+<div class="cards">
+  <div class="card" data-choice="border-pulse" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #09090b; padding: 12px; border-radius: 8px">
+      <div
+        style="
+          font-size: 10px;
+          color: #71717a;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        "
+      >
+        Edit mode ON
+      </div>
+      <!-- Header with active edit badge -->
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        "
+      >
+        <div style="display: flex; align-items: center; gap: 8px">
+          <span style="font-weight: 800; color: #f4f4f5; font-size: 12px"
+            >CANVAS<span style="color: #a78bfa">BOARD</span></span
+          >
+          <span
+            style="
+              background: rgba(139, 92, 246, 0.15);
+              color: #a78bfa;
+              border: 1px solid rgba(139, 92, 246, 0.4);
+              border-radius: 4px;
+              padding: 1px 6px;
+              font-size: 9px;
+              font-weight: 600;
+              letter-spacing: 0.06em;
+            "
+            >EDITING</span
+          >
+        </div>
+        <div
+          style="
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.5);
+          "
+        >
+          Done
+        </div>
+      </div>
+      <!-- Cards with violet border -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px">
+        <div
+          style="
+            border-radius: 6px;
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            background: #111118;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.15);
+          "
+        >
+          <div
+            style="
+              background: rgba(139, 92, 246, 0.15);
+              height: 14px;
+              display: flex;
+              align-items: center;
+              padding: 0 6px;
+              justify-content: space-between;
+            "
+          >
+            <span style="color: #a78bfa; font-size: 9px">⠿</span>
+            <span style="color: #71717a; font-size: 10px">×</span>
+          </div>
+          <div style="height: 36px; background: #1c1c24"></div>
+        </div>
+        <div
+          style="
+            border-radius: 6px;
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            background: #111118;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.15);
+          "
+        >
+          <div
+            style="
+              background: rgba(139, 92, 246, 0.15);
+              height: 14px;
+              display: flex;
+              align-items: center;
+              padding: 0 6px;
+              justify-content: space-between;
+            "
+          >
+            <span style="color: #a78bfa; font-size: 9px">⠿</span>
+            <span style="color: #71717a; font-size: 10px">×</span>
+          </div>
+          <div style="height: 36px; background: #1c1c24"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Violet border + "EDITING" badge</h3>
+      <p>
+        Cards get a violet glow border. A small "EDITING" badge appears in the header. Subtle but
+        clear — you always know the board is unlocked.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="header-glow" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #09090b; padding: 12px; border-radius: 8px">
+      <div
+        style="
+          font-size: 10px;
+          color: #71717a;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        "
+      >
+        Edit mode ON
+      </div>
+      <!-- Header with full violet wash -->
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          padding-bottom: 8px;
+          background: linear-gradient(
+            90deg,
+            rgba(139, 92, 246, 0.12) 0%,
+            rgba(139, 92, 246, 0.04) 100%
+          );
+          margin: -12px -12px 10px;
+          padding: 8px 12px;
+          border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        "
+      >
+        <span style="font-weight: 800; color: #f4f4f5; font-size: 12px"
+          >CANVAS<span style="color: #a78bfa">BOARD</span></span
+        >
+        <div
+          style="
+            background: rgba(139, 92, 246, 0.25);
+            color: #c4b5fd;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.6);
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+          "
+        >
+          Done
+        </div>
+      </div>
+      <!-- Normal cards, drag handles visible -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px">
+        <div
+          style="
+            border-radius: 6px;
+            border: 1px solid #27272a;
+            background: #111118;
+            overflow: hidden;
+          "
+        >
+          <div
+            style="
+              background: #1c1c24;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              padding: 0 6px;
+              justify-content: space-between;
+            "
+          >
+            <span style="color: #52525b; font-size: 9px">⠿</span>
+            <span style="color: #52525b; font-size: 10px">×</span>
+          </div>
+          <div style="height: 36px; background: #1c1c24"></div>
+        </div>
+        <div
+          style="
+            border-radius: 6px;
+            border: 1px solid #27272a;
+            background: #111118;
+            overflow: hidden;
+          "
+        >
+          <div
+            style="
+              background: #1c1c24;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              padding: 0 6px;
+              justify-content: space-between;
+            "
+          >
+            <span style="color: #52525b; font-size: 9px">⠿</span>
+            <span style="color: #52525b; font-size: 10px">×</span>
+          </div>
+          <div style="height: 36px; background: #1c1c24"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Header violet wash</h3>
+      <p>
+        The entire header gets a violet gradient wash when edit mode is on. "Done" button glows.
+        Cards themselves stay unchanged — the top bar is the only signal.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="overlay-banner" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #09090b; padding: 12px; border-radius: 8px">
+      <div
+        style="
+          font-size: 10px;
+          color: #71717a;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        "
+      >
+        Edit mode ON
+      </div>
+      <!-- Normal header -->
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 6px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid #27272a;
+        "
+      >
+        <span style="font-weight: 800; color: #f4f4f5; font-size: 12px"
+          >CANVAS<span style="color: #a78bfa">BOARD</span></span
+        >
+        <div
+          style="
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.5);
+          "
+        >
+          Done
+        </div>
+      </div>
+      <!-- Slim edit banner -->
+      <div
+        style="
+          background: rgba(139, 92, 246, 0.1);
+          border-bottom: 1px solid rgba(139, 92, 246, 0.25);
+          margin: 0 -12px 8px;
+          padding: 3px 12px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        "
+      >
+        <div
+          style="
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #a78bfa;
+            box-shadow: 0 0 6px #a78bfa;
+          "
+        ></div>
+        <span
+          style="
+            color: #a78bfa;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+          "
+          >Editing — drag cards to rearrange</span
+        >
+      </div>
+      <!-- Cards -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px">
+        <div
+          style="
+            border-radius: 6px;
+            border: 1px solid #27272a;
+            background: #111118;
+            overflow: hidden;
+          "
+        >
+          <div
+            style="
+              background: #1c1c24;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              padding: 0 6px;
+              justify-content: space-between;
+            "
+          >
+            <span style="color: #52525b; font-size: 9px">⠿</span
+            ><span style="color: #52525b; font-size: 10px">×</span>
+          </div>
+          <div style="height: 36px; background: #1c1c24"></div>
+        </div>
+        <div
+          style="
+            border-radius: 6px;
+            border: 1px solid #27272a;
+            background: #111118;
+            overflow: hidden;
+          "
+        >
+          <div
+            style="
+              background: #1c1c24;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              padding: 0 6px;
+              justify-content: space-between;
+            "
+          >
+            <span style="color: #52525b; font-size: 9px">⠿</span
+            ><span style="color: #52525b; font-size: 10px">×</span>
+          </div>
+          <div style="height: 36px; background: #1c1c24"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Slim edit banner</h3>
+      <p>
+        A thin violet banner slides in below the header with a pulsing dot and "Editing — drag cards
+        to rearrange." Disappears when you exit edit mode. Contextual hint + status in one.
+      </p>
+    </div>
+  </div>
+</div>

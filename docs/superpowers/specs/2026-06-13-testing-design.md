@@ -25,6 +25,7 @@ TypeScript, React 18, Redux Toolkit, Vitest + React Testing Library (existing), 
 ### Files and Behaviors
 
 **`src/components/board/BoardHeader.test.tsx`**
+
 - Renders "+ Add Card" and "Edit" buttons when a board is active
 - "+ Add Card" is disabled when card count is at MAX_CARDS (50)
 - Clicking "Edit" dispatches `uiActions.toggleEditMode`
@@ -32,6 +33,7 @@ TypeScript, React 18, Redux Toolkit, Vitest + React Testing Library (existing), 
 - Neither button renders when no board is active (`activeBoardId === null`)
 
 **`src/components/cards/CardControls.test.tsx`**
+
 - Renders nothing when `editMode=false`
 - Shows "×" delete button when `editMode=true`
 - Clicking "×" shows Cancel and Delete confirm buttons
@@ -39,15 +41,18 @@ TypeScript, React 18, Redux Toolkit, Vitest + React Testing Library (existing), 
 - Clicking Delete calls the `onDeleteStart` callback and dispatches `cardsActions.removeCard` + `layoutActions.removeLayoutItem` after 150ms
 
 **`src/components/board/EmptyBoardState.test.tsx`**
+
 - Renders the h2 "Curate your video world" heading
 - Renders a "+ Add Card" button
 - Clicking "+ Add Card" dispatches `uiActions.openAddCardModal`
 
 **`src/components/board/EditModeBanner.test.tsx`**
+
 - Renders the banner content when `visible=true`
 - Renders nothing when `visible=false`
 
 **`src/store/cards/cardsThunks.test.ts`**
+
 - `addYouTubeCard` dispatches card + layout item for a valid YouTube URL
 - Throws for an invalid / non-YouTube URL
 - Throws when card count is at MAX_CARDS
@@ -66,6 +71,7 @@ TypeScript, React 18, Redux Toolkit, Vitest + React Testing Library (existing), 
 ### Config
 
 **`playwright.config.ts`** at project root:
+
 - `testDir: './e2e'`
 - `baseURL: 'http://localhost:5173'`
 - Single project: Chromium desktop
@@ -84,6 +90,7 @@ e2e/
 ### Test Isolation
 
 Each test clears localStorage in `beforeEach`:
+
 ```ts
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -95,6 +102,7 @@ test.beforeEach(async ({ page }) => {
 ### Test Files
 
 **`e2e/golden-path.spec.ts`**
+
 1. Page loads showing NoBoardsState ("Create your first board")
 2. Fill board name input, click "Create Board"
 3. Assert board name appears in the header selector trigger
@@ -106,12 +114,14 @@ test.beforeEach(async ({ page }) => {
 9. Assert a card element is visible in the grid
 
 **`e2e/board-management.spec.ts`**
+
 1. Create "Board One", then create "Board Two" via dropdown "+ New Board"
 2. **Rename:** Open dropdown, click rename icon on "Board One", type "Renamed Board", press Enter; assert trigger button shows "Renamed Board"
 3. **Switch:** Open dropdown, click "Board Two"; assert trigger button shows "Board Two"
 4. **Delete:** Open dropdown, click delete icon on "Board Two"; assert "Board Two" no longer appears in the dropdown
 
 **`e2e/persistence.spec.ts`**
+
 1. Create a board named "Persist Board"
 2. Add a card (valid YouTube URL)
 3. Assert card is visible
@@ -122,6 +132,7 @@ test.beforeEach(async ({ page }) => {
 ### npm Script
 
 Add to `package.json`:
+
 ```json
 "test:e2e": "playwright test"
 ```

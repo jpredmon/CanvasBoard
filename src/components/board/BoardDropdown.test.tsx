@@ -1,6 +1,6 @@
-import { fireEvent,render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { afterEach,beforeEach, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
@@ -18,12 +18,8 @@ afterEach(() => {
 
 function renderDropdownWithBoard(onClose = vi.fn()) {
   const store = createStore(new LocalStorageRepository());
-  store.dispatch(
-    boardsActions.addBoard({ id: 'b1', name: 'Board One', createdAt: 1700000000000 })
-  );
-  store.dispatch(
-    boardsActions.addBoard({ id: 'b2', name: 'Board Two', createdAt: 1700000001000 })
-  );
+  store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'Board One', createdAt: 1700000000000 }));
+  store.dispatch(boardsActions.addBoard({ id: 'b2', name: 'Board Two', createdAt: 1700000001000 }));
   store.dispatch(boardsActions.setActiveBoardId('b1'));
   const triggerButton = document.createElement('button');
   document.body.appendChild(triggerButton);
@@ -38,12 +34,8 @@ function renderDropdownWithBoard(onClose = vi.fn()) {
 
 function renderDropdownWithBoardAndMenu(focusMock?: () => void) {
   const store = createStore(new LocalStorageRepository());
-  store.dispatch(
-    boardsActions.addBoard({ id: 'b1', name: 'Board One', createdAt: 1700000000000 })
-  );
-  store.dispatch(
-    boardsActions.addBoard({ id: 'b2', name: 'Board Two', createdAt: 1700000001000 })
-  );
+  store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'Board One', createdAt: 1700000000000 }));
+  store.dispatch(boardsActions.addBoard({ id: 'b2', name: 'Board Two', createdAt: 1700000001000 }));
   store.dispatch(boardsActions.setActiveBoardId('b1'));
   const triggerButton = document.createElement('button');
   if (focusMock) triggerButton.focus = focusMock;
@@ -79,27 +71,21 @@ it('has no accessibility violations', async () => {
 
 it('focuses first board button on mount', () => {
   renderDropdownWithBoard();
-  expect(document.activeElement).toBe(
-    screen.getByRole('menuitem', { name: 'Board One' })
-  );
+  expect(document.activeElement).toBe(screen.getByRole('menuitem', { name: 'Board One' }));
 });
 
 it('moves focus to next board button on ArrowDown', () => {
   renderDropdownWithBoard();
   const menu = screen.getByRole('menu');
   fireEvent.keyDown(menu, { key: 'ArrowDown' });
-  expect(document.activeElement).toBe(
-    screen.getByRole('menuitem', { name: 'Board Two' })
-  );
+  expect(document.activeElement).toBe(screen.getByRole('menuitem', { name: 'Board Two' }));
 });
 
 it('moves focus to last board button on ArrowUp from first', () => {
   renderDropdownWithBoard();
   const menu = screen.getByRole('menu');
   fireEvent.keyDown(menu, { key: 'ArrowUp' });
-  expect(document.activeElement).toBe(
-    screen.getByRole('menuitem', { name: 'Board Two' })
-  );
+  expect(document.activeElement).toBe(screen.getByRole('menuitem', { name: 'Board Two' }));
 });
 
 it('calls onClose and focuses trigger on Escape', () => {

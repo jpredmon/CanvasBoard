@@ -7,7 +7,7 @@ import { GridCanvas } from '../components/board/GridCanvas';
 import { NoBoardsState } from '../components/board/NoBoardsState';
 import { AddCardModal } from '../components/modals/AddCardModal';
 import { useAppSelector } from '../hooks/useAppSelector';
-import { selectActiveBoard,selectActiveBoardId } from '../store/boards/boardsSelectors';
+import { selectActiveBoard, selectActiveBoardId } from '../store/boards/boardsSelectors';
 import { selectCardCount } from '../store/cards/cardsSelectors';
 import { selectEditMode } from '../store/ui/uiSelectors';
 

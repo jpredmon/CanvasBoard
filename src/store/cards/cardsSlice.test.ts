@@ -1,7 +1,7 @@
-import { describe, expect,it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import type { CardsState,MediaCard } from '../../types';
-import { cardsActions,cardsReducer } from './cardsSlice';
+import type { CardsState, MediaCard } from '../../types';
+import { cardsActions, cardsReducer } from './cardsSlice';
 
 const card: MediaCard = {
   id: 'card-1',

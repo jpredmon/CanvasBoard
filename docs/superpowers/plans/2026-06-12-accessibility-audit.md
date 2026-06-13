@@ -12,24 +12,25 @@
 
 ## Files
 
-| File | Change |
-|------|--------|
-| `package.json` | Add eslint-plugin-jsx-a11y, vitest-axe to devDependencies |
-| `eslint.config.js` | Add jsx-a11y plugin and recommended rules |
-| `src/test/setup.ts` | Add vitest-axe toHaveNoViolations extension |
-| `src/components/board/NoBoardsState.test.tsx` | Add axe test |
-| `src/components/board/BoardDropdown.test.tsx` | Add axe test |
-| `src/components/modals/AddCardModal.test.tsx` | Add axe test |
-| `src/pages/CanvasBoardPage.tsx` | Add `<main>` landmark |
-| `src/components/ui/Input.tsx` | Add `role="alert"` to error paragraph |
-| `src/components/board/NoBoardsState.tsx` | Add visible focus ring to inline input |
-| `src/components/board/BoardDropdown.tsx` | Add visible focus rings to inline inputs |
+| File                                          | Change                                                    |
+| --------------------------------------------- | --------------------------------------------------------- |
+| `package.json`                                | Add eslint-plugin-jsx-a11y, vitest-axe to devDependencies |
+| `eslint.config.js`                            | Add jsx-a11y plugin and recommended rules                 |
+| `src/test/setup.ts`                           | Add vitest-axe toHaveNoViolations extension               |
+| `src/components/board/NoBoardsState.test.tsx` | Add axe test                                              |
+| `src/components/board/BoardDropdown.test.tsx` | Add axe test                                              |
+| `src/components/modals/AddCardModal.test.tsx` | Add axe test                                              |
+| `src/pages/CanvasBoardPage.tsx`               | Add `<main>` landmark                                     |
+| `src/components/ui/Input.tsx`                 | Add `role="alert"` to error paragraph                     |
+| `src/components/board/NoBoardsState.tsx`      | Add visible focus ring to inline input                    |
+| `src/components/board/BoardDropdown.tsx`      | Add visible focus rings to inline inputs                  |
 
 ---
 
 ### Task 1: Install eslint-plugin-jsx-a11y and fix lint violations
 
 **Files:**
+
 - Modify: `package.json` (via npm install)
 - Modify: `eslint.config.js`
 
@@ -83,6 +84,7 @@ npm run lint 2>&1
 ```
 
 Review every jsx-a11y error. Fix each one. Common findings for this codebase:
+
 - `jsx-a11y/no-noninteractive-element-interactions` — non-interactive element with onClick
 - `jsx-a11y/click-events-have-key-events` — onClick without onKeyDown
 - `jsx-a11y/interactive-supports-focus` — interactive element not in tab order
@@ -107,6 +109,7 @@ git commit -m "feat(a11y): install eslint-plugin-jsx-a11y and fix all lint viola
 ### Task 2: Install vitest-axe and add axe tests
 
 **Files:**
+
 - Modify: `package.json` (via npm install)
 - Modify: `src/test/setup.ts`
 - Modify: `src/components/board/NoBoardsState.test.tsx`
@@ -122,11 +125,13 @@ npm install --save-dev vitest-axe
 - [ ] **Step 2: Extend Vitest expect in setup file**
 
 Current `src/test/setup.ts`:
+
 ```ts
 import '@testing-library/jest-dom';
 ```
 
 Replace with:
+
 ```ts
 import '@testing-library/jest-dom';
 import { toHaveNoViolations } from 'vitest-axe';
@@ -283,7 +288,9 @@ function renderModalWithBoard() {
 
 it('submitting first card enables edit mode', () => {
   const { store } = renderModalWithBoard();
-  fireEvent.change(screen.getByRole('textbox'), { target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } });
+  fireEvent.change(screen.getByRole('textbox'), {
+    target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+  });
   fireEvent.click(screen.getByRole('button', { name: /add/i }));
   const state = store.getState();
   expect(state.ui.editMode).toBe(true);
@@ -291,7 +298,9 @@ it('submitting first card enables edit mode', () => {
 
 it('submitting subsequent card does not change edit mode', () => {
   const store = createStore(new LocalStorageRepository());
-  store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'Test Board', createdAt: 1700000000000 }));
+  store.dispatch(
+    boardsActions.addBoard({ id: 'b1', name: 'Test Board', createdAt: 1700000000000 })
+  );
   store.dispatch(boardsActions.setActiveBoardId('b1'));
   store.dispatch(
     cardsActions.addCard({
@@ -311,7 +320,9 @@ it('submitting subsequent card does not change edit mode', () => {
     </Provider>
   );
 
-  fireEvent.change(screen.getByRole('textbox'), { target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } });
+  fireEvent.change(screen.getByRole('textbox'), {
+    target: { value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+  });
   fireEvent.click(screen.getByRole('button', { name: /add/i }));
   const state = store.getState();
   expect(state.ui.editMode).toBe(false);
@@ -346,6 +357,7 @@ git commit -m "feat(a11y): install vitest-axe and add toHaveNoViolations to comp
 These are known violations from code review — fix them before the browser audit.
 
 **Files:**
+
 - Modify: `src/pages/CanvasBoardPage.tsx`
 - Modify: `src/components/ui/Input.tsx`
 - Modify: `src/components/board/NoBoardsState.tsx`
@@ -354,6 +366,7 @@ These are known violations from code review — fix them before the browser audi
 - [ ] **Step 1: Add `<main>` landmark to CanvasBoardPage**
 
 Current `src/pages/CanvasBoardPage.tsx`:
+
 ```tsx
 return (
   <div className="flex h-screen flex-col bg-zinc-950">
@@ -372,6 +385,7 @@ return (
 ```
 
 Replace with:
+
 ```tsx
 return (
   <div className="flex h-screen flex-col bg-zinc-950">
@@ -394,21 +408,27 @@ return (
 - [ ] **Step 2: Add `role="alert"` to Input error paragraph**
 
 Current error paragraph in `src/components/ui/Input.tsx` (line 25):
+
 ```tsx
-{error && (
-  <p id={errorId} className="text-xs text-red-400">
-    {error}
-  </p>
-)}
+{
+  error && (
+    <p id={errorId} className="text-xs text-red-400">
+      {error}
+    </p>
+  );
+}
 ```
 
 Replace with:
+
 ```tsx
-{error && (
-  <p id={errorId} role="alert" className="text-xs text-red-400">
-    {error}
-  </p>
-)}
+{
+  error && (
+    <p id={errorId} role="alert" className="text-xs text-red-400">
+      {error}
+    </p>
+  );
+}
 ```
 
 This makes validation errors announced immediately by screen readers when they appear, without requiring the user to re-focus the input.
@@ -416,11 +436,13 @@ This makes validation errors announced immediately by screen readers when they a
 - [ ] **Step 3: Add visible focus ring to NoBoardsState inline input**
 
 Current input className in `src/components/board/NoBoardsState.tsx` (line 49):
+
 ```
 "rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-violet-500 focus:outline-none"
 ```
 
 Replace with:
+
 ```
 "rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-zinc-950"
 ```
@@ -430,19 +452,25 @@ Replace with:
 In `src/components/board/BoardDropdown.tsx`, there are two inputs with `focus:outline-none` and no ring.
 
 **Rename input** (line 92):
+
 ```
 "flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-0.5 text-sm text-zinc-100 focus:outline-none"
 ```
+
 Replace with:
+
 ```
 "flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-0.5 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
 ```
 
 **New board input** (line 149):
+
 ```
 "flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-1 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
 ```
+
 Replace with:
+
 ```
 "flex-1 rounded border border-violet-500 bg-zinc-800 px-2 py-1 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
 ```
@@ -452,12 +480,15 @@ Replace with:
 `text-zinc-500` (#71717a) on dark backgrounds fails the 4.5:1 AA ratio for normal-sized text. Placeholder text is exempt, but visible body text is not.
 
 In `src/components/board/NoBoardsState.tsx`, line 37 uses `text-zinc-500` for the description paragraph:
+
 ```tsx
 <p className="max-w-xs text-sm text-zinc-500">
   Name your board and start curating your video world
 </p>
 ```
+
 Replace with:
+
 ```tsx
 <p className="max-w-xs text-sm text-zinc-400">
   Name your board and start curating your video world
@@ -508,6 +539,7 @@ git push origin master
 - [ ] **Step 1: Install axe DevTools browser extension**
 
 Install the free "axe DevTools" extension for Chrome or Firefox:
+
 - Chrome: search "axe DevTools" in the Chrome Web Store
 - Firefox: search "axe" in Firefox Add-ons
 
@@ -533,6 +565,7 @@ Install the free "axe DevTools" extension for Chrome or Firefox:
 - [ ] **Step 5: Keyboard navigation check**
 
 Tab through the entire app from the top. Verify:
+
 - Every interactive element receives focus in a logical order
 - The focused element always has a visible focus indicator (violet ring)
 - Escape closes modals and dropdowns

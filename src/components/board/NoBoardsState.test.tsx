@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { expect,it } from 'vitest';
+import { expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
@@ -25,5 +25,7 @@ it('has no accessibility violations', async () => {
 
 it('renders the primary text as a heading', () => {
   renderWithStore(<NoBoardsState />);
-  expect(screen.getByRole('heading', { level: 2, name: /create your first board/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole('heading', { level: 2, name: /create your first board/i })
+  ).toBeInTheDocument();
 });

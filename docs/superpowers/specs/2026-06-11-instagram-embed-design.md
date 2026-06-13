@@ -13,30 +13,30 @@ Add Instagram post and Reel support to CanvasBoard as a second card type, follow
 
 ## Decisions
 
-| # | Decision |
-|---|----------|
-| 1 | Support both Posts (`/p/`) and Reels (`/reel/`) URL formats |
-| 2 | Iframe embed — `instagram.com/p/SHORTCODE/embed` — no Instagram JS widget |
-| 3 | Separate "Add YouTube" / "Add Instagram" buttons in the header (not a unified input) |
-| 4 | Auto-detect aspect ratio from URL type: post → `1:1`, reel → `9:16` |
-| 5 | Follow Option A: strict extension pattern — new thunk, new modal, new UI state alongside existing YouTube equivalents. No shared abstractions yet. |
+| #   | Decision                                                                                                                                           |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Support both Posts (`/p/`) and Reels (`/reel/`) URL formats                                                                                        |
+| 2   | Iframe embed — `instagram.com/p/SHORTCODE/embed` — no Instagram JS widget                                                                          |
+| 3   | Separate "Add YouTube" / "Add Instagram" buttons in the header (not a unified input)                                                               |
+| 4   | Auto-detect aspect ratio from URL type: post → `1:1`, reel → `9:16`                                                                                |
+| 5   | Follow Option A: strict extension pattern — new thunk, new modal, new UI state alongside existing YouTube equivalents. No shared abstractions yet. |
 
 ---
 
 ## Type System (`src/types/index.ts`)
 
 ```ts
-export type AspectRatio = '16:9' | '9:16' | '1:1';   // add '1:1'
+export type AspectRatio = '16:9' | '9:16' | '1:1'; // add '1:1'
 
-export type MediaType = 'youtube' | 'instagram';       // add 'instagram'
+export type MediaType = 'youtube' | 'instagram'; // add 'instagram'
 
 export interface InstagramCard extends BaseCard {
   type: 'instagram';
-  shortcode: string;        // extracted from URL, used to construct embed URL
+  shortcode: string; // extracted from URL, used to construct embed URL
   postType: 'post' | 'reel';
 }
 
-export type MediaCard = YouTubeCard | InstagramCard;   // extend union
+export type MediaCard = YouTubeCard | InstagramCard; // extend union
 
 export type InstagramParseResult =
   | { valid: true; shortcode: string; postType: 'post' | 'reel'; aspectRatio: AspectRatio }
@@ -51,14 +51,14 @@ The embed URL is constructed at render time from `shortcode` and `postType` — 
 
 Handles:
 
-| Input | shortcode | postType | aspectRatio |
-|-------|-----------|----------|-------------|
-| `instagram.com/p/ABC123/` | `ABC123` | `post` | `1:1` |
-| `www.instagram.com/p/ABC123` | `ABC123` | `post` | `1:1` |
-| `instagram.com/reel/ABC123/` | `ABC123` | `reel` | `9:16` |
-| `www.instagram.com/reel/ABC123` | `ABC123` | `reel` | `9:16` |
-| non-Instagram hostname | — | — | invalid |
-| malformed string | — | — | invalid |
+| Input                           | shortcode | postType | aspectRatio |
+| ------------------------------- | --------- | -------- | ----------- |
+| `instagram.com/p/ABC123/`       | `ABC123`  | `post`   | `1:1`       |
+| `www.instagram.com/p/ABC123`    | `ABC123`  | `post`   | `1:1`       |
+| `instagram.com/reel/ABC123/`    | `ABC123`  | `reel`   | `9:16`      |
+| `www.instagram.com/reel/ABC123` | `ABC123`  | `reel`   | `9:16`      |
+| non-Instagram hostname          | —         | —        | invalid     |
+| malformed string                | —         | —        | invalid     |
 
 Shortcode regex: `[A-Za-z0-9_-]+` (no length enforcement — Instagram shortcodes vary in length).
 
@@ -83,6 +83,7 @@ Add `'1:1'` to `CARD_DEFAULTS`:
 ## State (`src/store/ui/uiSlice.ts`)
 
 Add to `UIState`:
+
 ```ts
 addInstagramModalOpen: boolean;
 ```
@@ -112,6 +113,7 @@ No changes to `persistenceMiddleware`, `BoardRepository`, or `LocalStorageReposi
 Plain `<iframe>` component. Props: `shortcode: string`, `postType: 'post' | 'reel'`.
 
 Embed URLs:
+
 - Post: `https://www.instagram.com/p/SHORTCODE/embed`
 - Reel: `https://www.instagram.com/reel/SHORTCODE/embed`
 
@@ -120,6 +122,7 @@ Same `className="h-full w-full rounded-b-lg"` as `YouTubeEmbed`.
 ### `src/components/modals/AddInstagramModal.tsx`
 
 Mirrors `AddCardModal`. Uses same `Modal` + `Input` + `Button` primitives.
+
 - Title: `"Add an Instagram post"`
 - Input label: `"Instagram URL"`
 - Placeholder: `"https://www.instagram.com/p/..."`
@@ -129,9 +132,16 @@ Mirrors `AddCardModal`. Uses same `Modal` + `Input` + `Button` primitives.
 ### `src/components/cards/MediaCard.tsx`
 
 Add `InstagramEmbed` branch:
+
 ```tsx
-{card.type === 'youtube' && <YouTubeEmbed videoId={card.videoId} aspectRatio={card.aspectRatio} />}
-{card.type === 'instagram' && <InstagramEmbed shortcode={card.shortcode} postType={card.postType} />}
+{
+  card.type === 'youtube' && <YouTubeEmbed videoId={card.videoId} aspectRatio={card.aspectRatio} />;
+}
+{
+  card.type === 'instagram' && (
+    <InstagramEmbed shortcode={card.shortcode} postType={card.postType} />
+  );
+}
 ```
 
 TypeScript's exhaustive union checking will produce a compile error if a future `MediaType` is added but not handled here.
@@ -139,6 +149,7 @@ TypeScript's exhaustive union checking will produce a compile error if a future 
 ### `src/components/board/BoardHeader.tsx`
 
 Replace single `"+ Add video"` button with two buttons:
+
 - `"+ YouTube"` → dispatches `openAddCardModal`
 - `"+ Instagram"` → dispatches `openAddInstagramModal`
 
@@ -152,16 +163,16 @@ Render `<AddInstagramModal />` alongside existing `<AddCardModal />`.
 
 ## Files Changed
 
-| File | Change |
-|------|--------|
-| `src/types/index.ts` | Add `'1:1'` to AspectRatio, `'instagram'` to MediaType, `InstagramCard`, extend `MediaCard` union, add `InstagramParseResult` |
-| `src/constants/index.ts` | Add `'1:1'` to `CARD_DEFAULTS` |
-| `src/store/ui/uiSlice.ts` | Add `addInstagramModalOpen`, `openAddInstagramModal`, `closeAddInstagramModal` |
-| `src/store/cards/cardsThunks.ts` | Add `addInstagramCard` thunk |
-| `src/components/cards/MediaCard.tsx` | Add `instagram` branch |
-| `src/components/board/BoardHeader.tsx` | Two buttons instead of one |
-| `src/pages/CanvasBoardPage.tsx` | Render `AddInstagramModal` |
-| `src/utils/instagram.ts` | **New** — URL parser |
-| `src/utils/instagram.test.ts` | **New** — parser unit tests |
-| `src/components/cards/embeds/InstagramEmbed.tsx` | **New** — iframe embed |
-| `src/components/modals/AddInstagramModal.tsx` | **New** — add card modal |
+| File                                             | Change                                                                                                                        |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| `src/types/index.ts`                             | Add `'1:1'` to AspectRatio, `'instagram'` to MediaType, `InstagramCard`, extend `MediaCard` union, add `InstagramParseResult` |
+| `src/constants/index.ts`                         | Add `'1:1'` to `CARD_DEFAULTS`                                                                                                |
+| `src/store/ui/uiSlice.ts`                        | Add `addInstagramModalOpen`, `openAddInstagramModal`, `closeAddInstagramModal`                                                |
+| `src/store/cards/cardsThunks.ts`                 | Add `addInstagramCard` thunk                                                                                                  |
+| `src/components/cards/MediaCard.tsx`             | Add `instagram` branch                                                                                                        |
+| `src/components/board/BoardHeader.tsx`           | Two buttons instead of one                                                                                                    |
+| `src/pages/CanvasBoardPage.tsx`                  | Render `AddInstagramModal`                                                                                                    |
+| `src/utils/instagram.ts`                         | **New** — URL parser                                                                                                          |
+| `src/utils/instagram.test.ts`                    | **New** — parser unit tests                                                                                                   |
+| `src/components/cards/embeds/InstagramEmbed.tsx` | **New** — iframe embed                                                                                                        |
+| `src/components/modals/AddInstagramModal.tsx`    | **New** — add card modal                                                                                                      |

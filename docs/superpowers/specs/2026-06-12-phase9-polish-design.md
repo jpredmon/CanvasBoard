@@ -23,10 +23,10 @@ Three inline `<input>` elements have no `<label>` or `aria-label` — only place
 
 **Files and fixes:**
 
-| File | Input | aria-label to add |
-|------|-------|-------------------|
-| `src/components/board/NoBoardsState.tsx` | Board name input | `"Board name"` |
-| `src/components/board/BoardDropdown.tsx` | Rename board input | `"Rename board"` |
+| File                                     | Input                | aria-label to add  |
+| ---------------------------------------- | -------------------- | ------------------ |
+| `src/components/board/NoBoardsState.tsx` | Board name input     | `"Board name"`     |
+| `src/components/board/BoardDropdown.tsx` | Rename board input   | `"Rename board"`   |
 | `src/components/board/BoardDropdown.tsx` | New board name input | `"New board name"` |
 
 Visual layout is unchanged — no refactor to the shared `Input` component.
@@ -40,6 +40,7 @@ Visual layout is unchanged — no refactor to the shared `Input` component.
 **Behavior:** When `AddCardModal` successfully adds a card and `cardCount === 0` at the time of submit, dispatch `setEditMode(true)` immediately after the card is added.
 
 **Implementation:**
+
 - Add `setEditMode(state, action: PayloadAction<boolean>)` reducer to `uiSlice`
 - In `AddCardModal`, read `cardCount` from the store before submitting
 - After a successful `dispatch(addYouTubeCard(url))`, if `cardCount === 0`, also dispatch `uiActions.setEditMode(true)`
@@ -50,12 +51,12 @@ Visual layout is unchanged — no refactor to the shared `Input` component.
 
 ## Files Changed
 
-| File | Change |
-|------|--------|
-| `src/index.css` | Add `body { background-color: #09090b; }` |
-| `src/components/board/NoBoardsState.tsx` | Add `aria-label="Board name"` to input |
-| `src/components/board/BoardDropdown.tsx` | Add `aria-label` to rename and new-board inputs |
-| `src/store/ui/uiSlice.ts` | Add `setEditMode` reducer |
+| File                                     | Change                                              |
+| ---------------------------------------- | --------------------------------------------------- |
+| `src/index.css`                          | Add `body { background-color: #09090b; }`           |
+| `src/components/board/NoBoardsState.tsx` | Add `aria-label="Board name"` to input              |
+| `src/components/board/BoardDropdown.tsx` | Add `aria-label` to rename and new-board inputs     |
+| `src/store/ui/uiSlice.ts`                | Add `setEditMode` reducer                           |
 | `src/components/modals/AddCardModal.tsx` | Dispatch `setEditMode(true)` when adding first card |
 
 > Note: 5 files touched (the setEditMode addition requires both uiSlice and AddCardModal).

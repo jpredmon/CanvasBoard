@@ -1,4 +1,4 @@
-import { describe, expect,it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import type { CardLayout } from '../types';
 import { findTopLeftCell } from './layout';
@@ -19,10 +19,7 @@ describe('findTopLeftCell', () => {
   });
 
   it('moves to the next row when the current row is full', () => {
-    const items = [
-      makeItem('a', 0, 0, 6, 1),
-      makeItem('b', 6, 0, 6, 1),
-    ];
+    const items = [makeItem('a', 0, 0, 6, 1), makeItem('b', 6, 0, 6, 1)];
     const result = findTopLeftCell(items, 4);
     expect(result).toEqual({ x: 0, y: 1 });
   });

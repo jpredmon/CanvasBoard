@@ -8,8 +8,10 @@
 ## Important — Fix in this audit
 
 ### [I-1] Missing `uiSelectors.ts` — inline selectors in 4 components
+
 **Category:** Redux patterns  
 **Files:**
+
 - `src/components/board/GridCanvas.tsx:21`
 - `src/components/board/BoardHeader.tsx:12`
 - `src/pages/CanvasBoardPage.tsx:13`
@@ -22,6 +24,7 @@
 ---
 
 ### [I-2] Dead exports in `STORAGE_KEYS`
+
 **Category:** Dead code  
 **File:** `src/constants/index.ts:13-17`
 
@@ -32,6 +35,7 @@
 ---
 
 ### [I-3] Redundant null filter in `BoardDropdown`
+
 **Category:** Dead code  
 **File:** `src/components/board/BoardDropdown.tsx:81`
 
@@ -54,13 +58,14 @@ export const selectAllBoards = createSelector(
 ---
 
 ### [I-4] Missing focus ring on `BoardSelector` trigger button
+
 **Category:** Component design / accessibility  
 **File:** `src/components/board/BoardSelector.tsx:27`
 
 The dropdown trigger button has `focus:outline-none` with no replacement focus indicator:
 
 ```tsx
-className="... focus:outline-none"
+className = '... focus:outline-none';
 ```
 
 Every other interactive element in the app uses either `focus-visible:ring-2 focus-visible:ring-violet-500` (via `Button`) or an explicit `focus:ring-2` class. This button is the only one that removes the outline with no replacement, leaving keyboard users with no visible focus indicator on this control.
@@ -72,6 +77,7 @@ Every other interactive element in the app uses either `focus-visible:ring-2 foc
 ## Minor — Document only
 
 ### [M-1] Ad-hoc type cast in `persistenceMiddleware`
+
 **Category:** TypeScript type safety  
 **File:** `src/store/middleware/persistenceMiddleware.ts:31`
 
@@ -84,6 +90,7 @@ RTK exports `UnknownAction` (which has `type: string`) for exactly this pattern.
 ---
 
 ### [M-2] `App.tsx` is a pure passthrough
+
 **Category:** Dead code  
 **File:** `src/App.tsx`
 
@@ -92,6 +99,7 @@ RTK exports `UnknownAction` (which has `type: string`) for exactly this pattern.
 ---
 
 ### [M-3] `ErrorBoundary` has no error logging
+
 **Category:** Error handling  
 **File:** `src/components/ui/ErrorBoundary.tsx`
 

@@ -1,4 +1,4 @@
-import { expect,test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -8,9 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test('create a board, add a card, card appears on canvas', async ({ page }) => {
   // Arrive at NoBoardsState
-  await expect(
-    page.getByRole('heading', { name: /create your first board/i })
-  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: /create your first board/i })).toBeVisible();
 
   // Create board
   await page.getByLabel('Board name').fill('My Board');

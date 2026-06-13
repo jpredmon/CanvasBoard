@@ -1,0 +1,323 @@
+<h2>What direction should the polish take?</h2>
+<p class="subtitle">
+  The current app is functional dark zinc. Pick the visual register you want to aim for.
+</p>
+
+<div class="cards">
+  <div class="card" data-choice="refined" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #18181b; padding: 16px; border-radius: 8px">
+      <!-- Header -->
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 12px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid #3f3f46;
+        "
+      >
+        <span style="font-weight: 600; color: #f4f4f5; font-size: 13px; letter-spacing: 0.02em"
+          >CanvasBoard</span
+        >
+        <div style="display: flex; gap: 6px">
+          <div
+            style="
+              background: #4f46e5;
+              color: #fff;
+              border-radius: 6px;
+              padding: 3px 10px;
+              font-size: 11px;
+              font-weight: 500;
+            "
+          >
+            + Add Card
+          </div>
+          <div
+            style="
+              background: #27272a;
+              color: #a1a1aa;
+              border-radius: 6px;
+              padding: 3px 10px;
+              font-size: 11px;
+              border: 1px solid #3f3f46;
+            "
+          >
+            Edit
+          </div>
+        </div>
+      </div>
+      <!-- Empty state -->
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 80px;
+          gap: 6px;
+        "
+      >
+        <div
+          style="
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div
+            style="
+              width: 0;
+              height: 0;
+              border-top: 6px solid transparent;
+              border-bottom: 6px solid transparent;
+              border-left: 10px solid #71717a;
+              margin-left: 2px;
+            "
+          ></div>
+        </div>
+        <span style="color: #71717a; font-size: 10px">Add your first video</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Refined Minimal</h3>
+      <p>
+        Current aesthetic, made crisper. Better spacing, crisp icon, subtle hover states. No new
+        visual elements — everything that's there just works better.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="elevated" onclick="toggleSelect(this)">
+    <div
+      class="card-image"
+      style="
+        background: linear-gradient(135deg, #0f0f13 0%, #111118 100%);
+        padding: 16px;
+        border-radius: 8px;
+      "
+    >
+      <!-- Header -->
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 12px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        "
+      >
+        <span
+          style="
+            font-weight: 700;
+            color: #f4f4f5;
+            font-size: 13px;
+            letter-spacing: 0.03em;
+            background: linear-gradient(90deg, #a5b4fc, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          "
+          >CanvasBoard</span
+        >
+        <div style="display: flex; gap: 6px">
+          <div
+            style="
+              background: linear-gradient(135deg, #4f46e5, #6366f1);
+              color: #fff;
+              border-radius: 6px;
+              padding: 3px 10px;
+              font-size: 11px;
+              font-weight: 500;
+              box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+            "
+          >
+            + Add Card
+          </div>
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.05);
+              color: #a1a1aa;
+              border-radius: 6px;
+              padding: 3px 10px;
+              font-size: 11px;
+              border: 1px solid rgba(255, 255, 255, 0.08);
+              backdrop-filter: blur(4px);
+            "
+          >
+            Edit
+          </div>
+        </div>
+      </div>
+      <!-- Empty state -->
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 80px;
+          gap: 6px;
+        "
+      >
+        <div
+          style="
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(99, 102, 241, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+          "
+        >
+          <div
+            style="
+              width: 0;
+              height: 0;
+              border-top: 7px solid transparent;
+              border-bottom: 7px solid transparent;
+              border-left: 12px solid #818cf8;
+              margin-left: 2px;
+            "
+          ></div>
+        </div>
+        <span style="color: #818cf8; font-size: 10px; font-weight: 500">Start curating</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Elevated Dark</h3>
+      <p>
+        Gradient title, glowing primary button, glass-morphism secondary buttons. Indigo accent glow
+        on cards in edit mode. Feels like Linear or Vercel's dark theme.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="cinematic" onclick="toggleSelect(this)">
+    <div
+      class="card-image"
+      style="
+        background: #09090b;
+        padding: 16px;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <!-- Ambient glow -->
+      <div
+        style="
+          position: absolute;
+          top: -20px;
+          right: -20px;
+          width: 80px;
+          height: 80px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent 70%);
+          pointer-events: none;
+        "
+      ></div>
+      <!-- Header -->
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 12px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+        "
+      >
+        <span style="font-weight: 800; color: #f4f4f5; font-size: 13px; letter-spacing: 0.04em"
+          >CANVAS<span style="color: #a78bfa">BOARD</span></span
+        >
+        <div style="display: flex; gap: 6px">
+          <div
+            style="
+              background: rgba(139, 92, 246, 0.15);
+              color: #c4b5fd;
+              border-radius: 6px;
+              padding: 3px 10px;
+              font-size: 11px;
+              font-weight: 600;
+              border: 1px solid rgba(139, 92, 246, 0.4);
+            "
+          >
+            + Add Card
+          </div>
+          <div
+            style="
+              background: transparent;
+              color: #71717a;
+              border-radius: 6px;
+              padding: 3px 10px;
+              font-size: 11px;
+              border: 1px solid #27272a;
+            "
+          >
+            Edit
+          </div>
+        </div>
+      </div>
+      <!-- Empty state -->
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 80px;
+          gap: 6px;
+        "
+      >
+        <div
+          style="
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div
+            style="
+              width: 0;
+              height: 0;
+              border-top: 7px solid transparent;
+              border-bottom: 7px solid transparent;
+              border-left: 12px solid #a78bfa;
+              margin-left: 2px;
+            "
+          ></div>
+        </div>
+        <span
+          style="
+            color: #a78bfa;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+          "
+          >Your canvas awaits</span
+        >
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Cinematic Dark</h3>
+      <p>
+        Violet accent instead of indigo. Ambient radial glows, uppercase brand name, more dramatic
+        atmosphere. Bold, editorial feel — makes a strong portfolio statement.
+      </p>
+    </div>
+  </div>
+</div>

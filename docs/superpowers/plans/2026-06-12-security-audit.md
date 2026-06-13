@@ -13,6 +13,7 @@
 ### Task 1: Fix YouTube hostname validation
 
 **Files:**
+
 - Modify: `src/utils/youtube.ts`
 - Modify: `src/utils/youtube.test.ts`
 
@@ -109,6 +110,7 @@ git commit -m "fix(security): enforce strict hostname equality in YouTube URL pa
 ### Task 2: iframe sandbox and referrerpolicy
 
 **Files:**
+
 - Modify: `src/components/cards/embeds/YouTubeEmbed.tsx`
 
 `sandbox` restricts what the embedded YouTube page can do in the browser. `referrerPolicy` stops the full document URL from leaking to YouTube on each request.
@@ -148,6 +150,7 @@ export function YouTubeEmbed({ videoId, aspectRatio }: Props) {
 Note: React uses camelCase `referrerPolicy` (not the HTML attribute spelling `referrerpolicy`).
 
 Sandbox flags chosen:
+
 - `allow-scripts` — required for YouTube JS to run
 - `allow-same-origin` — required for YouTube auth state and playback
 - `allow-presentation` — enables the fullscreen API
@@ -177,6 +180,7 @@ git commit -m "fix(security): add sandbox and referrerpolicy to YouTube iframe"
 ### Task 3: Cloudflare Pages security headers
 
 **Files:**
+
 - Create: `public/_headers`
 
 Cloudflare Pages reads `_headers` from the build output root and injects the declared headers on every response. Vite copies `public/` verbatim into `dist/` during build — no `vite.config.ts` changes needed.
@@ -195,6 +199,7 @@ Create the file `public/_headers` with this exact content (two-space indent on e
 ```
 
 What each header does:
+
 - `X-Frame-Options: DENY` — prevents the app itself from being embedded in a third-party iframe (clickjacking protection)
 - `X-Content-Type-Options: nosniff` — stops browsers guessing MIME types from response content
 - `Referrer-Policy` — sends only the origin, not the full URL, on cross-site navigations
@@ -225,6 +230,7 @@ git commit -m "fix(security): add Cloudflare Pages security headers"
 ### Task 4: npm dependency audit
 
 **Files:**
+
 - Possibly modify: `package.json`, `package-lock.json`
 
 - [ ] **Step 1: Run the audit**

@@ -12,25 +12,26 @@
 
 ## File Map
 
-| File | Change |
-|------|--------|
-| `src/components/ui/Button.tsx` | `indigo` → `violet`, add `'edit-active'` variant |
-| `src/components/ui/Input.tsx` | `indigo` → `violet` |
-| `src/components/board/GridCanvas.tsx` | Bug: `preventCollision={false}` → `true` |
-| `src/components/cards/embeds/YouTubeEmbed.tsx` | Bug: use `aspectRatio` for iframe `title` |
-| `src/components/ui/Modal.tsx` | Backdrop blur, panel border, mount animation, focus return bug fix |
-| `src/components/board/BoardHeader.tsx` | Split title, ambient glow, `edit-active` Done button |
-| `src/components/board/EditModeBanner.tsx` | **New** — always-mounted slide banner |
-| `src/pages/CanvasBoardPage.tsx` | Wire `EditModeBanner`, `bg-zinc-950` |
-| `src/components/board/EmptyBoardState.tsx` | Full redesign — grid bg, bold headline, violet CTA |
-| `src/components/cards/CardControls.tsx` | Violet handle, delete fade via `onDeleteStart` callback |
-| `src/components/cards/MediaCard.tsx` | Border hover, `deleting` state, pass `onDeleteStart` |
+| File                                           | Change                                                             |
+| ---------------------------------------------- | ------------------------------------------------------------------ |
+| `src/components/ui/Button.tsx`                 | `indigo` → `violet`, add `'edit-active'` variant                   |
+| `src/components/ui/Input.tsx`                  | `indigo` → `violet`                                                |
+| `src/components/board/GridCanvas.tsx`          | Bug: `preventCollision={false}` → `true`                           |
+| `src/components/cards/embeds/YouTubeEmbed.tsx` | Bug: use `aspectRatio` for iframe `title`                          |
+| `src/components/ui/Modal.tsx`                  | Backdrop blur, panel border, mount animation, focus return bug fix |
+| `src/components/board/BoardHeader.tsx`         | Split title, ambient glow, `edit-active` Done button               |
+| `src/components/board/EditModeBanner.tsx`      | **New** — always-mounted slide banner                              |
+| `src/pages/CanvasBoardPage.tsx`                | Wire `EditModeBanner`, `bg-zinc-950`                               |
+| `src/components/board/EmptyBoardState.tsx`     | Full redesign — grid bg, bold headline, violet CTA                 |
+| `src/components/cards/CardControls.tsx`        | Violet handle, delete fade via `onDeleteStart` callback            |
+| `src/components/cards/MediaCard.tsx`           | Border hover, `deleting` state, pass `onDeleteStart`               |
 
 ---
 
 ## Task 1: Palette swap — Button.tsx + Input.tsx
 
 **Files:**
+
 - Modify: `src/components/ui/Button.tsx`
 - Modify: `src/components/ui/Input.tsx`
 
@@ -50,7 +51,8 @@ const variantClasses: Record<Variant, string> = {
   primary: 'bg-violet-600 text-white hover:bg-violet-500 disabled:opacity-50',
   ghost: 'bg-transparent text-zinc-300 hover:bg-zinc-700',
   danger: 'bg-transparent text-red-400 hover:bg-red-900/40',
-  'edit-active': 'border border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20',
+  'edit-active':
+    'border border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20',
 };
 
 export function Button({ variant = 'primary', className = '', ...props }: Props) {
@@ -120,6 +122,7 @@ git commit -m "feat(polish): swap indigo to violet, add edit-active Button varia
 ## Task 2: Bug fix — preventCollision
 
 **Files:**
+
 - Modify: `src/components/board/GridCanvas.tsx`
 
 - [ ] **Step 1: Fix the prop**
@@ -152,6 +155,7 @@ git commit -m "fix: enable preventCollision so cards cannot overlap"
 ## Task 3: Bug fix — YouTubeEmbed aspectRatio
 
 **Files:**
+
 - Modify: `src/components/cards/embeds/YouTubeEmbed.tsx`
 
 - [ ] **Step 1: Replace YouTubeEmbed.tsx**
@@ -203,6 +207,7 @@ git commit -m "fix: use aspectRatio for iframe title a11y attribute"
 ## Task 4: Modal — backdrop blur, mount animation, focus return
 
 **Files:**
+
 - Modify: `src/components/ui/Modal.tsx`
 
 - [ ] **Step 1: Replace Modal.tsx**
@@ -300,6 +305,7 @@ export function Modal({ open, onClose, title, children }: Props) {
 - [ ] **Step 2: Verify in browser**
 
 Open `http://localhost:5173`. Click "+ Add Card":
+
 - Modal should fade in and scale up (not snap open).
 - Press Escape — modal closes and focus returns to the "+ Add Card" button (visible focus ring).
 
@@ -315,6 +321,7 @@ git commit -m "feat(polish): modal fade animation, backdrop blur, focus return o
 ## Task 5: BoardHeader — split title, ambient glow, Done button
 
 **Files:**
+
 - Modify: `src/components/board/BoardHeader.tsx`
 
 - [ ] **Step 1: Replace BoardHeader.tsx**
@@ -372,6 +379,7 @@ export function BoardHeader() {
 - [ ] **Step 2: Verify in browser**
 
 Open `http://localhost:5173`:
+
 - Title reads "CANVAS" (white) + "BOARD" (violet).
 - A soft violet glow is visible in the top-right corner of the header.
 - Click "Edit" — button becomes violet-tinted "Done". Click again — reverts to plain "Edit".
@@ -388,6 +396,7 @@ git commit -m "feat(polish): cinematic header — split title, ambient glow, edi
 ## Task 6: EditModeBanner — new component
 
 **Files:**
+
 - Create: `src/components/board/EditModeBanner.tsx`
 
 - [ ] **Step 1: Create EditModeBanner.tsx**
@@ -445,6 +454,7 @@ git commit -m "feat(polish): add EditModeBanner component with slide transition"
 ## Task 7: CanvasBoardPage — wire banner + zinc-950 background
 
 **Files:**
+
 - Modify: `src/pages/CanvasBoardPage.tsx`
 
 - [ ] **Step 1: Replace CanvasBoardPage.tsx**
@@ -477,6 +487,7 @@ export default function CanvasBoardPage() {
 - [ ] **Step 2: Verify in browser**
 
 Open `http://localhost:5173`:
+
 - Background is now slightly darker than before (zinc-950 vs zinc-900).
 - Click "Edit" — a slim violet banner slides in below the header with a pulsing dot and "Editing — drag cards to rearrange".
 - Click "Done" — banner slides back up.
@@ -493,6 +504,7 @@ git commit -m "feat(polish): wire EditModeBanner, deepen background to zinc-950"
 ## Task 8: EmptyBoardState — full redesign
 
 **Files:**
+
 - Modify: `src/components/board/EmptyBoardState.tsx`
 
 - [ ] **Step 1: Replace EmptyBoardState.tsx**
@@ -543,6 +555,7 @@ export function EmptyBoardState() {
 - [ ] **Step 2: Verify in browser**
 
 Clear localStorage (`Application → Local Storage → Delete all`) or open a fresh private window at `http://localhost:5173`:
+
 - Faint violet grid lines are visible across the empty canvas area.
 - A subtle radial glow sits behind the content.
 - The overline reads "EMPTY CANVAS" in violet.
@@ -561,6 +574,7 @@ git commit -m "feat(polish): redesign empty state with canvas grid and cinematic
 ## Task 9: CardControls + MediaCard — violet handle + delete fade
 
 **Files:**
+
 - Modify: `src/components/cards/CardControls.tsx`
 - Modify: `src/components/cards/MediaCard.tsx`
 
@@ -680,6 +694,7 @@ Expected: no errors.
 - [ ] **Step 4: Verify in browser**
 
 Open `http://localhost:5173`. Add a card. Enter Edit mode:
+
 - Drag handle is dark violet, grip icon is violet.
 - Click `×` — shows Cancel/Delete.
 - Click Delete — card fades out smoothly before disappearing.

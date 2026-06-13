@@ -1,6 +1,6 @@
-import { fireEvent,render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { beforeEach,expect, it } from 'vitest';
+import { beforeEach, expect, it } from 'vitest';
 
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
 import { createStore } from '../../store';
@@ -10,7 +10,14 @@ beforeEach(() => localStorage.clear());
 
 function renderWithStore() {
   const store = createStore(new LocalStorageRepository());
-  return { store, ...render(<Provider store={store}><EmptyBoardState /></Provider>) };
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <EmptyBoardState />
+      </Provider>
+    ),
+  };
 }
 
 it('renders the h2 heading', () => {

@@ -64,7 +64,7 @@ Tests are co-located with source files (`*.test.ts` / `*.test.tsx`). Vitest + Re
 **Required pattern for all component tests:**
 
 ```tsx
-import { it, expect } from 'vitest';  // always explicit — never rely on globals
+import { it, expect } from 'vitest'; // always explicit — never rely on globals
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from '../../store';
@@ -82,14 +82,15 @@ function renderWithStore(ui: React.ReactElement) {
 ```
 
 **Known gotchas:**
+
 - Vitest config has `globals: true` but the project convention is always explicit imports (`import { it, expect } from 'vitest'`). Implicit globals will pass but violate convention.
 - `LocalStorageRepository` reads from `localStorage` at construction time. Use unique board/card IDs in tests (e.g. `'b1'`, `'b2'`) to avoid key collisions across tests in the same file.
-- Dispatch store state (boards, cards) *before* calling `render`, not after — dispatching after render causes `act()` warnings.
+- Dispatch store state (boards, cards) _before_ calling `render`, not after — dispatching after render causes `act()` warnings.
 
 ### Code Style
 
 - Prettier config: single quotes, 2-space indent, trailing commas (es5), 100-char print width, semicolons.
-- No comments on obvious code. Only comment when the *why* is non-obvious: a hidden constraint, a workaround, a subtle invariant.
+- No comments on obvious code. Only comment when the _why_ is non-obvious: a hidden constraint, a workaround, a subtle invariant.
 - No multi-line comment blocks or docstrings.
 
 ### Dev Workflow
@@ -109,8 +110,8 @@ Plans and specs live in `docs/superpowers/`. Do not delete them — they are the
 
 ## Files Changed
 
-| File | Action |
-|------|--------|
-| `~/.claude/CLAUDE.md` | Create |
-| `CLAUDE.md` (repo root) | Create |
+| File                                                    | Action             |
+| ------------------------------------------------------- | ------------------ |
+| `~/.claude/CLAUDE.md`                                   | Create             |
+| `CLAUDE.md` (repo root)                                 | Create             |
 | `docs/superpowers/specs/2026-06-12-claude-md-design.md` | Create (this file) |

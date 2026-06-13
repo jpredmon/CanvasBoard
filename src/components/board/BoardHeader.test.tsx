@@ -1,6 +1,6 @@
-import { fireEvent,render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { beforeEach,expect, it } from 'vitest';
+import { beforeEach, expect, it } from 'vitest';
 
 import { MAX_CARDS } from '../../constants';
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
@@ -20,7 +20,14 @@ function renderWithStore({ withBoard = true } = {}) {
     );
     store.dispatch(boardsActions.setActiveBoardId('b1'));
   }
-  return { store, ...render(<Provider store={store}><BoardHeader /></Provider>) };
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <BoardHeader />
+      </Provider>
+    ),
+  };
 }
 
 function mockCard(id: string): YouTubeCard {
@@ -59,7 +66,11 @@ it('Add Card button is disabled when card count reaches MAX_CARDS', () => {
       entities: Object.fromEntries(ids.map((id) => [id, mockCard(id)])),
     })
   );
-  render(<Provider store={store}><BoardHeader /></Provider>);
+  render(
+    <Provider store={store}>
+      <BoardHeader />
+    </Provider>
+  );
   expect(screen.getByRole('button', { name: 'Add card' })).toBeDisabled();
 });
 

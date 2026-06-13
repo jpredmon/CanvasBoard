@@ -14,18 +14,18 @@
 
 All open architectural questions were resolved before this document was written.
 
-| # | Question | Decision |
-|---|----------|----------|
-| 1 | View/Edit mode | Toggle button — "Edit" unlocks drag/resize/delete; "View" locks the board for clean presentation |
-| 2 | Grid compaction | Free placement — `compactType: null`, `preventCollision: true`. Cards snap to grid but stay exactly where dropped. No auto-floating. |
-| 3 | Card aspect ratio | Auto-detected from URL. Standard YouTube → 16:9. YouTube Shorts (`/shorts/`) → 9:16. Enforced on resize. |
-| 4 | New card placement | Top-left available cell via `findTopLeftCell()`. Max 50 cards per board. |
-| 5 | Delete | Requires inline confirmation before removing. |
-| 6 | URL validation | On submit only. Clear inline error message on failure. |
-| 7 | Mobile | Ignored for MVP. Desktop only. |
-| 8 | Drag | Restricted to a handle strip at the top of each card. Iframe remains fully clickable. |
-| 9 | Storage | `BoardRepository` interface. `LocalStorageRepository` implementation. Redux middleware depends on the interface only. |
-| 10 | Multi-board | Single board for MVP. No board switching, no board list. |
+| #   | Question           | Decision                                                                                                                             |
+| --- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | View/Edit mode     | Toggle button — "Edit" unlocks drag/resize/delete; "View" locks the board for clean presentation                                     |
+| 2   | Grid compaction    | Free placement — `compactType: null`, `preventCollision: true`. Cards snap to grid but stay exactly where dropped. No auto-floating. |
+| 3   | Card aspect ratio  | Auto-detected from URL. Standard YouTube → 16:9. YouTube Shorts (`/shorts/`) → 9:16. Enforced on resize.                             |
+| 4   | New card placement | Top-left available cell via `findTopLeftCell()`. Max 50 cards per board.                                                             |
+| 5   | Delete             | Requires inline confirmation before removing.                                                                                        |
+| 6   | URL validation     | On submit only. Clear inline error message on failure.                                                                               |
+| 7   | Mobile             | Ignored for MVP. Desktop only.                                                                                                       |
+| 8   | Drag               | Restricted to a handle strip at the top of each card. Iframe remains fully clickable.                                                |
+| 9   | Storage            | `BoardRepository` interface. `LocalStorageRepository` implementation. Redux middleware depends on the interface only.                |
+| 10  | Multi-board        | Single board for MVP. No board switching, no board list.                                                                             |
 
 ---
 
@@ -33,14 +33,14 @@ All open architectural questions were resolved before this document was written.
 
 ### Risks
 
-| Risk | Severity | Mitigation |
-|------|----------|------------|
-| React Grid Layout TypeScript types are community-maintained and sometimes lag behind the JS API | Medium | Pin to `^2.2.3` which ships bundled types. Add a local shim if needed. Do not upgrade without testing. |
-| YouTube embeds require an active internet connection even though the app is local-first | Low | Acceptable for MVP. Document clearly in README. |
-| `localStorage` 5–10 MB browser limit | Low | Each card stores only metadata. 50 cards is well under 1 MB. |
-| Free placement (`compactType: null`) means gaps remain after card deletion | Low | Intentional — this is a canvas, not a dashboard. Gaps are a design feature. |
-| React Grid Layout requires an explicit pixel `width` prop — no pure CSS sizing | Medium | Measure the container via `ResizeObserver` and pass the result as the `width` prop. |
-| YouTube iframe blocks pointer events during drag (browser security model) | High | Solved by restricting drag to the handle strip. The iframe is never the drag target. |
+| Risk                                                                                            | Severity | Mitigation                                                                                             |
+| ----------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------ |
+| React Grid Layout TypeScript types are community-maintained and sometimes lag behind the JS API | Medium   | Pin to `^2.2.3` which ships bundled types. Add a local shim if needed. Do not upgrade without testing. |
+| YouTube embeds require an active internet connection even though the app is local-first         | Low      | Acceptable for MVP. Document clearly in README.                                                        |
+| `localStorage` 5–10 MB browser limit                                                            | Low      | Each card stores only metadata. 50 cards is well under 1 MB.                                           |
+| Free placement (`compactType: null`) means gaps remain after card deletion                      | Low      | Intentional — this is a canvas, not a dashboard. Gaps are a design feature.                            |
+| React Grid Layout requires an explicit pixel `width` prop — no pure CSS sizing                  | Medium   | Measure the container via `ResizeObserver` and pass the result as the `width` prop.                    |
+| YouTube iframe blocks pointer events during drag (browser security model)                       | High     | Solved by restricting drag to the handle strip. The iframe is never the drag target.                   |
 
 ### Assumptions
 
@@ -52,16 +52,16 @@ All open architectural questions were resolved before this document was written.
 
 ### Missing Requirements — Resolved by Design
 
-| Gap | Resolution |
-|-----|-----------|
-| How many cards max? | 50. Enforced in the add-card thunk. Defined in `src/constants/index.ts`. |
-| Default card size | 16:9 → `w: 4, h: 3`. 9:16 → `w: 2, h: 4`. Defined in `CARD_DEFAULTS` constant. |
-| Min card resize | `minW: 2, minH: 2` for both aspect ratios. |
-| How to delete a card? | Hover-revealed delete button in edit mode only. Inline confirmation required. |
-| Can a URL be edited after creation? | No — delete and re-add for MVP. |
-| Invalid YouTube URL? | Inline error below the input on submit. Modal stays open. |
-| Board background | Dark neutral (`zinc-900`) so media cards pop. |
-| Empty state | Centered prompt with instructions when `cards.ids.length === 0`. |
+| Gap                                 | Resolution                                                                     |
+| ----------------------------------- | ------------------------------------------------------------------------------ |
+| How many cards max?                 | 50. Enforced in the add-card thunk. Defined in `src/constants/index.ts`.       |
+| Default card size                   | 16:9 → `w: 4, h: 3`. 9:16 → `w: 2, h: 4`. Defined in `CARD_DEFAULTS` constant. |
+| Min card resize                     | `minW: 2, minH: 2` for both aspect ratios.                                     |
+| How to delete a card?               | Hover-revealed delete button in edit mode only. Inline confirmation required.  |
+| Can a URL be edited after creation? | No — delete and re-add for MVP.                                                |
+| Invalid YouTube URL?                | Inline error below the input on submit. Modal stays open.                      |
+| Board background                    | Dark neutral (`zinc-900`) so media cards pop.                                  |
+| Empty state                         | Centered prompt with instructions when `cards.ids.length === 0`.               |
 
 ---
 
@@ -126,6 +126,7 @@ Middleware
 ```
 
 **Data flow — adding a card:**
+
 1. User clicks "Add Card" → dispatches `openAddCardModal`
 2. User pastes URL and submits → `parseYouTubeUrl()` validates, extracts `videoId` and `aspectRatio`
 3. `addYouTubeCard(url)` thunk dispatches to `cardsSlice` and `layoutSlice` atomically
@@ -133,6 +134,7 @@ Middleware
 5. `GridCanvas` re-renders; card appears at top-left available cell
 
 **Data flow — page load:**
+
 1. `repository.loadStateSync()` called in `main.tsx` before store is created
 2. Result passed as `preloadedState` to `configureStore`
 3. Board renders with persisted state — no flash, no loading spinner needed
@@ -215,6 +217,7 @@ CanvasBoard/
 
 **Extension pattern for future card types:**
 Adding Instagram requires touching exactly these files:
+
 - `src/types/index.ts` — add `'instagram'` to `MediaType`, add `InstagramCard` interface, extend `MediaCard` union
 - `src/utils/instagram.ts` — new URL parser
 - `src/utils/instagram.test.ts` — new parser tests
@@ -280,7 +283,7 @@ export type MediaCard = YouTubeCard;
 // ─── Layout ───────────────────────────────────────────────────────────────────
 
 export interface CardLayout {
-  i: string;     // matches MediaCard.id
+  i: string; // matches MediaCard.id
   x: number;
   y: number;
   w: number;
@@ -339,6 +342,7 @@ export const STORAGE_KEYS = {
 ```
 
 **`rowHeight: 80` math:**
+
 - 16:9 default `h: 3` → 3 × 80 = 240px ✓ (good for embedded video)
 - 9:16 default `h: 4` → 4 × 80 = 320px ✓ (good for Shorts/portrait)
 - Minimum `h: 2` → 160px — still usable ✓
@@ -372,9 +376,9 @@ updateLayout(state, action: PayloadAction<CardLayout[]>)  // from RGL onLayoutCh
 
 ```typescript
 // Reducers:
-openAddCardModal(state)
-closeAddCardModal(state)
-toggleEditMode(state)
+openAddCardModal(state);
+closeAddCardModal(state);
+toggleEditMode(state);
 ```
 
 ### `store/index.ts`
@@ -389,8 +393,7 @@ export function createStore(repository: BoardRepository) {
       ui: uiReducer,
     },
     preloadedState: repository.loadStateSync(),
-    middleware: (getDefault) =>
-      getDefault().concat(createPersistenceMiddleware(repository)),
+    middleware: (getDefault) => getDefault().concat(createPersistenceMiddleware(repository)),
   });
 }
 
@@ -466,27 +469,37 @@ import type { CardsState, LayoutState } from '../types';
 
 export class LocalStorageRepository implements BoardRepository {
   saveCards(state: CardsState): void {
-    try { localStorage.setItem(STORAGE_KEYS.cards, JSON.stringify(state)); }
-    catch { console.warn('Failed to persist cards.'); }
+    try {
+      localStorage.setItem(STORAGE_KEYS.cards, JSON.stringify(state));
+    } catch {
+      console.warn('Failed to persist cards.');
+    }
   }
 
   loadCards(): CardsState | null {
     try {
       const raw = localStorage.getItem(STORAGE_KEYS.cards);
       return raw ? (JSON.parse(raw) as CardsState) : null;
-    } catch { return null; }
+    } catch {
+      return null;
+    }
   }
 
   saveLayout(state: LayoutState): void {
-    try { localStorage.setItem(STORAGE_KEYS.layout, JSON.stringify(state)); }
-    catch { console.warn('Failed to persist layout.'); }
+    try {
+      localStorage.setItem(STORAGE_KEYS.layout, JSON.stringify(state));
+    } catch {
+      console.warn('Failed to persist layout.');
+    }
   }
 
   loadLayout(): LayoutState | null {
     try {
       const raw = localStorage.getItem(STORAGE_KEYS.layout);
       return raw ? (JSON.parse(raw) as LayoutState) : null;
-    } catch { return null; }
+    } catch {
+      return null;
+    }
   }
 
   loadStateSync() {
@@ -505,10 +518,11 @@ import type { Middleware } from '@reduxjs/toolkit';
 import type { RootState } from '../index';
 import type { BoardRepository } from '../../repositories/BoardRepository';
 
-export const createPersistenceMiddleware = (
-  repository: BoardRepository
-): Middleware<{}, RootState> =>
-  (store) => (next) => (action) => {
+export const createPersistenceMiddleware =
+  (repository: BoardRepository): Middleware<{}, RootState> =>
+  (store) =>
+  (next) =>
+  (action) => {
     const result = next(action);
     const state = store.getState();
     repository.saveCards(state.cards);
@@ -541,19 +555,19 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 ```tsx
 // GridCanvas.tsx
 <ReactGridLayout
-  layout={layoutItems}              // CardLayout[] from Redux
-  cols={GRID_COLS}                  // 12
-  rowHeight={GRID_ROW_HEIGHT}       // 80px
-  width={containerWidth}            // measured via ResizeObserver (see below)
-  margin={GRID_MARGIN}              // [16, 16]
+  layout={layoutItems} // CardLayout[] from Redux
+  cols={GRID_COLS} // 12
+  rowHeight={GRID_ROW_HEIGHT} // 80px
+  width={containerWidth} // measured via ResizeObserver (see below)
+  margin={GRID_MARGIN} // [16, 16]
   containerPadding={GRID_CONTAINER_PADDING} // [24, 24]
-  draggableHandle=".drag-handle"    // only the handle strip initiates drag
-  compactType={null}                // free placement — no auto-floating
-  preventCollision={true}           // cards cannot overlap
+  draggableHandle=".drag-handle" // only the handle strip initiates drag
+  compactType={null} // free placement — no auto-floating
+  preventCollision={true} // cards cannot overlap
   onLayoutChange={handleLayoutChange} // dispatches updateLayout(items)
-  isDraggable={editMode}            // locked in view mode
-  isResizable={editMode}            // locked in view mode
-  useCSSTransforms={true}           // GPU-accelerated drag
+  isDraggable={editMode} // locked in view mode
+  isResizable={editMode} // locked in view mode
+  useCSSTransforms={true} // GPU-accelerated drag
 />
 ```
 
@@ -581,15 +595,15 @@ useEffect(() => {
 import type { CardLayout } from '../types';
 import { GRID_COLS } from '../constants';
 
-interface Rect { x: number; y: number; w: number; h: number; }
+interface Rect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
 
 function rectsOverlap(a: Rect, b: Rect): boolean {
-  return (
-    a.x < b.x + b.w &&
-    a.x + a.w > b.x &&
-    a.y < b.y + b.h &&
-    a.y + a.h > b.y
-  );
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
 export function findTopLeftCell(
@@ -656,13 +670,13 @@ export function parseYouTubeUrl(url: string): YouTubeParseResult {
 
 **What gets tested in MVP:**
 
-| File | What to test |
-|------|-------------|
-| `utils/youtube.test.ts` | Valid standard URL, valid short URL, valid Shorts URL, invalid URL, malformed URL |
-| `utils/layout.test.ts` | Empty board → `{ x: 0, y: 0 }`, occupied top-left → next available cell, full row → next row |
-| `store/cards/cardsSlice.test.ts` | `addCard` adds entity, `removeCard` removes entity, entity adapter ids array updates |
-| `store/layout/layoutSlice.test.ts` | `addLayoutItem`, `removeLayoutItem`, `updateLayout` replaces items |
-| `repositories/LocalStorageRepository.test.ts` | Save/load round-trip for cards and layout, handles corrupt JSON gracefully |
+| File                                          | What to test                                                                                 |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `utils/youtube.test.ts`                       | Valid standard URL, valid short URL, valid Shorts URL, invalid URL, malformed URL            |
+| `utils/layout.test.ts`                        | Empty board → `{ x: 0, y: 0 }`, occupied top-left → next available cell, full row → next row |
+| `store/cards/cardsSlice.test.ts`              | `addCard` adds entity, `removeCard` removes entity, entity adapter ids array updates         |
+| `store/layout/layoutSlice.test.ts`            | `addLayoutItem`, `removeLayoutItem`, `updateLayout` replaces items                           |
+| `repositories/LocalStorageRepository.test.ts` | Save/load round-trip for cards and layout, handles corrupt JSON gracefully                   |
 
 **What is not tested in MVP:** Component rendering, drag/resize interactions, Redux thunks with async behavior. These are integration/E2E territory and overkill for MVP scope.
 
@@ -688,13 +702,13 @@ export default defineConfig({
 
 These are the minimum a11y requirements for MVP — not optional:
 
-| Component | Requirement |
-|-----------|-------------|
-| `Modal.tsx` | Focus trap on open. Focus returns to trigger on close. `aria-modal="true"`, `role="dialog"`. Dismiss on `Escape`. |
-| `Button.tsx` | Never icon-only without `aria-label`. |
-| `CardControls.tsx` | Delete button: `aria-label="Delete card"`. Confirm button: `aria-label="Confirm delete"`. |
-| `BoardHeader.tsx` | Edit/View toggle: `aria-pressed` reflects current mode. |
-| `AddCardModal.tsx` | Input has associated `<label>`. Error message linked via `aria-describedby`. |
+| Component          | Requirement                                                                                                       |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `Modal.tsx`        | Focus trap on open. Focus returns to trigger on close. `aria-modal="true"`, `role="dialog"`. Dismiss on `Escape`. |
+| `Button.tsx`       | Never icon-only without `aria-label`.                                                                             |
+| `CardControls.tsx` | Delete button: `aria-label="Delete card"`. Confirm button: `aria-label="Confirm delete"`.                         |
+| `BoardHeader.tsx`  | Edit/View toggle: `aria-pressed` reflects current mode.                                                           |
+| `AddCardModal.tsx` | Input has associated `<label>`. Error message linked via `aria-describedby`.                                      |
 
 ---
 
@@ -705,8 +719,12 @@ Wraps each `MediaCard` in `GridCanvas`. A corrupted or failed card renders a fal
 ```tsx
 import { Component, type ReactNode } from 'react';
 
-interface Props { children: ReactNode; }
-interface State { hasError: boolean; }
+interface Props {
+  children: ReactNode;
+}
+interface State {
+  hasError: boolean;
+}
 
 export class ErrorBoundary extends Component<Props, State> {
   state: State = { hasError: false };
@@ -732,18 +750,18 @@ export class ErrorBoundary extends Component<Props, State> {
 
 ## 16. Phased Implementation Roadmap
 
-| Phase | Description | Exit Criteria |
-|-------|-------------|---------------|
-| **1** | Architecture & Design | This document approved |
-| **2** | Project Scaffold | Vite + React + TS strict + Tailwind + ESLint + Prettier + Vitest configured; `npm run dev` serves blank page; `npm test` runs; initial git commit |
-| **3** | Types + Constants + Store | `types/index.ts`, `constants/index.ts`, all three slices, store wired with preloaded state; `tsc --noEmit` clean |
-| **4** | Utilities + Tests | `youtube.ts`, `layout.ts`, `LocalStorageRepository`; all unit tests written and passing |
-| **5** | Repository + Persistence | `BoardRepository` interface, middleware wired; round-trip save/load verified manually |
-| **6** | Core UI Shell | `Button`, `Input`, `Modal`, `ErrorBoundary`, `BoardHeader`, `EmptyBoardState`, Edit/View toggle; no card logic yet |
-| **7** | Add Card Flow | `AddCardModal`, `addYouTubeCard` thunk, 50-card limit, submit-only validation, error display |
-| **8** | Grid Canvas + Cards | `GridCanvas`, `MediaCard`, `YouTubeEmbed`, `CardControls`, drag handle, delete confirmation; full drag/resize/persist cycle working |
-| **9** | Polish | Empty state UX, hydration flash prevention, Tailwind theme consistency, a11y audit pass |
-| **10** | Final Review & Commit | ESLint clean, `tsc --noEmit` clean, all tests passing, manual smoke test (add → refresh → drag → delete → refresh), tagged git commit `v0.1.0` |
+| Phase  | Description               | Exit Criteria                                                                                                                                     |
+| ------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1**  | Architecture & Design     | This document approved                                                                                                                            |
+| **2**  | Project Scaffold          | Vite + React + TS strict + Tailwind + ESLint + Prettier + Vitest configured; `npm run dev` serves blank page; `npm test` runs; initial git commit |
+| **3**  | Types + Constants + Store | `types/index.ts`, `constants/index.ts`, all three slices, store wired with preloaded state; `tsc --noEmit` clean                                  |
+| **4**  | Utilities + Tests         | `youtube.ts`, `layout.ts`, `LocalStorageRepository`; all unit tests written and passing                                                           |
+| **5**  | Repository + Persistence  | `BoardRepository` interface, middleware wired; round-trip save/load verified manually                                                             |
+| **6**  | Core UI Shell             | `Button`, `Input`, `Modal`, `ErrorBoundary`, `BoardHeader`, `EmptyBoardState`, Edit/View toggle; no card logic yet                                |
+| **7**  | Add Card Flow             | `AddCardModal`, `addYouTubeCard` thunk, 50-card limit, submit-only validation, error display                                                      |
+| **8**  | Grid Canvas + Cards       | `GridCanvas`, `MediaCard`, `YouTubeEmbed`, `CardControls`, drag handle, delete confirmation; full drag/resize/persist cycle working               |
+| **9**  | Polish                    | Empty state UX, hydration flash prevention, Tailwind theme consistency, a11y audit pass                                                           |
+| **10** | Final Review & Commit     | ESLint clean, `tsc --noEmit` clean, all tests passing, manual smoke test (add → refresh → drag → delete → refresh), tagged git commit `v0.1.0`    |
 
 Each phase ends with a working, committable state of the application.
 

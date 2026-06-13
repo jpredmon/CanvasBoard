@@ -31,14 +31,13 @@ export function NoBoardsState() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(139,92,246,0.15) 0%, transparent 60%)',
+          background:
+            'radial-gradient(ellipse at center, rgba(139,92,246,0.15) 0%, transparent 60%)',
         }}
         aria-hidden="true"
       />
       <div className="relative flex flex-col items-center gap-4 text-center">
-        <span className="text-xs font-bold uppercase tracking-widest text-violet-500">
-          Welcome
-        </span>
+        <span className="text-xs font-bold uppercase tracking-widest text-violet-500">Welcome</span>
         <h2 className="text-2xl font-extrabold text-zinc-100">Create your first board</h2>
         <p className="max-w-xs text-sm text-zinc-400">
           Name your board and start curating your video world

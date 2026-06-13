@@ -1,4 +1,4 @@
-import { beforeEach,expect, it } from 'vitest';
+import { beforeEach, expect, it } from 'vitest';
 
 import { MAX_CARDS } from '../../constants';
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';

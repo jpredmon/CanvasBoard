@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
-import { CARD_DEFAULTS,MAX_CARDS } from '../../constants';
-import type { CardLayout,YouTubeCard } from '../../types';
+import { CARD_DEFAULTS, MAX_CARDS } from '../../constants';
+import type { CardLayout, YouTubeCard } from '../../types';
 import { findTopLeftCell } from '../../utils/layout';
 import { parseYouTubeUrl } from '../../utils/youtube';
 import type { AppThunk } from '../index';

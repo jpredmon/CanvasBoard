@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { beforeEach,expect, it } from 'vitest';
+import { beforeEach, expect, it } from 'vitest';
 
 import { LocalStorageRepository } from '../repositories/LocalStorageRepository';
 import { createStore } from '../store';

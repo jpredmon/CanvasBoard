@@ -15,11 +15,13 @@ Three-layer accessibility audit: static analysis at lint time, automated axe che
 Install `eslint-plugin-jsx-a11y` and add it to `eslint.config.js`. This catches missing labels, invalid ARIA roles, bad attribute usage, and other structural issues at lint time — before the browser ever sees the code.
 
 **Install:**
+
 ```bash
 npm install --save-dev eslint-plugin-jsx-a11y
 ```
 
 **Config change (`eslint.config.js`):**
+
 ```js
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 
@@ -40,7 +42,7 @@ export default tseslint.config(
       ...jsxA11y.configs.recommended.rules,
     },
   }
-)
+);
 ```
 
 **Process:** Run `npm run lint`, fix all jsx-a11y violations before proceeding to Layer 2.
@@ -52,17 +54,20 @@ export default tseslint.config(
 Install `vitest-axe` and extend the Vitest setup file with `toHaveNoViolations`. Add an axe assertion to each existing component test. This catches runtime accessibility tree violations — role hierarchy, aria relationships, contrast issues detectable in jsdom — and blocks CI if they regress.
 
 **Install:**
+
 ```bash
 npm install --save-dev vitest-axe
 ```
 
 **Setup file (`src/test/setup.ts` — already exists, add one line):**
+
 ```ts
 import { configureAxe, toHaveNoViolations } from 'vitest-axe';
 expect.extend(toHaveNoViolations);
 ```
 
 **Pattern for each component test:**
+
 ```tsx
 import { axe } from 'vitest-axe';
 
@@ -74,6 +79,7 @@ it('has no accessibility violations', async () => {
 ```
 
 Add this test to each of the three existing test files:
+
 - `src/components/board/NoBoardsState.test.tsx`
 - `src/components/board/BoardDropdown.test.tsx`
 - `src/components/modals/AddCardModal.test.tsx`
@@ -88,20 +94,21 @@ Run the axe DevTools browser extension against the live app at https://canvasboa
 
 **WCAG 2.1 AA checklist to verify manually:**
 
-| Check | How to verify |
-|-------|--------------|
-| Color contrast — normal text (4.5:1) | axe DevTools auto-detects |
-| Color contrast — large text (3:1) | axe DevTools auto-detects |
-| Keyboard navigation — all interactive elements reachable | Tab through entire app |
-| Focus indicators visible on all interactive elements | Tab through, check for visible ring |
-| Landmark structure (`<main>`, `<header>`, `<nav>`) | axe DevTools + screen reader |
-| Modal focus trap — focus stays inside modal when open | Open AddCardModal, Tab repeatedly |
-| Modal focus return — focus returns to trigger on close | Close modal, verify focus |
-| Error messages announced to screen readers (`role="alert"` or `aria-live`) | AddCardModal URL error |
-| Headings hierarchy — no skipped levels | axe DevTools |
-| iframe titles present | Already added (YouTubeEmbed) |
+| Check                                                                      | How to verify                       |
+| -------------------------------------------------------------------------- | ----------------------------------- |
+| Color contrast — normal text (4.5:1)                                       | axe DevTools auto-detects           |
+| Color contrast — large text (3:1)                                          | axe DevTools auto-detects           |
+| Keyboard navigation — all interactive elements reachable                   | Tab through entire app              |
+| Focus indicators visible on all interactive elements                       | Tab through, check for visible ring |
+| Landmark structure (`<main>`, `<header>`, `<nav>`)                         | axe DevTools + screen reader        |
+| Modal focus trap — focus stays inside modal when open                      | Open AddCardModal, Tab repeatedly   |
+| Modal focus return — focus returns to trigger on close                     | Close modal, verify focus           |
+| Error messages announced to screen readers (`role="alert"` or `aria-live`) | AddCardModal URL error              |
+| Headings hierarchy — no skipped levels                                     | axe DevTools                        |
+| iframe titles present                                                      | Already added (YouTubeEmbed)        |
 
 **Known likely findings (from code review):**
+
 - `focus:outline-none` on inputs breaks visible focus indicator — replace with focus ring styles
 - zinc-500 placeholder text likely fails 4.5:1 contrast against zinc-800 background
 - No `<main>` landmark wrapping the page content
@@ -112,15 +119,15 @@ Run the axe DevTools browser extension against the live app at https://canvasboa
 
 ## Files Changed
 
-| File | Change |
-|------|--------|
-| `package.json` | Add `eslint-plugin-jsx-a11y`, `vitest-axe` to devDependencies |
-| `eslint.config.js` | Add jsx-a11y plugin and recommended rules |
-| `src/test/setup.ts` | Extend expect with `toHaveNoViolations` |
-| `src/components/board/NoBoardsState.test.tsx` | Add axe test |
-| `src/components/board/BoardDropdown.test.tsx` | Add axe test |
-| `src/components/modals/AddCardModal.test.tsx` | Add axe test |
-| Various component files | Fix lint and axe violations found during audit |
+| File                                          | Change                                                        |
+| --------------------------------------------- | ------------------------------------------------------------- |
+| `package.json`                                | Add `eslint-plugin-jsx-a11y`, `vitest-axe` to devDependencies |
+| `eslint.config.js`                            | Add jsx-a11y plugin and recommended rules                     |
+| `src/test/setup.ts`                           | Extend expect with `toHaveNoViolations`                       |
+| `src/components/board/NoBoardsState.test.tsx` | Add axe test                                                  |
+| `src/components/board/BoardDropdown.test.tsx` | Add axe test                                                  |
+| `src/components/modals/AddCardModal.test.tsx` | Add axe test                                                  |
+| Various component files                       | Fix lint and axe violations found during audit                |
 
 > Note: The exact component files changed depends on audit findings. Known likely targets: `src/components/ui/Input.tsx` (focus styles), `src/pages/CanvasBoardPage.tsx` (landmark structure), `src/components/modals/AddCardModal.tsx` (error live region).
 

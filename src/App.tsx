@@ -1,7 +1,7 @@
-import CanvasBoardPage from './pages/CanvasBoardPage'
+import CanvasBoardPage from './pages/CanvasBoardPage';
 
 function App() {
-  return <CanvasBoardPage />
+  return <CanvasBoardPage />;
 }
 
-export default App
+export default App;

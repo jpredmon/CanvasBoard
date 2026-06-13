@@ -1,6 +1,6 @@
-import { beforeEach,describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
-import type { BoardsState,CardsState, LayoutState } from '../types';
+import type { BoardsState, CardsState, LayoutState } from '../types';
 import { LocalStorageRepository } from './LocalStorageRepository';
 
 const BOARD_ID = 'board-test-123';

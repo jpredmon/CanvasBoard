@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { CardsState,MediaCard } from '../../types';
+import type { CardsState, MediaCard } from '../../types';
 
 const adapter = createEntityAdapter<MediaCard>();
 

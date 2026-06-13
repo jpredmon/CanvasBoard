@@ -1,0 +1,302 @@
+<h2>What should the empty state feel like?</h2>
+<p class="subtitle">First thing a visitor sees. Should convey what the app is and invite action.</p>
+
+<div class="cards">
+  <div class="card" data-choice="icon-glow" onclick="toggleSelect(this)">
+    <div
+      class="card-image"
+      style="
+        background: #09090b;
+        padding: 20px 16px;
+        border-radius: 8px;
+        min-height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <div
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -60%);
+          width: 120px;
+          height: 120px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.18), transparent 70%);
+          pointer-events: none;
+        "
+      ></div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          position: relative;
+        "
+      >
+        <div
+          style="
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 24px rgba(139, 92, 246, 0.2);
+          "
+        >
+          <div
+            style="
+              width: 0;
+              height: 0;
+              border-top: 9px solid transparent;
+              border-bottom: 9px solid transparent;
+              border-left: 15px solid #a78bfa;
+              margin-left: 3px;
+            "
+          ></div>
+        </div>
+        <div style="text-align: center">
+          <div style="color: #f4f4f5; font-size: 13px; font-weight: 700; margin-bottom: 4px">
+            Your canvas awaits
+          </div>
+          <div style="color: #52525b; font-size: 10px; margin-bottom: 10px">
+            Paste a YouTube URL to place your first card
+          </div>
+          <div
+            style="
+              display: inline-block;
+              background: rgba(139, 92, 246, 0.15);
+              color: #c4b5fd;
+              border-radius: 6px;
+              padding: 5px 14px;
+              font-size: 11px;
+              font-weight: 600;
+              border: 1px solid rgba(139, 92, 246, 0.4);
+            "
+          >
+            + Add Card
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Icon + ambient glow</h3>
+      <p>
+        Play icon in a rounded square, violet ambient glow behind it, two lines of copy, CTA button.
+        Clean, centered, on-brand.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="grid-canvas" onclick="toggleSelect(this)">
+    <div
+      class="card-image"
+      style="
+        background: #09090b;
+        padding: 16px;
+        border-radius: 8px;
+        min-height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <!-- Faint grid lines -->
+      <div
+        style="
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
+          background-size: 20px 20px;
+        "
+      ></div>
+      <!-- Ambient glow -->
+      <div
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 100px;
+          height: 100px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
+        "
+      ></div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          position: relative;
+        "
+      >
+        <div
+          style="
+            color: #a78bfa;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+          "
+        >
+          Empty Canvas
+        </div>
+        <div
+          style="
+            color: #f4f4f5;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            text-align: center;
+            line-height: 1.3;
+          "
+        >
+          Curate your video world
+        </div>
+        <div style="color: #52525b; font-size: 10px; text-align: center; max-width: 160px">
+          Drag, resize, and arrange YouTube videos into your personal board
+        </div>
+        <div
+          style="
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.15);
+            color: #c4b5fd;
+            border-radius: 6px;
+            padding: 5px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            margin-top: 4px;
+          "
+        >
+          + Add Card
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Canvas grid background</h3>
+      <p>
+        Faint dot/line grid in the background hints at the canvas metaphor. Bolder headline, short
+        description of what the app does. More editorial.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="ghost-cards" onclick="toggleSelect(this)">
+    <div
+      class="card-image"
+      style="
+        background: #09090b;
+        padding: 12px;
+        border-radius: 8px;
+        min-height: 140px;
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <!-- Ghost cards in background -->
+      <div
+        style="
+          position: absolute;
+          inset: 12px;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 6px;
+          opacity: 0.25;
+        "
+      >
+        <div
+          style="
+            border-radius: 5px;
+            border: 1px dashed rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.04);
+          "
+        ></div>
+        <div
+          style="
+            border-radius: 5px;
+            border: 1px dashed rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.04);
+            grid-row: span 2;
+          "
+        ></div>
+        <div
+          style="
+            border-radius: 5px;
+            border: 1px dashed rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.04);
+          "
+        ></div>
+        <div
+          style="
+            border-radius: 5px;
+            border: 1px dashed rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.04);
+            grid-column: span 1;
+          "
+        ></div>
+        <div
+          style="
+            border-radius: 5px;
+            border: 1px dashed rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.04);
+          "
+        ></div>
+      </div>
+      <!-- Centered overlay -->
+      <div
+        style="
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: radial-gradient(ellipse at center, rgba(9, 9, 11, 0.6) 30%, transparent 80%);
+        "
+      >
+        <div style="text-align: center">
+          <div style="color: #f4f4f5; font-size: 13px; font-weight: 700; margin-bottom: 4px">
+            Nothing here yet
+          </div>
+          <div style="color: #52525b; font-size: 9px; margin-bottom: 10px">
+            Add your first video to fill the canvas
+          </div>
+          <div
+            style="
+              display: inline-block;
+              background: rgba(139, 92, 246, 0.15);
+              color: #c4b5fd;
+              border-radius: 6px;
+              padding: 5px 14px;
+              font-size: 11px;
+              font-weight: 600;
+              border: 1px solid rgba(139, 92, 246, 0.4);
+            "
+          >
+            + Add Card
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Ghost card placeholders</h3>
+      <p>
+        Dashed-border ghost cards fill the canvas behind the CTA — you see the layout you're about
+        to create. Clever metaphor, shows the potential before anything is added.
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import type { Action,ThunkAction } from '@reduxjs/toolkit';
+import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 
 import type { BoardRepository } from '../repositories/BoardRepository';
@@ -27,7 +27,7 @@ export function createStore(repository: BoardRepository) {
     preloadedState: preloaded as Parameters<typeof configureStore>[0]['preloadedState'],
     middleware: (getDefault) =>
       getDefault({ thunk: { extraArgument: repository } }).concat(
-        createPersistenceMiddleware(repository),
+        createPersistenceMiddleware(repository)
       ),
   });
   return store;

@@ -1,4 +1,5 @@
 # Accessibility Audit — Design Spec
+
 **Date:** 2026-06-12
 **Standard:** WCAG 2.1 AA
 **Scope:** All components in `src/` — fix everything directly, no findings document
@@ -21,10 +22,12 @@ CanvasBoard already has a solid accessibility baseline: focus traps in modals, `
 **Problem:** The dropdown opens on click but focus stays on the trigger button — keyboard users must Tab into the list. Once inside, Up/Down arrow keys do nothing; users must Tab through all three buttons per board row. Escape doesn't return focus to the trigger.
 
 **Fix — `BoardSelector.tsx`:**
+
 - Add a `triggerRef` (`useRef<HTMLButtonElement>`) on the trigger button
 - Pass `triggerRef` as a prop to `BoardDropdown` so it can restore focus on close
 
 **Fix — `BoardDropdown.tsx`:**
+
 - On mount (via `useEffect`), focus the first board button
 - Add a `keydown` handler on the `<ul role="menu">` element:
   - `ArrowDown` — focus next board button (wraps to first)
@@ -57,6 +60,7 @@ Tailwind's `motion-safe:` prefix wraps the class in `@media (prefers-reduced-mot
 **Problem:** Both components display primary text via styled `<span>` elements. Screen reader users navigating by heading (a common pattern) cannot find these headings, and the page has no `<h2>` after the `<h1>` in `BoardHeader`.
 
 **Fix:**
+
 - `EmptyBoardState.tsx` — replace the outer `<span>` wrapping "Curate your video world" with `<h2>` (same Tailwind classes, no visual change)
 - `NoBoardsState.tsx` — replace the outer `<span>` wrapping the welcome text with `<h2>` (same Tailwind classes, no visual change)
 
@@ -89,6 +93,7 @@ useEffect(() => {
 **Problem:** Keyboard users must Tab through all header controls (board selector, Add Card, Edit) before reaching the canvas. For a small header this is tolerable, but a skip link is required for WCAG 2.4.1.
 
 **Fix — `CanvasBoardPage.tsx`:**
+
 - Add `id="main-content"` to the existing `<main>` element
 - Add as the first child of the page `<div>`:
 
@@ -111,10 +116,10 @@ Invisible until focused; appears top-left on first Tab keypress. No new componen
 
 The two flagged combinations, checked against WCAG 4.5:1 minimum using Tailwind's exact hex values:
 
-| Text | Background | Hex values | Ratio | Result |
-|---|---|---|---|---|
+| Text            | Background    | Hex values         | Ratio   | Result  |
+| --------------- | ------------- | ------------------ | ------- | ------- |
 | `text-zinc-300` | `bg-zinc-950` | #d4d4d8 on #09090b | ~13.9:1 | ✅ Pass |
-| `text-red-400` | `bg-zinc-950` | #f87171 on #09090b | ~7.6:1 | ✅ Pass |
+| `text-red-400`  | `bg-zinc-950` | #f87171 on #09090b | ~7.6:1  | ✅ Pass |
 
 Both pass comfortably. No code change needed. Documented here for the record.
 
@@ -122,14 +127,14 @@ Both pass comfortably. No code change needed. Documented here for the record.
 
 ## Files Changed
 
-| File | Change |
-|---|---|
-| `src/components/board/BoardSelector.tsx` | Add `triggerRef`, pass to `BoardDropdown` |
-| `src/components/board/BoardDropdown.tsx` | Arrow key nav, focus first item on mount, focus restoration on Escape |
-| `src/components/board/EditModeBanner.tsx` | `animate-pulse` → `motion-safe:animate-pulse` |
-| `src/components/board/EmptyBoardState.tsx` | `<span>` → `<h2>` |
-| `src/components/board/NoBoardsState.tsx` | `<span>` → `<h2>` |
-| `src/pages/CanvasBoardPage.tsx` | `document.title` effect, skip link, `id="main-content"` on `<main>` |
+| File                                       | Change                                                                |
+| ------------------------------------------ | --------------------------------------------------------------------- |
+| `src/components/board/BoardSelector.tsx`   | Add `triggerRef`, pass to `BoardDropdown`                             |
+| `src/components/board/BoardDropdown.tsx`   | Arrow key nav, focus first item on mount, focus restoration on Escape |
+| `src/components/board/EditModeBanner.tsx`  | `animate-pulse` → `motion-safe:animate-pulse`                         |
+| `src/components/board/EmptyBoardState.tsx` | `<span>` → `<h2>`                                                     |
+| `src/components/board/NoBoardsState.tsx`   | `<span>` → `<h2>`                                                     |
+| `src/pages/CanvasBoardPage.tsx`            | `document.title` effect, skip link, `id="main-content"` on `<main>`   |
 
 ---
 

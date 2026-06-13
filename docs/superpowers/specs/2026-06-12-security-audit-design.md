@@ -1,4 +1,5 @@
 # Security Audit — Design Spec
+
 **Date:** 2026-06-12  
 **Scope:** Full application security hardening (Approach B: application + infrastructure)  
 **Outcome:** Fix all identified vulnerabilities and add defensive headers; no findings document — fix directly.
@@ -21,10 +22,10 @@ CanvasBoard is a client-side React SPA with no backend, no auth, and no network 
 
 ```ts
 // Before
-parsed.hostname.includes('youtube.com')
+parsed.hostname.includes('youtube.com');
 
 // After
-parsed.hostname === 'youtube.com' || parsed.hostname === 'www.youtube.com'
+parsed.hostname === 'youtube.com' || parsed.hostname === 'www.youtube.com';
 ```
 
 **Tests:** Add one test case for `https://youtube.com.evil.com/watch?v=dQw4w9WgXcQ` — expect it to throw. Existing passing tests remain unchanged.
@@ -38,8 +39,8 @@ parsed.hostname === 'youtube.com' || parsed.hostname === 'www.youtube.com'
 **Fix:** Add two attributes:
 
 ```tsx
-sandbox="allow-scripts allow-same-origin allow-presentation"
-referrerpolicy="strict-origin-when-cross-origin"
+sandbox = 'allow-scripts allow-same-origin allow-presentation';
+referrerpolicy = 'strict-origin-when-cross-origin';
 ```
 
 - `allow-scripts` — required for YouTube to function.

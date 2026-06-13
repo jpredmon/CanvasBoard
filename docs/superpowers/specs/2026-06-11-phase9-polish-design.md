@@ -11,20 +11,21 @@ Transform the functional Phase 8 app into a portfolio-quality product. Fix three
 
 ## Decisions
 
-| # | Question | Decision |
-|---|----------|----------|
-| 1 | Visual direction | Cinematic Dark — violet accents, ambient radial glows, deeper background |
-| 2 | Edit mode indicator | Slim violet banner below header (pulsing dot + hint text) — slides in/out |
-| 3 | Empty state design | Canvas grid background + bold headline + violet CTA |
-| 4 | Motion | Purposeful — modal fade, banner slide, card delete fade. ~150–200ms. No libraries. |
-| 5 | Implementation order | Component by component — bugs and styling together per component |
-| 6 | Tailwind config changes | None — all changes use existing `violet-*` and `zinc-*` utilities |
+| #   | Question                | Decision                                                                           |
+| --- | ----------------------- | ---------------------------------------------------------------------------------- |
+| 1   | Visual direction        | Cinematic Dark — violet accents, ambient radial glows, deeper background           |
+| 2   | Edit mode indicator     | Slim violet banner below header (pulsing dot + hint text) — slides in/out          |
+| 3   | Empty state design      | Canvas grid background + bold headline + violet CTA                                |
+| 4   | Motion                  | Purposeful — modal fade, banner slide, card delete fade. ~150–200ms. No libraries. |
+| 5   | Implementation order    | Component by component — bugs and styling together per component                   |
+| 6   | Tailwind config changes | None — all changes use existing `violet-*` and `zinc-*` utilities                  |
 
 ---
 
 ## 1. Palette & Theme
 
 **Accent color:** Replace all `indigo-*` with `violet-*` throughout the codebase.
+
 - `indigo-600` → `violet-600`
 - `indigo-500` → `violet-500`
 - `ring-indigo-500` → `ring-violet-500`
@@ -61,6 +62,7 @@ Transform the functional Phase 8 app into a portfolio-quality product. Fix three
 ### `EmptyBoardState`
 
 Full redesign:
+
 - Outer container: `flex-1 flex flex-col items-center justify-center` with inline `style` for faint canvas grid (`background-image: linear-gradient(...)` — two perpendicular `rgba(139,92,246,0.07)` lines at 40px intervals)
 - Ambient radial glow behind content: `absolute` positioned `div` with `radial-gradient(circle, rgba(139,92,246,0.15), transparent 60%)`
 - Overline: `"EMPTY CANVAS"` — `text-violet-500 text-xs font-bold tracking-widest uppercase`
@@ -97,15 +99,16 @@ Full redesign:
 
 All implemented with Tailwind utilities + a mount-delay `useEffect`. No animation libraries.
 
-| Element | Transition | Duration |
-|---|---|---|
-| `AddCardModal` backdrop | `opacity-0` → `opacity-100` | 150ms |
-| `AddCardModal` panel | `scale-95 opacity-0` → `scale-100 opacity-100` | 150ms |
-| `EditModeBanner` | `max-h-0 opacity-0` → `max-h-10 opacity-100` | 200ms |
-| Card delete | `opacity-100` → `opacity-0` before dispatch | 150ms |
-| Card border hover | `transition-colors` | 200ms |
+| Element                 | Transition                                     | Duration |
+| ----------------------- | ---------------------------------------------- | -------- |
+| `AddCardModal` backdrop | `opacity-0` → `opacity-100`                    | 150ms    |
+| `AddCardModal` panel    | `scale-95 opacity-0` → `scale-100 opacity-100` | 150ms    |
+| `EditModeBanner`        | `max-h-0 opacity-0` → `max-h-10 opacity-100`   | 200ms    |
+| Card delete             | `opacity-100` → `opacity-0` before dispatch    | 150ms    |
+| Card border hover       | `transition-colors`                            | 200ms    |
 
 **Mount-delay pattern** (used for modal and banner):
+
 ```tsx
 const [visible, setVisible] = useState(false);
 useEffect(() => {
@@ -119,29 +122,29 @@ useEffect(() => {
 
 ## 4. Bug Fixes
 
-| Bug | File | Fix |
-|-----|------|-----|
-| `preventCollision={false}` | `GridCanvas.tsx:60` | Change to `preventCollision={true}` |
-| Modal doesn't restore focus on close | `Modal.tsx` | Capture `document.activeElement` before first focusable focus; restore in `useEffect` cleanup |
-| `aspectRatio` unused in `YouTubeEmbed` | `YouTubeEmbed.tsx` | Use as descriptive `title` on `<iframe>` |
+| Bug                                    | File                | Fix                                                                                           |
+| -------------------------------------- | ------------------- | --------------------------------------------------------------------------------------------- |
+| `preventCollision={false}`             | `GridCanvas.tsx:60` | Change to `preventCollision={true}`                                                           |
+| Modal doesn't restore focus on close   | `Modal.tsx`         | Capture `document.activeElement` before first focusable focus; restore in `useEffect` cleanup |
+| `aspectRatio` unused in `YouTubeEmbed` | `YouTubeEmbed.tsx`  | Use as descriptive `title` on `<iframe>`                                                      |
 
 ---
 
 ## 5. File Changelist
 
-| File | Change type |
-|------|-------------|
-| `src/components/board/BoardHeader.tsx` | Edit — title, glow, Done button style |
-| `src/components/board/EditModeBanner.tsx` | **New** — edit mode indicator component |
-| `src/components/board/EmptyBoardState.tsx` | Edit — full redesign |
-| `src/components/board/GridCanvas.tsx` | Edit — `preventCollision` bug fix |
-| `src/components/cards/CardControls.tsx` | Edit — handle color, delete transition |
-| `src/components/cards/MediaCard.tsx` | Edit — border style + hover |
-| `src/components/cards/embeds/YouTubeEmbed.tsx` | Edit — use `aspectRatio` for `title` |
-| `src/components/ui/Button.tsx` | Edit — `indigo` → `violet` |
-| `src/components/ui/Input.tsx` | Edit — `indigo` → `violet` |
-| `src/components/ui/Modal.tsx` | Edit — backdrop blur, panel border, mount animation, focus return |
-| `src/pages/CanvasBoardPage.tsx` | Edit — add `<EditModeBanner />` |
+| File                                           | Change type                                                       |
+| ---------------------------------------------- | ----------------------------------------------------------------- |
+| `src/components/board/BoardHeader.tsx`         | Edit — title, glow, Done button style                             |
+| `src/components/board/EditModeBanner.tsx`      | **New** — edit mode indicator component                           |
+| `src/components/board/EmptyBoardState.tsx`     | Edit — full redesign                                              |
+| `src/components/board/GridCanvas.tsx`          | Edit — `preventCollision` bug fix                                 |
+| `src/components/cards/CardControls.tsx`        | Edit — handle color, delete transition                            |
+| `src/components/cards/MediaCard.tsx`           | Edit — border style + hover                                       |
+| `src/components/cards/embeds/YouTubeEmbed.tsx` | Edit — use `aspectRatio` for `title`                              |
+| `src/components/ui/Button.tsx`                 | Edit — `indigo` → `violet`                                        |
+| `src/components/ui/Input.tsx`                  | Edit — `indigo` → `violet`                                        |
+| `src/components/ui/Modal.tsx`                  | Edit — backdrop blur, panel border, mount animation, focus return |
+| `src/pages/CanvasBoardPage.tsx`                | Edit — add `<EditModeBanner />`                                   |
 
 ---
 
