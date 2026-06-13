@@ -15,13 +15,15 @@ A local-first visual media board where users curate embedded YouTube content on 
 - **Persistent storage** — Auto-saves to browser localStorage
 - **Responsive grid** — 12-column layout, configurable card sizes
 - **Dark theme** — Minimal UI, media-focused design
-- **Accessibility baseline** — WCAG aria-labels on interactive elements
+- **Accessibility** — WCAG 2.1 AA: keyboard navigation, skip link, reduced-motion, semantic headings, synced document title
 
 ## Project Status
 
-Live at [canvasboard.jpredmon.com](https://canvasboard.jpredmon.com). Multi-board support shipped. Deployed via Cloudflare Pages with CI/CD on push to `master`.
+Live at [canvasboard.jpredmon.com](https://canvasboard.jpredmon.com). Deployed via Cloudflare Pages with CI/CD on push to `master`.
 
-Upcoming: auth (Firebase), E2E tests (Playwright), additional media types.
+Completed audits: security, accessibility (WCAG 2.1 AA), code quality, and testing (94 RTL unit tests + 5 Playwright E2E tests).
+
+Upcoming: auth (Firebase), additional media types.
 
 ## Development Process
 
@@ -35,7 +37,8 @@ This project uses a structured AI-assisted workflow: each feature goes through a
 - **Tailwind CSS** — Styling
 - **Redux Toolkit** — State management
 - **React Grid Layout** — Free-placement canvas grid
-- **Vitest + React Testing Library** — Testing
+- **Vitest + React Testing Library** — Unit/component testing
+- **Playwright** — End-to-end browser testing (Chromium)
 - **ESLint + Prettier** — Code quality
 
 ## Architecture
@@ -73,20 +76,31 @@ Visit `http://localhost:5173` in your browser.
 ```bash
 npm run dev          # Start dev server
 npm run build        # Build for production
-npm test             # Run tests
+npm test             # Run unit/component tests (Vitest)
+npm run test:e2e     # Run E2E tests (Playwright, auto-starts dev server)
 npm run lint         # Check code style
 npm run format       # Format code (Prettier)
 ```
 
 ## Testing
 
-Tests are co-located with source files as `*.test.ts` / `*.test.tsx`. Vitest uses jsdom for DOM testing.
+**Unit/component tests** — 94 tests across 17 files, co-located with source as `*.test.ts` / `*.test.tsx`. Vitest + React Testing Library with jsdom.
 
 ```bash
-npm test                                    # Run all tests
+npm test                                    # Run all unit/component tests
 npx vitest run src/components/board/        # Run tests in a folder
 npx vitest watch                            # Watch mode
 ```
+
+**E2E tests** — 5 Playwright tests in `e2e/`. Chromium only. The `webServer` config auto-starts the dev server; `reuseExistingServer: true` so a running dev server is reused.
+
+```bash
+npm run test:e2e                            # Run all E2E tests
+npx playwright test e2e/golden-path.spec.ts # Run a single spec
+npx playwright show-report                  # Open last test report
+```
+
+E2E coverage: golden path (create board → add YouTube card), board management (rename, switch, delete), and localStorage persistence across reload.
 
 ## Browser Support
 
