@@ -1,4 +1,4 @@
-import { it, expect, vi, beforeEach } from 'vitest';
+import { it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 import { Provider } from 'react-redux';
@@ -9,6 +9,10 @@ import { boardsActions } from '../../store/boards/boardsSlice';
 
 beforeEach(() => {
   localStorage.clear();
+});
+
+afterEach(() => {
+  document.body.innerHTML = '';
 });
 
 function renderDropdownWithBoard(onClose = vi.fn()) {
@@ -29,6 +33,29 @@ function renderDropdownWithBoard(onClose = vi.fn()) {
     </Provider>
   );
   return { store, container, triggerRef, onClose };
+}
+
+function renderDropdownWithBoardAndMenu(focusMock?: () => void) {
+  const store = createStore(new LocalStorageRepository());
+  store.dispatch(
+    boardsActions.addBoard({ id: 'b1', name: 'Board One', createdAt: 1700000000000 })
+  );
+  store.dispatch(
+    boardsActions.addBoard({ id: 'b2', name: 'Board Two', createdAt: 1700000001000 })
+  );
+  store.dispatch(boardsActions.setActiveBoardId('b1'));
+  const triggerButton = document.createElement('button');
+  if (focusMock) triggerButton.focus = focusMock;
+  document.body.appendChild(triggerButton);
+  const triggerRef = { current: triggerButton };
+  const onClose = vi.fn();
+  render(
+    <Provider store={store}>
+      <BoardDropdown onClose={onClose} triggerRef={triggerRef} />
+    </Provider>
+  );
+  const menu = screen.getByRole('menu');
+  return { store, triggerRef, onClose, menu };
 }
 
 it('rename input has an accessible label', () => {
@@ -65,11 +92,19 @@ it('moves focus to next board button on ArrowDown', () => {
   );
 });
 
-it('calls onClose and focuses trigger on Escape', () => {
-  const { onClose, triggerRef } = renderDropdownWithBoard();
+it('moves focus to last board button on ArrowUp from first', () => {
+  renderDropdownWithBoard();
   const menu = screen.getByRole('menu');
-  triggerRef.current.focus = vi.fn();
+  fireEvent.keyDown(menu, { key: 'ArrowUp' });
+  expect(document.activeElement).toBe(
+    screen.getByRole('menuitem', { name: 'Board Two' })
+  );
+});
+
+it('calls onClose and focuses trigger on Escape', () => {
+  const mockFocus = vi.fn();
+  const { onClose, menu } = renderDropdownWithBoardAndMenu(mockFocus);
   fireEvent.keyDown(menu, { key: 'Escape' });
   expect(onClose).toHaveBeenCalledOnce();
-  expect(triggerRef.current.focus).toHaveBeenCalled();
+  expect(mockFocus).toHaveBeenCalled();
 });
