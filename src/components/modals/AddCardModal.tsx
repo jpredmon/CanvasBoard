@@ -5,12 +5,13 @@ import { Button } from '../ui/Button';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { uiActions } from '../../store/ui/uiSlice';
+import { selectAddCardModalOpen } from '../../store/ui/uiSelectors';
 import { addYouTubeCard } from '../../store/cards/cardsThunks';
 import { selectCardCount } from '../../store/cards/cardsSelectors';
 
 export function AddCardModal() {
   const dispatch = useAppDispatch();
-  const open = useAppSelector((state) => state.ui.addCardModalOpen);
+  const open = useAppSelector(selectAddCardModalOpen);
   const cardCount = useAppSelector(selectCardCount);
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');

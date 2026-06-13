@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectAllCards } from '../../store/cards/cardsSelectors';
 import { selectLayout } from '../../store/layout/layoutSelectors';
+import { selectEditMode } from '../../store/ui/uiSelectors';
 import { layoutActions } from '../../store/layout/layoutSlice';
 import { MediaCard } from '../cards/MediaCard';
 import type { CardLayout } from '../../types';
@@ -18,7 +19,7 @@ export function GridCanvas() {
   const dispatch = useAppDispatch();
   const cards = useAppSelector(selectAllCards);
   const layout = useAppSelector(selectLayout);
-  const editMode = useAppSelector((state) => state.ui.editMode);
+  const editMode = useAppSelector(selectEditMode);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(1200);

@@ -7,10 +7,11 @@ import { AddCardModal } from '../components/modals/AddCardModal';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { selectCardCount } from '../store/cards/cardsSelectors';
 import { selectActiveBoardId } from '../store/boards/boardsSelectors';
+import { selectEditMode } from '../store/ui/uiSelectors';
 
 export default function CanvasBoardPage() {
   const cardCount = useAppSelector(selectCardCount);
-  const editMode = useAppSelector((state) => state.ui.editMode);
+  const editMode = useAppSelector(selectEditMode);
   const activeBoardId = useAppSelector(selectActiveBoardId);
 
   return (

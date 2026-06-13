@@ -2,6 +2,7 @@ import { Button } from '../ui/Button';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { uiActions } from '../../store/ui/uiSlice';
+import { selectEditMode } from '../../store/ui/uiSelectors';
 import { selectCardCount } from '../../store/cards/cardsSelectors';
 import { selectActiveBoardId } from '../../store/boards/boardsSelectors';
 import { MAX_CARDS } from '../../constants';
@@ -9,7 +10,7 @@ import { BoardSelector } from './BoardSelector';
 
 export function BoardHeader() {
   const dispatch = useAppDispatch();
-  const editMode = useAppSelector((state) => state.ui.editMode);
+  const editMode = useAppSelector(selectEditMode);
   const cardCount = useAppSelector(selectCardCount);
   const activeBoardId = useAppSelector(selectActiveBoardId);
 
