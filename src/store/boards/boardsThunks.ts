@@ -1,9 +1,20 @@
 import { nanoid } from 'nanoid';
 import type { AppThunk } from '../index';
-import type { Board } from '../../types';
+import type { Board, CardsState, LayoutState } from '../../types';
+import type { BoardRepository } from '../../repositories/BoardRepository';
 import { boardsActions } from './boardsSlice';
 import { cardsActions } from '../cards/cardsSlice';
 import { layoutActions } from '../layout/layoutSlice';
+
+function persistBoard(
+  repository: BoardRepository,
+  boardId: string,
+  cards: CardsState,
+  layout: LayoutState,
+): void {
+  repository.saveCards(boardId, cards);
+  repository.saveLayout(boardId, layout);
+}
 
 export const createAndSwitchBoard =
   (name: string): AppThunk =>
@@ -11,8 +22,7 @@ export const createAndSwitchBoard =
     const { boards, cards, layout } = getState();
     const currentBoardId = boards.activeBoardId;
     if (currentBoardId) {
-      repository.saveCards(currentBoardId, cards);
-      repository.saveLayout(currentBoardId, layout);
+      persistBoard(repository, currentBoardId, cards, layout);
     }
     const id = nanoid();
     const board: Board = { id, name: name.trim(), createdAt: Date.now() };
@@ -29,8 +39,7 @@ export const switchBoard =
     const currentBoardId = boards.activeBoardId;
 
     if (currentBoardId && currentBoardId !== boardId) {
-      repository.saveCards(currentBoardId, cards);
-      repository.saveLayout(currentBoardId, layout);
+      persistBoard(repository, currentBoardId, cards, layout);
     }
 
     const newCards = repository.loadCards(boardId) ?? { ids: [], entities: {} };
