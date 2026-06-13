@@ -49,6 +49,12 @@ function renderWithStore(ui: React.ReactElement) {
 - No comments on obvious code. Only comment when the *why* is non-obvious: a hidden constraint, a workaround, a subtle invariant.
 - No multi-line comment blocks or docstrings.
 
+## Naming & Imports
+
+Follow global naming and import conventions (see global CLAUDE.md).
+
+File naming: components = PascalCase (`GridCanvas.tsx`), slices/utilities = camelCase (`boardsSlice.ts`), hooks = `use*` prefix camelCase (`useAppDispatch.ts`).
+
 ## Dev Workflow
 
 Structured AI-assisted process:
