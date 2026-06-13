@@ -1,9 +1,10 @@
-import { it, expect, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent,render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { EmptyBoardState } from './EmptyBoardState';
-import { createStore } from '../../store';
+import { beforeEach,expect, it } from 'vitest';
+
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
+import { createStore } from '../../store';
+import { EmptyBoardState } from './EmptyBoardState';
 
 beforeEach(() => localStorage.clear());
 

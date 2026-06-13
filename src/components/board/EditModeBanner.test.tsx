@@ -1,5 +1,6 @@
-import { it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { beforeEach,expect, it } from 'vitest';
+
 import { EditModeBanner } from './EditModeBanner';
 
 beforeEach(() => localStorage.clear());

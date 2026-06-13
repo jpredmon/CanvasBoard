@@ -1,11 +1,11 @@
-import { Button } from '../ui/Button';
+import { MAX_CARDS } from '../../constants';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { uiActions } from '../../store/ui/uiSlice';
-import { selectEditMode } from '../../store/ui/uiSelectors';
-import { selectCardCount } from '../../store/cards/cardsSelectors';
 import { selectActiveBoardId } from '../../store/boards/boardsSelectors';
-import { MAX_CARDS } from '../../constants';
+import { selectCardCount } from '../../store/cards/cardsSelectors';
+import { selectEditMode } from '../../store/ui/uiSelectors';
+import { uiActions } from '../../store/ui/uiSlice';
+import { Button } from '../ui/Button';
 import { BoardSelector } from './BoardSelector';
 
 export function BoardHeader() {

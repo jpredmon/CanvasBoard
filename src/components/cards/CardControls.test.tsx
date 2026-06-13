@@ -1,12 +1,13 @@
-import { it, expect, vi, afterEach, beforeEach } from 'vitest';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { act,fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { CardControls } from './CardControls';
-import { createStore } from '../../store';
+import { afterEach, beforeEach,expect, it, vi } from 'vitest';
+
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
+import { createStore } from '../../store';
 import { boardsActions } from '../../store/boards/boardsSlice';
 import { cardsActions } from '../../store/cards/cardsSlice';
 import { layoutActions } from '../../store/layout/layoutSlice';
+import { CardControls } from './CardControls';
 
 beforeEach(() => localStorage.clear());
 afterEach(() => vi.useRealTimers());

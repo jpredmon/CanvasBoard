@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+
 import type { CardLayout, LayoutState } from '../../types';
 
 const initialState: LayoutState = { items: [] };

@@ -1,10 +1,11 @@
-import { it, expect, beforeEach } from 'vitest';
-import { createStore } from '../index';
+import { beforeEach,expect, it } from 'vitest';
+
+import { MAX_CARDS } from '../../constants';
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
+import type { YouTubeCard } from '../../types';
+import { createStore } from '../index';
 import { cardsActions } from './cardsSlice';
 import { addYouTubeCard } from './cardsThunks';
-import { MAX_CARDS } from '../../constants';
-import type { YouTubeCard } from '../../types';
 
 beforeEach(() => localStorage.clear());
 

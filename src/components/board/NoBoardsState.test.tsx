@@ -1,10 +1,11 @@
-import { it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'vitest-axe';
 import { Provider } from 'react-redux';
-import { NoBoardsState } from './NoBoardsState';
-import { createStore } from '../../store';
+import { expect,it } from 'vitest';
+import { axe } from 'vitest-axe';
+
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
+import { createStore } from '../../store';
+import { NoBoardsState } from './NoBoardsState';
 
 function renderWithStore(ui: React.ReactElement) {
   const store = createStore(new LocalStorageRepository());

@@ -1,10 +1,11 @@
 import { nanoid } from 'nanoid';
-import type { AppThunk } from '../index';
-import type { Board, CardsState, LayoutState } from '../../types';
+
 import type { BoardRepository } from '../../repositories/BoardRepository';
-import { boardsActions } from './boardsSlice';
+import type { Board, CardsState, LayoutState } from '../../types';
 import { cardsActions } from '../cards/cardsSlice';
+import type { AppThunk } from '../index';
 import { layoutActions } from '../layout/layoutSlice';
+import { boardsActions } from './boardsSlice';
 
 function persistBoard(
   repository: BoardRepository,

@@ -1,11 +1,12 @@
 import { nanoid } from 'nanoid';
-import type { AppThunk } from '../index';
-import type { YouTubeCard, CardLayout } from '../../types';
-import { MAX_CARDS, CARD_DEFAULTS } from '../../constants';
-import { parseYouTubeUrl } from '../../utils/youtube';
+
+import { CARD_DEFAULTS,MAX_CARDS } from '../../constants';
+import type { CardLayout,YouTubeCard } from '../../types';
 import { findTopLeftCell } from '../../utils/layout';
-import { cardsActions } from './cardsSlice';
+import { parseYouTubeUrl } from '../../utils/youtube';
+import type { AppThunk } from '../index';
 import { layoutActions } from '../layout/layoutSlice';
+import { cardsActions } from './cardsSlice';
 
 export const addYouTubeCard =
   (url: string): AppThunk =>

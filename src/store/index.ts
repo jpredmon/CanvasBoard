@@ -1,11 +1,12 @@
+import type { Action,ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
-import type { ThunkAction, Action } from '@reduxjs/toolkit';
+
+import type { BoardRepository } from '../repositories/BoardRepository';
+import { boardsReducer } from './boards/boardsSlice';
 import { cardsReducer } from './cards/cardsSlice';
 import { layoutReducer } from './layout/layoutSlice';
-import { uiReducer } from './ui/uiSlice';
-import { boardsReducer } from './boards/boardsSlice';
 import { createPersistenceMiddleware } from './middleware/persistenceMiddleware';
-import type { BoardRepository } from '../repositories/BoardRepository';
+import { uiReducer } from './ui/uiSlice';
 
 export type RootState = {
   cards: ReturnType<typeof cardsReducer>;

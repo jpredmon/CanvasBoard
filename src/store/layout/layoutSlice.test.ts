@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { layoutReducer, layoutActions } from './layoutSlice';
+import { describe, expect,it } from 'vitest';
+
 import type { CardLayout } from '../../types';
+import { layoutActions,layoutReducer } from './layoutSlice';
 
 const item: CardLayout = { i: 'card-1', x: 0, y: 0, w: 4, h: 3, minW: 2, minH: 2 };
 

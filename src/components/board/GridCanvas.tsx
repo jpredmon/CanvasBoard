@@ -1,16 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
-import ReactGridLayout, { type Layout, type Compactor, noCompactor } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+
+import { useEffect, useRef, useState } from 'react';
+import ReactGridLayout, { type Compactor, type Layout, noCompactor } from 'react-grid-layout';
+
+import { GRID_COLS, GRID_CONTAINER_PADDING,GRID_MARGIN, GRID_ROW_HEIGHT } from '../../constants';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectAllCards } from '../../store/cards/cardsSelectors';
 import { selectLayout } from '../../store/layout/layoutSelectors';
-import { selectEditMode } from '../../store/ui/uiSelectors';
 import { layoutActions } from '../../store/layout/layoutSlice';
-import { MediaCard } from '../cards/MediaCard';
+import { selectEditMode } from '../../store/ui/uiSelectors';
 import type { CardLayout } from '../../types';
-import { GRID_COLS, GRID_ROW_HEIGHT, GRID_MARGIN, GRID_CONTAINER_PADDING } from '../../constants';
+import { MediaCard } from '../cards/MediaCard';
 
 // Free-form positioning: no compaction, collisions blocked (cards snap back on overlap)
 const freeFormCompactor: Compactor = { ...noCompactor, preventCollision: true };

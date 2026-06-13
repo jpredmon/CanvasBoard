@@ -1,10 +1,11 @@
-import { it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import CanvasBoardPage from './CanvasBoardPage';
-import { createStore } from '../store';
+import { beforeEach,expect, it } from 'vitest';
+
 import { LocalStorageRepository } from '../repositories/LocalStorageRepository';
+import { createStore } from '../store';
 import { boardsActions } from '../store/boards/boardsSlice';
+import CanvasBoardPage from './CanvasBoardPage';
 
 beforeEach(() => {
   localStorage.clear();

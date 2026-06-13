@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { uiReducer, uiActions } from './uiSlice';
+import { describe, expect,it } from 'vitest';
+
+import { uiActions,uiReducer } from './uiSlice';
 
 describe('uiSlice — setEditMode', () => {
   it('setEditMode(true) enables edit mode', () => {

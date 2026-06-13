@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect,useRef, useState } from 'react';
+
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectActiveBoard } from '../../store/boards/boardsSelectors';
 import { BoardDropdown } from './BoardDropdown';

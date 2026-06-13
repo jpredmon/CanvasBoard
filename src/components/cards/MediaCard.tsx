@@ -1,8 +1,9 @@
 import { useState } from 'react';
+
+import type { MediaCard as MediaCardType } from '../../types';
 import { ErrorBoundary } from '../ui/ErrorBoundary';
 import { CardControls } from './CardControls';
 import { YouTubeEmbed } from './embeds/YouTubeEmbed';
-import type { MediaCard as MediaCardType } from '../../types';
 
 interface Props {
   card: MediaCardType;

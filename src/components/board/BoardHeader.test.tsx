@@ -1,13 +1,14 @@
-import { it, expect, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent,render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { BoardHeader } from './BoardHeader';
-import { createStore } from '../../store';
+import { beforeEach,expect, it } from 'vitest';
+
+import { MAX_CARDS } from '../../constants';
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
+import { createStore } from '../../store';
 import { boardsActions } from '../../store/boards/boardsSlice';
 import { cardsActions } from '../../store/cards/cardsSlice';
-import { MAX_CARDS } from '../../constants';
 import type { YouTubeCard } from '../../types';
+import { BoardHeader } from './BoardHeader';
 
 beforeEach(() => localStorage.clear());
 

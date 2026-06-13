@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { findTopLeftCell } from './layout';
+import { describe, expect,it } from 'vitest';
+
 import type { CardLayout } from '../types';
+import { findTopLeftCell } from './layout';
 
 function makeItem(i: string, x: number, y: number, w: number, h: number): CardLayout {
   return { i, x, y, w, h, minW: 2, minH: 2 };

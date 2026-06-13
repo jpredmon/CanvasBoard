@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { BoardHeader } from '../components/board/BoardHeader';
 import { EditModeBanner } from '../components/board/EditModeBanner';
 import { EmptyBoardState } from '../components/board/EmptyBoardState';
@@ -6,8 +7,8 @@ import { GridCanvas } from '../components/board/GridCanvas';
 import { NoBoardsState } from '../components/board/NoBoardsState';
 import { AddCardModal } from '../components/modals/AddCardModal';
 import { useAppSelector } from '../hooks/useAppSelector';
+import { selectActiveBoard,selectActiveBoardId } from '../store/boards/boardsSelectors';
 import { selectCardCount } from '../store/cards/cardsSelectors';
-import { selectActiveBoardId, selectActiveBoard } from '../store/boards/boardsSelectors';
 import { selectEditMode } from '../store/ui/uiSelectors';
 
 export default function CanvasBoardPage() {

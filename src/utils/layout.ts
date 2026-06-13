@@ -1,5 +1,5 @@
-import type { CardLayout } from '../types';
 import { GRID_COLS } from '../constants';
+import type { CardLayout } from '../types';
 
 interface Rect {
   x: number;

@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { boardsReducer, boardsActions } from './boardsSlice';
+import { describe, expect,it } from 'vitest';
+
 import type { Board } from '../../types';
+import { boardsActions,boardsReducer } from './boardsSlice';
 
 const board: Board = { id: 'b1', name: 'Work', createdAt: 1700000000000 };
 

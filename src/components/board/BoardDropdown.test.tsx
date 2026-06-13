@@ -1,11 +1,12 @@
-import { it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { axe } from 'vitest-axe';
+import { fireEvent,render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { BoardDropdown } from './BoardDropdown';
-import { createStore } from '../../store';
+import { afterEach,beforeEach, expect, it, vi } from 'vitest';
+import { axe } from 'vitest-axe';
+
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
+import { createStore } from '../../store';
 import { boardsActions } from '../../store/boards/boardsSlice';
+import { BoardDropdown } from './BoardDropdown';
 
 beforeEach(() => {
   localStorage.clear();

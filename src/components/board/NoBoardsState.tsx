@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { createAndSwitchBoard } from '../../store/boards/boardsThunks';
 import { Button } from '../ui/Button';

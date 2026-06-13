@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect, RefObject } from 'react';
+import type { RefObject } from 'react';
+import { useEffect,useRef, useState } from 'react';
+
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { selectAllBoards, selectActiveBoardId } from '../../store/boards/boardsSelectors';
+import { selectActiveBoardId,selectAllBoards } from '../../store/boards/boardsSelectors';
 import { boardsActions } from '../../store/boards/boardsSlice';
-import { switchBoard, createAndSwitchBoard, deleteBoard } from '../../store/boards/boardsThunks';
+import { createAndSwitchBoard, deleteBoard,switchBoard } from '../../store/boards/boardsThunks';
 
 interface Props {
   onClose: () => void;

@@ -1,8 +1,9 @@
 import type { Middleware } from '@reduxjs/toolkit';
-import type { RootState } from '../index';
+
 import type { BoardRepository } from '../../repositories/BoardRepository';
 import { boardsActions } from '../boards/boardsSlice';
 import { cardsActions } from '../cards/cardsSlice';
+import type { RootState } from '../index';
 import { layoutActions } from '../layout/layoutSlice';
 
 const boardsActionTypes = new Set<string>([

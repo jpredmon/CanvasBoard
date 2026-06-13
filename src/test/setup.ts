@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
+
 import { expect } from 'vitest';
-import { toHaveNoViolations } from 'vitest-axe/dist/matchers';
 import type { AxeMatchers } from 'vitest-axe/dist/matchers';
+import { toHaveNoViolations } from 'vitest-axe/dist/matchers';
 
 expect.extend({ toHaveNoViolations });
 
