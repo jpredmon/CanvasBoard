@@ -26,8 +26,7 @@ test('rename a board via dropdown', async ({ page }) => {
   await page.locator('button[aria-haspopup="menu"]').click();
   await page.getByRole('menuitem', { name: 'Rename Board One' }).click();
 
-  // Scope to input element — getByLabel also matches the rename icon button's aria-label
-  const renameInput = page.locator('input[aria-label="Rename board"]');
+  const renameInput = page.getByRole('textbox', { name: 'Rename board' });
   await renameInput.fill('Renamed Board');
   await renameInput.press('Enter');
 
@@ -58,5 +57,5 @@ test('delete a board via dropdown', async ({ page }) => {
 
   // Dropdown closes after delete. Re-open and verify Board Two is gone.
   await page.locator('button[aria-haspopup="menu"]').click();
-  await expect(page.getByRole('menuitem', { name: 'Board Two' })).not.toBeVisible();
+  await expect(page.getByRole('menuitem', { name: 'Board Two' })).not.toBeAttached();
 });
