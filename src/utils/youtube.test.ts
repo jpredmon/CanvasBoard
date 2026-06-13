@@ -45,4 +45,20 @@ describe('parseYouTubeUrl', () => {
     const result = parseYouTubeUrl('  https://youtu.be/dQw4w9WgXcQ  ');
     expect(result).toEqual({ valid: true, videoId: 'dQw4w9WgXcQ', aspectRatio: '16:9' });
   });
+
+  it('rejects a youtube.com lookalike subdomain on watch URL', () => {
+    const result = parseYouTubeUrl('https://youtube.com.evil.com/watch?v=dQw4w9WgXcQ');
+    expect(result).toEqual({
+      valid: false,
+      error: 'Please paste a valid YouTube or YouTube Shorts URL.',
+    });
+  });
+
+  it('rejects a youtube.com lookalike subdomain on Shorts URL', () => {
+    const result = parseYouTubeUrl('https://youtube.com.evil.com/shorts/abcdefghijk');
+    expect(result).toEqual({
+      valid: false,
+      error: 'Please paste a valid YouTube or YouTube Shorts URL.',
+    });
+  });
 });
