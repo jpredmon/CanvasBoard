@@ -1,7 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-
-import { LoginPage } from './LoginPage';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../firebase/firebase', () => ({ auth: {} }));
 vi.mock('firebase/auth', () => {
@@ -15,6 +13,8 @@ vi.mock('firebase/auth', () => {
 });
 
 import { signInWithPopup } from 'firebase/auth';
+
+import { LoginPage } from './LoginPage';
 
 describe('LoginPage', () => {
   beforeEach(() => vi.clearAllMocks());

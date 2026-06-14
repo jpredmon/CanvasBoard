@@ -4,7 +4,14 @@ import { auth } from '../firebase/firebase';
 
 export function LoginPage() {
   async function handleSignIn() {
-    await signInWithPopup(auth, new GoogleAuthProvider());
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider());
+    } catch (err: unknown) {
+      const code = (err as { code?: string }).code ?? '';
+      if (code !== 'auth/popup-closed-by-user' && code !== 'auth/cancelled-popup-request') {
+        console.error('Sign-in failed:', err);
+      }
+    }
   }
 
   return (
