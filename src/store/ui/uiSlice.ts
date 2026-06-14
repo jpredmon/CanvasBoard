@@ -5,6 +5,7 @@ import type { UIState } from '../../types';
 const initialState: UIState = {
   addCardModalOpen: false,
   editMode: false,
+  saveError: false,
 };
 
 const uiSlice = createSlice({
@@ -22,6 +23,9 @@ const uiSlice = createSlice({
     },
     setEditMode(state, action: PayloadAction<boolean>) {
       state.editMode = action.payload;
+    },
+    setSaveError(state, action: PayloadAction<boolean>) {
+      state.saveError = action.payload;
     },
   },
 });

@@ -5,6 +5,7 @@ import { EditModeBanner } from '../components/board/EditModeBanner';
 import { EmptyBoardState } from '../components/board/EmptyBoardState';
 import { GridCanvas } from '../components/board/GridCanvas';
 import { NoBoardsState } from '../components/board/NoBoardsState';
+import { DataSyncBanner } from '../components/ui/DataSyncBanner';
 import { AddCardModal } from '../components/modals/AddCardModal';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { selectActiveBoard, selectActiveBoardId } from '../store/boards/boardsSelectors';
@@ -41,6 +42,7 @@ export default function CanvasBoardPage() {
         )}
       </main>
       <AddCardModal />
+      <DataSyncBanner />
     </div>
   );
 }

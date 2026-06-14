@@ -39,6 +39,7 @@ export interface LayoutState {
 export interface UIState {
   addCardModalOpen: boolean;
   editMode: boolean;
+  saveError: boolean;
 }
 
 export interface Board {
