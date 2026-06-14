@@ -5,6 +5,7 @@ import { boardsActions } from '../boards/boardsSlice';
 import { cardsActions } from '../cards/cardsSlice';
 import type { RootState } from '../index';
 import { layoutActions } from '../layout/layoutSlice';
+import { uiActions } from '../ui/uiSlice';
 
 const boardsActionTypes = new Set<string>([
   boardsActions.addBoard.type,
@@ -33,14 +34,17 @@ export const createPersistenceMiddleware =
     const actionType = (action as { type: string }).type;
 
     if (boardsActionTypes.has(actionType)) {
-      repository.saveBoards(state.boards);
+      repository.saveBoards(state.boards).catch(() => {
+        store.dispatch(uiActions.setSaveError(true));
+      });
     }
 
     if (cardLayoutActionTypes.has(actionType)) {
       const boardId = state.boards.activeBoardId;
       if (boardId) {
-        repository.saveCards(boardId, state.cards);
-        repository.saveLayout(boardId, state.layout);
+        repository.saveBoardState(boardId, state.cards, state.layout).catch(() => {
+          store.dispatch(uiActions.setSaveError(true));
+        });
       }
     }
 

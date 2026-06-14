@@ -9,4 +9,5 @@ export interface BoardRepository {
   ): Promise<{ cards: CardsState; layout: LayoutState } | null>;
   deleteBoardData(boardId: string): Promise<void>;
   loadState(): Promise<{ cards?: CardsState; layout?: LayoutState; boards?: BoardsState }>;
+  loadStateSync(): { cards?: CardsState; layout?: LayoutState; boards?: BoardsState };
 }

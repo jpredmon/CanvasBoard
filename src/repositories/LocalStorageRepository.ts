@@ -104,4 +104,26 @@ export class LocalStorageRepository implements BoardRepository {
       layout: boardState?.layout,
     };
   }
+
+  loadStateSync(): {
+    cards?: CardsState;
+    layout?: LayoutState;
+    boards?: BoardsState;
+  } {
+    try {
+      const boardsRaw = localStorage.getItem(STORAGE_KEYS.boards);
+      const boards = boardsRaw ? (JSON.parse(boardsRaw) as BoardsState) : undefined;
+      const activeBoardId = boards?.activeBoardId ?? null;
+      if (!activeBoardId) return { boards };
+      const cards = this.loadCards(activeBoardId);
+      const layout = this.loadLayout(activeBoardId);
+      return {
+        boards,
+        cards,
+        layout,
+      };
+    } catch {
+      return {};
+    }
+  }
 }
