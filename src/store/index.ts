@@ -2,6 +2,7 @@ import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 
 import type { BoardRepository } from '../repositories/BoardRepository';
+import type { BoardsState, CardsState, LayoutState } from '../types';
 import { boardsReducer } from './boards/boardsSlice';
 import { cardsReducer } from './cards/cardsSlice';
 import { layoutReducer } from './layout/layoutSlice';
@@ -15,9 +16,11 @@ export type RootState = {
   boards: ReturnType<typeof boardsReducer>;
 };
 
-export function createStore(repository: BoardRepository) {
-  const preloaded = repository.loadStateSync();
-  const store = configureStore({
+export function createStore(
+  repository: BoardRepository,
+  preloaded: { boards?: BoardsState; cards?: CardsState; layout?: LayoutState } = {}
+) {
+  return configureStore({
     reducer: {
       cards: cardsReducer,
       layout: layoutReducer,
@@ -30,7 +33,6 @@ export function createStore(repository: BoardRepository) {
         createPersistenceMiddleware(repository)
       ),
   });
-  return store;
 }
 
 export type AppDispatch = ReturnType<typeof createStore>['dispatch'];

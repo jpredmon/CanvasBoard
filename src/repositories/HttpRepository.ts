@@ -69,11 +69,4 @@ export class HttpRepository implements BoardRepository {
     };
   }
 
-  loadStateSync(): {
-    cards?: CardsState;
-    layout?: LayoutState;
-    boards?: BoardsState;
-  } {
-    return {};
-  }
 }
