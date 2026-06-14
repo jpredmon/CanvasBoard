@@ -11,7 +11,7 @@ export class LocalStorageRepository implements BoardRepository {
     return `canvasboard:board:${boardId}:layout`;
   }
 
-  saveCards(boardId: string, state: CardsState): void {
+  private saveCards(boardId: string, state: CardsState): void {
     try {
       localStorage.setItem(this.boardCardsKey(boardId), JSON.stringify(state));
     } catch {
@@ -19,7 +19,7 @@ export class LocalStorageRepository implements BoardRepository {
     }
   }
 
-  loadCards(boardId: string): CardsState | null {
+  private loadCards(boardId: string): CardsState | null {
     try {
       const raw = localStorage.getItem(this.boardCardsKey(boardId));
       return raw ? (JSON.parse(raw) as CardsState) : null;
@@ -28,7 +28,7 @@ export class LocalStorageRepository implements BoardRepository {
     }
   }
 
-  saveLayout(boardId: string, state: LayoutState): void {
+  private saveLayout(boardId: string, state: LayoutState): void {
     try {
       localStorage.setItem(this.boardLayoutKey(boardId), JSON.stringify(state));
     } catch {
@@ -36,7 +36,7 @@ export class LocalStorageRepository implements BoardRepository {
     }
   }
 
-  loadLayout(boardId: string): LayoutState | null {
+  private loadLayout(boardId: string): LayoutState | null {
     try {
       const raw = localStorage.getItem(this.boardLayoutKey(boardId));
       return raw ? (JSON.parse(raw) as LayoutState) : null;
@@ -45,7 +45,7 @@ export class LocalStorageRepository implements BoardRepository {
     }
   }
 
-  saveBoards(state: BoardsState): void {
+  async saveBoards(state: BoardsState): Promise<void> {
     try {
       localStorage.setItem(STORAGE_KEYS.boards, JSON.stringify(state));
     } catch {
@@ -53,7 +53,7 @@ export class LocalStorageRepository implements BoardRepository {
     }
   }
 
-  loadBoards(): BoardsState | null {
+  async loadBoards(): Promise<BoardsState | null> {
     try {
       const raw = localStorage.getItem(STORAGE_KEYS.boards);
       return raw ? (JSON.parse(raw) as BoardsState) : null;
@@ -62,7 +62,25 @@ export class LocalStorageRepository implements BoardRepository {
     }
   }
 
-  deleteBoardData(boardId: string): void {
+  async saveBoardState(
+    boardId: string,
+    cards: CardsState,
+    layout: LayoutState
+  ): Promise<void> {
+    this.saveCards(boardId, cards);
+    this.saveLayout(boardId, layout);
+  }
+
+  async loadBoardState(
+    boardId: string
+  ): Promise<{ cards: CardsState; layout: LayoutState } | null> {
+    const cards = this.loadCards(boardId);
+    const layout = this.loadLayout(boardId);
+    if (!cards || !layout) return null;
+    return { cards, layout };
+  }
+
+  async deleteBoardData(boardId: string): Promise<void> {
     try {
       localStorage.removeItem(this.boardCardsKey(boardId));
       localStorage.removeItem(this.boardLayoutKey(boardId));
@@ -71,13 +89,19 @@ export class LocalStorageRepository implements BoardRepository {
     }
   }
 
-  loadStateSync() {
-    const boards = this.loadBoards() ?? undefined;
+  async loadState(): Promise<{
+    cards?: CardsState;
+    layout?: LayoutState;
+    boards?: BoardsState;
+  }> {
+    const boards = (await this.loadBoards()) ?? undefined;
     const activeBoardId = boards?.activeBoardId ?? null;
+    if (!activeBoardId) return { boards };
+    const boardState = await this.loadBoardState(activeBoardId);
     return {
       boards,
-      cards: activeBoardId ? (this.loadCards(activeBoardId) ?? undefined) : undefined,
-      layout: activeBoardId ? (this.loadLayout(activeBoardId) ?? undefined) : undefined,
+      cards: boardState?.cards,
+      layout: boardState?.layout,
     };
   }
 }

@@ -5,7 +5,7 @@ import { LocalStorageRepository } from './LocalStorageRepository';
 
 const BOARD_ID = 'board-test-123';
 
-const mockCardsState: CardsState = {
+const mockCards: CardsState = {
   ids: ['card-1'],
   entities: {
     'card-1': {
@@ -19,16 +19,14 @@ const mockCardsState: CardsState = {
   },
 };
 
-const mockLayoutState: LayoutState = {
+const mockLayout: LayoutState = {
   items: [{ i: 'card-1', x: 0, y: 0, w: 4, h: 3, minW: 2, minH: 2 }],
 };
 
-const mockBoardsState: BoardsState = {
+const mockBoards: BoardsState = {
   ids: [BOARD_ID],
   activeBoardId: BOARD_ID,
-  entities: {
-    [BOARD_ID]: { id: BOARD_ID, name: 'Test Board', createdAt: 1700000000000 },
-  },
+  entities: { [BOARD_ID]: { id: BOARD_ID, name: 'Test Board', createdAt: 1700000000000 } },
 };
 
 describe('LocalStorageRepository', () => {
@@ -39,71 +37,61 @@ describe('LocalStorageRepository', () => {
     repo = new LocalStorageRepository();
   });
 
-  it('saves and loads cards with a round-trip', () => {
-    repo.saveCards(BOARD_ID, mockCardsState);
-    expect(repo.loadCards(BOARD_ID)).toEqual(mockCardsState);
+  it('saveBoardState and loadBoardState round-trip', async () => {
+    await repo.saveBoardState(BOARD_ID, mockCards, mockLayout);
+    const state = await repo.loadBoardState(BOARD_ID);
+    expect(state?.cards).toEqual(mockCards);
+    expect(state?.layout).toEqual(mockLayout);
   });
 
-  it('saves and loads layout with a round-trip', () => {
-    repo.saveLayout(BOARD_ID, mockLayoutState);
-    expect(repo.loadLayout(BOARD_ID)).toEqual(mockLayoutState);
+  it('loadBoardState returns null when storage is empty', async () => {
+    expect(await repo.loadBoardState(BOARD_ID)).toBeNull();
   });
 
-  it('returns null for cards when storage is empty', () => {
-    expect(repo.loadCards(BOARD_ID)).toBeNull();
-  });
-
-  it('returns null for layout when storage is empty', () => {
-    expect(repo.loadLayout(BOARD_ID)).toBeNull();
-  });
-
-  it('returns null for cards when stored value is corrupt JSON', () => {
+  it('loadBoardState returns null when cards are corrupt JSON', async () => {
     localStorage.setItem(`canvasboard:board:${BOARD_ID}:cards`, 'not-json{{{');
-    expect(repo.loadCards(BOARD_ID)).toBeNull();
+    expect(await repo.loadBoardState(BOARD_ID)).toBeNull();
   });
 
-  it('returns null for layout when stored value is corrupt JSON', () => {
+  it('loadBoardState returns null when layout is corrupt JSON', async () => {
     localStorage.setItem(`canvasboard:board:${BOARD_ID}:layout`, 'not-json{{{');
-    expect(repo.loadLayout(BOARD_ID)).toBeNull();
+    expect(await repo.loadBoardState(BOARD_ID)).toBeNull();
   });
 
-  it('saves and loads boards with a round-trip', () => {
-    repo.saveBoards(mockBoardsState);
-    expect(repo.loadBoards()).toEqual(mockBoardsState);
+  it('saveBoards and loadBoards round-trip', async () => {
+    await repo.saveBoards(mockBoards);
+    expect(await repo.loadBoards()).toEqual(mockBoards);
   });
 
-  it('returns null for boards when storage is empty', () => {
-    expect(repo.loadBoards()).toBeNull();
+  it('loadBoards returns null when storage is empty', async () => {
+    expect(await repo.loadBoards()).toBeNull();
   });
 
-  it('deleteBoardData removes cards and layout keys', () => {
-    repo.saveCards(BOARD_ID, mockCardsState);
-    repo.saveLayout(BOARD_ID, mockLayoutState);
-    repo.deleteBoardData(BOARD_ID);
-    expect(repo.loadCards(BOARD_ID)).toBeNull();
-    expect(repo.loadLayout(BOARD_ID)).toBeNull();
+  it('deleteBoardData removes board state', async () => {
+    await repo.saveBoardState(BOARD_ID, mockCards, mockLayout);
+    await repo.deleteBoardData(BOARD_ID);
+    expect(await repo.loadBoardState(BOARD_ID)).toBeNull();
   });
 
-  it('loadStateSync returns boards, cards, and layout when all are saved', () => {
-    repo.saveBoards(mockBoardsState);
-    repo.saveCards(BOARD_ID, mockCardsState);
-    repo.saveLayout(BOARD_ID, mockLayoutState);
-    const state = repo.loadStateSync();
-    expect(state.boards).toEqual(mockBoardsState);
-    expect(state.cards).toEqual(mockCardsState);
-    expect(state.layout).toEqual(mockLayoutState);
+  it('loadState returns boards, cards, and layout when all are saved', async () => {
+    await repo.saveBoards(mockBoards);
+    await repo.saveBoardState(BOARD_ID, mockCards, mockLayout);
+    const state = await repo.loadState();
+    expect(state.boards).toEqual(mockBoards);
+    expect(state.cards).toEqual(mockCards);
+    expect(state.layout).toEqual(mockLayout);
   });
 
-  it('loadStateSync returns only boards when active board has no saved data', () => {
-    repo.saveBoards(mockBoardsState);
-    const state = repo.loadStateSync();
-    expect(state.boards).toEqual(mockBoardsState);
+  it('loadState returns only boards when active board has no saved data', async () => {
+    await repo.saveBoards(mockBoards);
+    const state = await repo.loadState();
+    expect(state.boards).toEqual(mockBoards);
     expect(state.cards).toBeUndefined();
     expect(state.layout).toBeUndefined();
   });
 
-  it('loadStateSync returns all undefined when storage is empty', () => {
-    const state = repo.loadStateSync();
+  it('loadState returns all undefined when storage is empty', async () => {
+    const state = await repo.loadState();
     expect(state.boards).toBeUndefined();
     expect(state.cards).toBeUndefined();
     expect(state.layout).toBeUndefined();
