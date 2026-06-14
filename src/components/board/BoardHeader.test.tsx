@@ -1,6 +1,9 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { beforeEach, expect, it } from 'vitest';
+import { beforeEach, expect, it, vi } from 'vitest';
+
+vi.mock('firebase/auth', () => ({ signOut: vi.fn() }));
+vi.mock('../../firebase/firebase', () => ({ auth: {} }));
 
 import { MAX_CARDS } from '../../constants';
 import { LocalStorageRepository } from '../../repositories/LocalStorageRepository';
@@ -86,4 +89,16 @@ it('clicking Add Card opens the add-card modal', () => {
   expect(store.getState().ui.addCardModalOpen).toBe(false);
   fireEvent.click(screen.getByRole('button', { name: 'Add card' }));
   expect(store.getState().ui.addCardModalOpen).toBe(true);
+});
+
+it('calls signOut when the sign-out button is clicked', async () => {
+  const { signOut } = await import('firebase/auth');
+  vi.mocked(signOut).mockResolvedValue(undefined);
+
+  renderWithStore();
+
+  const signOutButton = screen.getByRole('button', { name: 'Sign out' });
+  fireEvent.click(signOutButton);
+
+  await waitFor(() => expect(signOut).toHaveBeenCalled());
 });

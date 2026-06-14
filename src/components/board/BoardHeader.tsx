@@ -1,4 +1,7 @@
+import { signOut } from 'firebase/auth';
+
 import { MAX_CARDS } from '../../constants';
+import { auth } from '../../firebase/firebase';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectActiveBoardId } from '../../store/boards/boardsSelectors';
@@ -46,6 +49,13 @@ export function BoardHeader() {
           >
             {editMode ? 'Done' : 'Edit'}
           </Button>
+          <button
+            onClick={() => signOut(auth)}
+            className="text-xs text-zinc-500 hover:text-zinc-200"
+            aria-label="Sign out"
+          >
+            Sign out
+          </button>
         </div>
       )}
     </header>
