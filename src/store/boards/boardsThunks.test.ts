@@ -48,49 +48,53 @@ describe('createAndSwitchBoard', () => {
     expect(store.getState().layout.items).toHaveLength(0);
   });
 
-  it('saves the previous board data before switching', () => {
+  it('saves the previous board data before switching', async () => {
     const { store, repo } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
     store.dispatch(cardsActions.addCard(card));
     store.dispatch(createAndSwitchBoard('New Board'));
-    expect(repo.loadCards('b1')?.ids).toContain('c1');
+    const state = await repo.loadBoardState('b1');
+    expect(state?.cards.ids).toContain('c1');
   });
 });
 
 describe('switchBoard', () => {
   beforeEach(() => localStorage.clear());
 
-  it('sets the active board', () => {
+  it('sets the active board', async () => {
     const { store } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.addBoard({ id: 'b2', name: 'B2', createdAt: 2 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
-    store.dispatch(switchBoard('b2'));
+    await store.dispatch(switchBoard('b2'));
     expect(store.getState().boards.activeBoardId).toBe('b2');
   });
 
-  it('loads persisted cards and layout for the target board', () => {
+  it('loads persisted cards and layout for the target board', async () => {
     const { store, repo } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.addBoard({ id: 'b2', name: 'B2', createdAt: 2 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
-    repo.saveCards('b2', { ids: ['c1'], entities: { c1: card } });
-    repo.saveLayout('b2', { items: [{ i: 'c1', x: 0, y: 0, w: 4, h: 3, minW: 2, minH: 2 }] });
-    store.dispatch(switchBoard('b2'));
+    await repo.saveBoardState(
+      'b2',
+      { ids: ['c1'], entities: { c1: card } },
+      { items: [{ i: 'c1', x: 0, y: 0, w: 4, h: 3, minW: 2, minH: 2 }] }
+    );
+    await store.dispatch(switchBoard('b2'));
     expect(store.getState().cards.ids).toContain('c1');
     expect(store.getState().layout.items).toHaveLength(1);
   });
 
-  it('restores original board data when switching back', () => {
+  it('restores original board data when switching back', async () => {
     const { store } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.addBoard({ id: 'b2', name: 'B2', createdAt: 2 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
     store.dispatch(cardsActions.addCard(card));
-    store.dispatch(switchBoard('b2'));
+    await store.dispatch(switchBoard('b2'));
     expect(store.getState().cards.ids).toHaveLength(0);
-    store.dispatch(switchBoard('b1'));
+    await store.dispatch(switchBoard('b1'));
     expect(store.getState().cards.ids).toContain('c1');
   });
 });
@@ -98,48 +102,50 @@ describe('switchBoard', () => {
 describe('deleteBoard', () => {
   beforeEach(() => localStorage.clear());
 
-  it('removes the board from the store', () => {
+  it('removes the board from the store', async () => {
     const { store } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
-    store.dispatch(deleteBoard('b1'));
+    await store.dispatch(deleteBoard('b1'));
     expect(store.getState().boards.ids).not.toContain('b1');
   });
 
-  it('sets activeBoardId to null when deleting the last board', () => {
+  it('sets activeBoardId to null when deleting the last board', async () => {
     const { store } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
-    store.dispatch(deleteBoard('b1'));
+    await store.dispatch(deleteBoard('b1'));
     expect(store.getState().boards.activeBoardId).toBeNull();
   });
 
-  it('switches to the first remaining board when deleting the active board', () => {
+  it('switches to the first remaining board when deleting the active board', async () => {
     const { store } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.addBoard({ id: 'b2', name: 'B2', createdAt: 2 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
-    store.dispatch(deleteBoard('b1'));
+    await store.dispatch(deleteBoard('b1'));
     expect(store.getState().boards.activeBoardId).toBe('b2');
   });
 
-  it('keeps the active board unchanged when deleting an inactive board', () => {
+  it('keeps the active board unchanged when deleting an inactive board', async () => {
     const { store } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.addBoard({ id: 'b2', name: 'B2', createdAt: 2 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
-    store.dispatch(deleteBoard('b2'));
+    await store.dispatch(deleteBoard('b2'));
     expect(store.getState().boards.activeBoardId).toBe('b1');
   });
 
-  it('deletes localStorage data for the board', () => {
+  it('deletes stored data for the board', async () => {
     const { store, repo } = makeStore();
     store.dispatch(boardsActions.addBoard({ id: 'b1', name: 'B1', createdAt: 1 }));
     store.dispatch(boardsActions.setActiveBoardId('b1'));
-    repo.saveCards('b1', { ids: ['c1'], entities: { c1: card } });
-    repo.saveLayout('b1', { items: [{ i: 'c1', x: 0, y: 0, w: 4, h: 3, minW: 2, minH: 2 }] });
-    store.dispatch(deleteBoard('b1'));
-    expect(repo.loadCards('b1')).toBeNull();
-    expect(repo.loadLayout('b1')).toBeNull();
+    await repo.saveBoardState(
+      'b1',
+      { ids: ['c1'], entities: { c1: card } },
+      { items: [{ i: 'c1', x: 0, y: 0, w: 4, h: 3, minW: 2, minH: 2 }] }
+    );
+    await store.dispatch(deleteBoard('b1'));
+    expect(await repo.loadBoardState('b1')).toBeNull();
   });
 });
