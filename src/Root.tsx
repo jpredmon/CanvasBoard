@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import type { User } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 
 import { App } from './App';
