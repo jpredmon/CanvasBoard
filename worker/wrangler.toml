@@ -1,0 +1,11 @@
+name = "canvasboard-api"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+[vars]
+FIREBASE_PROJECT_ID = "canvasboard-f152f"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "canvasboard-db"
+database_id = "2b63223d-a4e0-4df5-9138-4e4b1f57f790"
