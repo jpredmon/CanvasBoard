@@ -1,12 +1,12 @@
 import type { BoardsState, CardsState, LayoutState } from '../types';
 
 export interface BoardRepository {
-  saveCards(boardId: string, state: CardsState): void;
-  loadCards(boardId: string): CardsState | null;
-  saveLayout(boardId: string, state: LayoutState): void;
-  loadLayout(boardId: string): LayoutState | null;
-  saveBoards(state: BoardsState): void;
-  loadBoards(): BoardsState | null;
-  deleteBoardData(boardId: string): void;
-  loadStateSync(): { cards?: CardsState; layout?: LayoutState; boards?: BoardsState };
+  saveBoards(state: BoardsState): Promise<void>;
+  loadBoards(): Promise<BoardsState | null>;
+  saveBoardState(boardId: string, cards: CardsState, layout: LayoutState): Promise<void>;
+  loadBoardState(
+    boardId: string
+  ): Promise<{ cards: CardsState; layout: LayoutState } | null>;
+  deleteBoardData(boardId: string): Promise<void>;
+  loadState(): Promise<{ cards?: CardsState; layout?: LayoutState; boards?: BoardsState }>;
 }
